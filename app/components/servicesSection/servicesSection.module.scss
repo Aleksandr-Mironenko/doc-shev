@@ -1,0 +1,24 @@
+.services {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+
+    &__list {
+        margin-top: 5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        // height: 100%;
+        gap: 15px;
+        font-size: clamp(10px, 1.5vw, 26px);
+    }
+}
+.services h2 {
+    font-size: clamp(12px, 3vw, 40px);
+    margin: 1% 5%;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+}

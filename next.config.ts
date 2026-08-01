@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'i.pinimg.com',
+            },
+        ],
+    },
 
-export default nextConfig;
+    // 👇 Добавляем разрешённый origin
+    allowedDevOrigins: ['172.18.0.1'],
+}
+
+export default nextConfig

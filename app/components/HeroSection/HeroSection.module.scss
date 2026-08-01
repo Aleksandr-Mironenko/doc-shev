@@ -1,0 +1,234 @@
+.heroSection {
+    max-width: 1800px;
+    height: 40vw;
+    width: 100%;
+    position: relative;
+    top: -15px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: flex-start;
+        width: 60%;
+        gap: 7%;
+        position: relative;
+        padding-bottom: 2%;
+    }
+    &__signUp {
+        padding: 5px 10px;
+        background-color: white;
+        border-radius: 10px;
+        transition: transform 200ms ease;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+        font-size: clamp(10px, 3vw, 50px);
+    }
+
+    &__signUp:hover {
+        transform: scale(1.03);
+    }
+    &__name {
+        display: flex;
+        flex-direction: column;
+    }
+    &__regal {
+        // font-size: 10px;
+        font-size: clamp(10px, 4vw, 50px);
+        @media (max-width: 550px) {
+            font-size: clamp(10px, 4vw, 48px);
+        }
+        @media (max-width: 540px) {
+            font-size: clamp(10px, 4vw, 46px);
+        }
+        @media (max-width: 540px) {
+            font-size: clamp(10px, 4vw, 44px);
+        }
+        @media (max-width: 530px) {
+            font-size: clamp(10px, 4vw, 42px);
+        }
+        @media (max-width: 520px) {
+            font-size: clamp(10px, 4vw, 40px);
+        }
+        @media (max-width: 510px) {
+            font-size: clamp(10px, 4vw, 38px);
+        }
+        @media (max-width: 500px) {
+            font-size: clamp(10px, 4vw, 36px);
+        }
+    }
+    &__backstage {
+        font-size: clamp(10px, 2vw, 25px);
+        max-width: 80%;
+        margin: 1% 0;
+        // font-size: clamp(10px, 3vw, 20px);
+        // @media (max-width: 970px) {
+        //     font-size: clamp(10px, 2vw, 20px);
+        // }
+        // @media (max-width: 550px) {
+        //     font-size: clamp(10px, 2vw, 20px);
+        // }
+        // @media (max-width: 540px) {
+        //     font-size: clamp(10px, 2vw, 18px);
+        // }
+        // @media (max-width: 540px) {
+        //     font-size: clamp(10px, 2vw, 16px);
+        // }
+        // @media (max-width: 530px) {
+        //     font-size: clamp(8px, 2vw, 14px);
+        // }
+        // @media (max-width: 520px) {
+        //     font-size: clamp(6px, 2vw, 12px);
+        // }
+    }
+}
+.info {
+    position: relative;
+    top: -15px;
+    // height: 220px;
+    display: block;
+    margin: 0 15px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    color: black;
+    padding: 20px 10px;
+    &__content {
+        display: flex;
+        gap: 10px;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+        &_item {
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        &_item p {
+            font-size: clamp(10px, 2vw, 25px);
+            max-height: 75px;
+        }
+        &_items {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+            font-size: clamp(10px, 3vw, 20px);
+            @media (max-width: 970px) {
+                font-size: clamp(10px, 2vw, 20px);
+            }
+            @media (max-width: 550px) {
+                font-size: clamp(10px, 2vw, 20px);
+            }
+            @media (max-width: 540px) {
+                font-size: clamp(10px, 2vw, 18px);
+            }
+            @media (max-width: 540px) {
+                font-size: clamp(10px, 2vw, 16px);
+            }
+            @media (max-width: 530px) {
+                font-size: clamp(8px, 2vw, 14px);
+            }
+            @media (max-width: 520px) {
+                font-size: clamp(6px, 2vw, 12px);
+            }
+        }
+        &_text {
+            font-size: clamp(10px, 4vw, 38px);
+            max-width: 45%;
+        }
+
+        &_text h1 {
+            font-size: clamp(10px, 4vw, 38px);
+        }
+        &_text div {
+            font-size: clamp(10px, 2vw, 22px);
+        }
+    }
+}
+.heroSection {
+    &__docprof {
+        font-size: xx-large;
+        color: rgb(29, 99, 192);
+        font-size: clamp(10px, 3vw, 50px);
+        @media (max-width: 550px) {
+            font-size: clamp(10px, 3vw, 48px);
+        }
+        @media (max-width: 540px) {
+            font-size: clamp(10px, 3vw, 46px);
+        }
+        @media (max-width: 540px) {
+            font-size: clamp(10px, 3vw, 44px);
+        }
+        @media (max-width: 530px) {
+            font-size: clamp(10px, 3vw, 42px);
+        }
+        @media (max-width: 520px) {
+            font-size: clamp(10px, 3vw, 40px);
+        }
+        @media (max-width: 510px) {
+            font-size: clamp(10px, 3vw, 38px);
+        }
+        @media (max-width: 500px) {
+            font-size: clamp(10px, 3vw, 36px);
+        }
+    }
+    &__content {
+        position: relative;
+        z-index: 200;
+    }
+    &__circleBg_1,
+    &__circleBg_2 {
+        position: absolute;
+        border-radius: 50%; // Делает из квадрата идеальный круг
+        z-index: 0; // Уводит круги на задний план
+    }
+    &__circleBg_1 {
+        width: 50%;
+        aspect-ratio: 1 / 1; // Сохраняет пропорции квадрата
+        background-color: rgba(54, 96, 148, 0.1); // Цвет как на макете
+        top: 10%;
+        right: 2%;
+        z-index: 0;
+    }
+
+    // Меньший синий круг (смещение)
+    &__circleBg_2 {
+        width: 50%;
+        aspect-ratio: 1 / 1;
+        background-color: rgba(54, 96, 148, 0.1); // Чуть более темный оттенок
+        top: -5%;
+        right: 1%;
+        z-index: 0;
+    }
+    &__logo {
+        z-index: 200;
+        position: relative;
+    }
+    &__dotsBg {
+        position: absolute;
+        width: 120px; // Ширина всей сетки точек
+        height: 150px; // Высота всей сетки точек
+        top: 5%; // Положение сверху
+        right: 10px; // Положение справа
+        z-index: 1; // Поверх кругов, но под фото
+
+        // Магия создания точек
+        background-image: radial-gradient(
+            circle,
+            // Форма градиента
+            #a9b8c9 20%,
+            // Цвет точки и её размер (20% от ячейки)
+            transparent 25% // Переход к прозрачности
+        );
+
+        // Размер одной ячейки сетки (расстояние между точками)
+        background-size: 25px 25px;
+
+        // Чтобы узор не обрезался, если размер блока не кратен background-size
+        background-repeat: repeat;
+
+        opacity: 0.7; // Сделаем точки чуть более бледными, как на макете
+    }
+}

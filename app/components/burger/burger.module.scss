@@ -1,0 +1,12 @@
+.burger {
+    &__link {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__logo {
+        margin: auto;
+    }
+}
