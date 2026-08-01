@@ -23,7 +23,7 @@ export default function ButtonsHero() {
                     />
                 </button>
                 <button
-                    className={`${styles.buttonsHero__button} ${styles.buttonsHero__info}`} // onClick={() => {}}
+                    className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.buttonsHero__info_second}`} // onClick={() => {}}
                 >
                     <p>Подробнее обо мне</p>
                 </button>

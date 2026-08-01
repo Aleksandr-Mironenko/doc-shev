@@ -72,6 +72,7 @@ export default function HeroSection() {
                     priority
                     style={{
                         maxWidth: '599px',
+                        maxHeight: '1050px',
                         width: '100%',
                         height: '100%',
                     }}
