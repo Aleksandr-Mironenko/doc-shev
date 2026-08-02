@@ -1,6 +1,14 @@
 import styles from './Info.module.scss'
 import Image from 'next/image'
 import logo from '@/public/str.png'
+import books from '@/public/ggg/books.svg'
+import peaple from '@/public/ggg/peaple.svg'
+import hand from '@/public/ggg/hand.svg'
+import head from '@/public/ggg/head.svg'
+import diplom from '@/public/ggg/diplom.svg'
+import newspaper from '@/public/ggg/newspaper.svg'
+
+import head2 from '@/public/ggg/head2.svg'
 
 export default function Info() {
     return (
@@ -22,8 +30,8 @@ export default function Info() {
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={books}
+                                alt=""
                                 width={20}
                                 height={20}
                                 priority
@@ -36,8 +44,8 @@ export default function Info() {
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={peaple}
+                                alt=""
                                 width={20}
                                 height={20}
                                 priority
@@ -50,8 +58,8 @@ export default function Info() {
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={hand}
+                                alt=""
                                 width={20}
                                 height={20}
                                 priority
@@ -140,8 +148,8 @@ export default function Info() {
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={head}
+                                alt=""
                                 width={40}
                                 height={40}
                                 priority
@@ -155,8 +163,8 @@ export default function Info() {
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={diplom}
+                                alt=""
                                 width={40}
                                 height={40}
                                 priority
@@ -167,8 +175,8 @@ export default function Info() {
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
-                                alt="Логотип компании"
+                                src={newspaper}
+                                alt=""
                                 width={40}
                                 height={40}
                                 priority

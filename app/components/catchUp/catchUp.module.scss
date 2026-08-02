@@ -169,6 +169,11 @@
     &__text {
         margin: 5px 0;
     }
+    &__orderButton {
+        position: relative;
+        top: 35px;
+        right: 25px;
+    }
 }
 .buttons {
     position: relative;

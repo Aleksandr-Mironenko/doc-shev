@@ -1,5 +1,8 @@
 import Image from 'next/image'
 import styles from './iHelp.module.scss'
+import krest from '../../../public/ggg/heartt.svg'
+import prob from '../../../public/ggg/prob.svg'
+import chat from '../../../public/ggg/chat4.svg'
 export interface Pub {
     id: number
     image: string
@@ -14,28 +17,30 @@ export default function iHelp() {
         {
             id: 0,
             image: 'https://img.magnific.com/free-vector/flat-background-fall-season-celebration_23-2150670783.jpg',
-            description: 'описание',
+            description: 'консультация',
             tittlefullDescripton: 'внутренний заголовок',
-            fullDescripton: 'полное внутреннее описание',
-            logo: 'https://i.pinimg.com/originals/63/be/87/63be873bbaf3c35b4b2f49628d4d8d5b.jpg',
+            fullDescripton:
+                'Онлайн прием и консультация по вашим вопросам здоровья.',
+            logo: krest,
             data: '01.01.2020',
         },
         {
             id: 1,
             image: 'https://img.magnific.com/free-vector/flat-background-fall-season-celebration_23-2150670783.jpg',
-            description: 'описание',
+            description: 'разбор анализов',
             tittlefullDescripton: 'внутренний заголовок',
-            fullDescripton: 'полное внутреннее описание',
-            logo: 'https://i.pinimg.com/originals/63/be/87/63be873bbaf3c35b4b2f49628d4d8d5b.jpg',
+            fullDescripton:
+                'Интерпритация резуультатов анализов и рекомендации.',
+            logo: prob,
             data: '02.01.2020',
         },
         {
             id: 2,
             image: 'https://img.magnific.com/free-vector/flat-background-fall-season-celebration_23-2150670783.jpg',
-            description: 'описание',
+            description: 'просто спросить',
             tittlefullDescripton: 'внутренний заголовок',
-            fullDescripton: 'полное внутреннее описание',
-            logo: 'https://i.pinimg.com/originals/63/be/87/63be873bbaf3c35b4b2f49628d4d8d5b.jpg',
+            fullDescripton: 'Короткие и не очень вопросы о здоровье и лечении.',
+            logo: chat,
             data: '03.01.2020',
         },
     ]
@@ -62,7 +67,7 @@ export default function iHelp() {
             <div className={styles.image__fullDescripton}>
                 <p>{el.fullDescripton}</p>
             </div>
-            <button className={styles.image__details}>Подробнее</button>
+            <button className={styles.image__details}>Подробнее →</button>
         </li>
     ))
     return (

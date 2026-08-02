@@ -4,7 +4,8 @@ import styles from './catchUp.module.scss'
 // Adjust the logo import path if your asset is located elsewhere
 import logo from '../../../public/close.svg'
 import image from '../../../public/nout_stol.png'
-
+import calend from '../../../public/ggg/cal.png'
+import OrderButton from '../orderButton/orderButton'
 // import { useState } from 'react'
 
 export default function CatchUp() {
@@ -134,42 +135,14 @@ export default function CatchUp() {
                 </div>
 
                 {/* <div className={styles.catchUp__box}> */}
-                <div className={styles.buttons}>
-                    <button
-                        className={`${styles.buttons__button} ${styles.blue}`}
-                        // onClick={() => {}}
-                    >
-                        <span>Записаться на консультацияю</span>
-                        <Image
-                            className={styles.buttons__calendarLogo}
-                            src={logo}
-                            alt="закрыть"
-                            width={30}
-                            height={30}
-                            priority
-                            style={{ minHeight: '100%' }}
-                        />
-                    </button>
-                    <button
-                        className={styles.buttons__button} // onClick={() => {}}
-                    >
-                        <span>Написать сообщение</span>
-                        <Image
-                            className={styles.buttons__calendarLogo}
-                            src={logo}
-                            alt="закрыть"
-                            width={30}
-                            height={30}
-                            priority
-                            style={{ minHeight: '100%' }}
-                        />
-                    </button>
+                <div className={styles.catchUp__orderButton}>
+                    <OrderButton text="Написать сообщение" />
                 </div>
+
                 {/* </div> */}
             </div>
 
             <div className={styles.imagebox}>
-                {' '}
                 <Image
                     className={styles.imagebox__image}
                     src={image}

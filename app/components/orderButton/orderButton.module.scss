@@ -73,13 +73,12 @@
         gap: 10px;
     }
     &__info {
-        margin: 0 auto;
         display: flex;
         flex-direction: row;
         gap: 5px;
         align-items: center;
         &_second {
-            align-self: flex-end;
+            align-self: flex-start;
         }
     }
     &__button {
