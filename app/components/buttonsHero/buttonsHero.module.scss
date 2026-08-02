@@ -57,7 +57,7 @@
     &__buttonsHero {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        // justify-content: space-between;
         align-items: center;
         // padding: 10px 5px;
     }
@@ -102,7 +102,7 @@
     @media (max-width: 1084px) {
         align-self: start;
     }
-    @media (max-width: 518px) {
+    @media (max-width: 530px) {
         flex-direction: column;
         align-items: start;
         gap: 5px;
