@@ -161,6 +161,7 @@
     width: 60%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     z-index: 10;
     &__description {
         display: flex;

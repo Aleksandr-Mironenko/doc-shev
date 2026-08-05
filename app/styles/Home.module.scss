@@ -4,4 +4,11 @@
     padding: 30px 30px 30px 40px;
     color: black;
     min-width: 420px;
+    @media (max-width: 400px) {
+        padding: calc((100vw - 340px) / 1.5) calc((100vw - 340px) / 1.5)
+            calc((100vw - 340px) / 1.5) calc((100vw - 340px) / 1.5);
+    }
+    @media (max-width: 360px) {
+        padding: 10px 10px 10px 10px;
+    }
 }

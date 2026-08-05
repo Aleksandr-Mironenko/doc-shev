@@ -9,7 +9,9 @@ import OrderButton from '../orderButton/orderButton'
 export default function ButtonsHero() {
     return (
         <div className={styles.buttonsHero__wrapper}>
-            <OrderButton />
+            <div className={styles.buttonsHero__orderButton}>
+                <OrderButton />
+            </div>
             <div className={`${styles.buttonsHero} ${styles.second} `}>
                 <div className={styles.buttonsHero__part}>
                     <div className={styles.buttonsHero__info}>

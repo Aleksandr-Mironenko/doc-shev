@@ -1,7 +1,7 @@
 import styles from './HeroSection.module.scss'
 import image from '../../../public/face.png'
 import Image from 'next/image'
-
+import OrderButton from '../orderButton/orderButton'
 import logo from '@/public/str.png'
 export default function HeroSection() {
     return (
@@ -59,6 +59,10 @@ export default function HeroSection() {
                             <p>Публикации в СМИ</p>
                         </div>
                     </div>
+
+                    <div className={styles.info__orderButton}>
+                        <OrderButton />
+                    </div>
                 </div>
             </div>
             <div className={styles.heroSection__imageContainer}>
@@ -68,7 +72,7 @@ export default function HeroSection() {
                 <Image
                     className={styles.heroSection__logo}
                     src={image}
-                    alt="фото"
+                    alt="photo"
                     priority
                     style={{
                         maxWidth: '599px',

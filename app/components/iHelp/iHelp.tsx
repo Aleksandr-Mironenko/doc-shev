@@ -20,7 +20,7 @@ export default function iHelp() {
             description: 'консультация',
             tittlefullDescripton: 'внутренний заголовок',
             fullDescripton:
-                'Онлайн прием и консультация по вашим вопросам здоровья.',
+                'Онлайн - консультация по вопросам вашего здоровья.',
             logo: krest,
             data: '01.01.2020',
         },
@@ -30,7 +30,7 @@ export default function iHelp() {
             description: 'разбор анализов',
             tittlefullDescripton: 'внутренний заголовок',
             fullDescripton:
-                'Интерпритация резуультатов анализов и рекомендации.',
+                'Интерпритация результатов анализов и рекомендации.',
             logo: prob,
             data: '02.01.2020',
         },

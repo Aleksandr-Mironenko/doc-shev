@@ -93,6 +93,14 @@
     border-radius: 20px;
     color: black;
     padding: 20px 10px;
+    &__orderButton {
+        position: relative;
+        top: 45px;
+        right: 15px;
+        @media (min-width: 1084px) {
+            display: none;
+        }
+    }
     &__content {
         display: flex;
         gap: 10px;
@@ -133,6 +141,10 @@
             @media (max-width: 520px) {
                 font-size: clamp(6px, 2vw, 12px);
             }
+
+            @media (max-width: 450px) {
+                display: none;
+            }
         }
         &_text {
             font-size: clamp(10px, 4vw, 38px);
@@ -152,6 +164,7 @@
         font-size: xx-large;
         color: rgb(29, 99, 192);
         font-size: clamp(10px, 3vw, 50px);
+
         @media (max-width: 550px) {
             font-size: clamp(10px, 3vw, 48px);
         }
@@ -172,6 +185,9 @@
         }
         @media (max-width: 500px) {
             font-size: clamp(10px, 3vw, 36px);
+        }
+        @media (max-width: 470px) {
+            display: none;
         }
     }
     &__content {

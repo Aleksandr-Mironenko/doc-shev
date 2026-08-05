@@ -1,3 +1,4 @@
+import Appointment from '../appointment/appointment'
 import ButtonsHero from '../buttonsHero/buttonsHero'
 import CatchUp from '../catchUp/catchUp'
 import Down from '../down/down'
@@ -21,6 +22,7 @@ export default function Wrapper() {
             {/* <ServicesSection /> */}
             <Reviews />
             <CatchUp />
+            <Appointment />
         </div>
     )
 }

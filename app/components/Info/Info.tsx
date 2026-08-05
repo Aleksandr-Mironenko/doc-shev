@@ -7,7 +7,7 @@ import hand from '@/public/ggg/hand.svg'
 import head from '@/public/ggg/head.svg'
 import diplom from '@/public/ggg/diplom.svg'
 import newspaper from '@/public/ggg/newspaper.svg'
-
+import ok from '@/public/ok.png'
 import head2 from '@/public/ggg/head2.svg'
 
 export default function Info() {
@@ -23,7 +23,7 @@ export default function Info() {
                             Ведущий врач терапевт в крупнейшей цифровой клинике.
                         </p>
                         <p>Опыт дистанционной работы 2 года.</p>
-                        <p>Подробнее...</p>
+                        <p>Подробнее →</p>
                     </div>
 
                     <div className={styles.info__content_three}>
@@ -66,7 +66,7 @@ export default function Info() {
                                 style={{ width: '30px', height: '30px' }}
                             />
                             <p className={styles.info__content_boxtext}>
-                                Поддержка н всех этапах
+                                Поддержка на всех этапах
                             </p>
                         </div>
                     </div>
@@ -93,36 +93,36 @@ export default function Info() {
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
+                                src={ok}
                                 alt="Логотип компании"
-                                width={40}
-                                height={40}
+                                width={25}
+                                height={25}
                                 priority
-                                style={{ width: '30px', height: '30px' }}
+                                style={{ width: '25px', height: '25px' }}
                             />
                             <p>Честность и открытость</p>
                         </div>
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
+                                src={ok}
                                 alt="Логотип компании"
-                                width={40}
-                                height={40}
+                                width={25}
+                                height={25}
                                 priority
-                                style={{ width: '30px', height: '30px' }}
+                                style={{ width: '25px', height: '25px' }}
                             />
-                            <p>современные стандарты медицины</p>
+                            <p>Современные стандарты медицины</p>
                         </div>
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
-                                src={logo}
+                                src={ok}
                                 alt="Логотип компании"
-                                width={40}
-                                height={40}
+                                width={25}
+                                height={25}
                                 priority
-                                style={{ width: '30px', height: '30px' }}
+                                style={{ width: '25px', height: '25px' }}
                             />
                             <p>Забота о вашем здоровье и комфорте</p>
                         </div>

@@ -24,7 +24,7 @@
         @media (max-width: 820px) {
             font-size: clamp(8px, 3vw, 12px);
         }
-        @media (max-width: 410px) {
+        @media (max-width: 470px) {
             font-size: clamp(6px, 2vw, 10px);
         }
     }
@@ -98,8 +98,12 @@
     background-color: transparent;
     position: relative;
     top: -35px;
+
     @media (max-width: 1084px) {
         align-self: start;
+    }
+    @media (max-width: 547px) {
+        padding-top: 0;
     }
     @media (max-width: 530px) {
         flex-direction: column;
