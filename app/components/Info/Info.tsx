@@ -41,7 +41,7 @@ export default function Info() {
                                 Доказательные методы лечения
                             </p>
                         </div>
-                        <div className={styles.info__content_box}>
+                        {/* <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
                                 src={peaple}
@@ -54,7 +54,7 @@ export default function Info() {
                             <p className={styles.info__content_boxtext}>
                                 Индивидуальный подход
                             </p>
-                        </div>
+                        </div> */}
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
@@ -112,7 +112,7 @@ export default function Info() {
                                 priority
                                 style={{ width: '25px', height: '25px' }}
                             />
-                            <p>Современные стандарты медицины</p>
+                            <p>Индивидуальный подход</p>
                         </div>
                         <div className={styles.info__content_item}>
                             <Image
@@ -170,9 +170,21 @@ export default function Info() {
                                 priority
                                 style={{ width: '30px', height: '30px' }}
                             />
-                            <p>Публикации в СМИ</p>
+                            <p>Курс "Расширенные реанимационные мероприятия"</p>
                         </div>
                         <div className={styles.info__content_item}>
+                            <Image
+                                className={styles.logo__str}
+                                src={diplom}
+                                alt=""
+                                width={40}
+                                height={40}
+                                priority
+                                style={{ width: '30px', height: '30px' }}
+                            />
+                            <p>Курс "Клиническая нутрициология"</p>
+                        </div>
+                        {/* <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
                                 src={newspaper}
@@ -183,7 +195,7 @@ export default function Info() {
                                 style={{ width: '30px', height: '30px' }}
                             />
                             <p>Публикации в СМИ</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

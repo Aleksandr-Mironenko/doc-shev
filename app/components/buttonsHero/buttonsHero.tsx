@@ -41,7 +41,7 @@ export default function ButtonsHero() {
                             priority
                             style={{ width: '30px', height: '30px' }}
                         />
-                        <span className={styles.buttonsHero__text}>500+</span>
+                        <span className={styles.buttonsHero__text}>1500+</span>
                     </div>
                     <div className={styles.buttonsHero__description}>
                         <p>довольных клиентов </p>

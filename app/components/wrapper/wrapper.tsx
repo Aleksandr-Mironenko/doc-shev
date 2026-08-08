@@ -1,7 +1,6 @@
 import Appointment from '../appointment/appointment'
 import ButtonsHero from '../buttonsHero/buttonsHero'
 import CatchUp from '../catchUp/catchUp'
-import Down from '../down/down'
 import HeroSection from '../HeroSection/HeroSection'
 import Info from '../Info/Info'
 import PublicsSection from '../publicsSection/publicsSection'
