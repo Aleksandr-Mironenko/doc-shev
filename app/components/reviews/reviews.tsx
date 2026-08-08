@@ -2,7 +2,7 @@
 import styles from './reviews.module.scss'
 import { useState } from 'react'
 import Image from 'next/image'
-import image from '@/public/kavv.png'
+import image from '@/public/ggg/kavv2.png'
 export interface Pub {
     id: number
     name: string
@@ -53,7 +53,12 @@ export default function Reviews() {
                             priority
                             width={30}
                             height={20}
-                            style={{ width: '30px', height: '20px' }}
+                            style={{
+                                width: '20px',
+                                height: '10px',
+                                position: 'relative',
+                                top: '-5px',
+                            }}
                         />
                     </div>
 

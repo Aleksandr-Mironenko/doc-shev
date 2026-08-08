@@ -184,29 +184,46 @@ export default function PublicsSection() {
     const [visibleCount, setVisibleCount] = useState(pub.length)
 
     useEffect(() => {
-        // Создаем наблюдатель за изменением размеров контейнера
         const observer = new ResizeObserver((entries) => {
             for (const entry of entries) {
-                // Получаем текущую ширину контейнера в пикселях
                 const containerWidth = entry.contentRect.width
 
-                // Берем 80% от этой ширины (как в вашей логике)
                 const availableWidth = containerWidth * 0.8
 
-                // Считаем, сколько блоков по 150px туда влезет (округляем вниз)
                 const maxItems = Math.floor(availableWidth / 150)
 
-                // Устанавливаем количество: не меньше 1 и не больше длины самого массива
                 setVisibleCount(Math.max(1, Math.min(maxItems, pub.length)))
             }
+
+            // После изменения размеров пересчитываем стрелки
+            checkScroll()
         })
 
         if (containerRef.current) {
             observer.observe(containerRef.current)
         }
 
+        if (scrollRef.current) {
+            observer.observe(scrollRef.current)
+        }
+
         return () => observer.disconnect()
     }, [pub.length])
+
+    useEffect(() => {
+        const el = scrollRef.current
+
+        if (!el) return
+
+        const observer = new ResizeObserver(() => {
+            checkScroll()
+        })
+
+        observer.observe(el)
+
+        return () => observer.disconnect()
+    }, [])
+
     const publics = pub.map((el: Pub) => (
         <li
             key={el.id}
@@ -279,7 +296,7 @@ export default function PublicsSection() {
                     </div>
                 )}
 
-                <div className={styles.viewport}>
+                <div ref={containerRef} className={styles.viewport}>
                     <ul
                         ref={scrollRef}
                         onScroll={checkScroll}
