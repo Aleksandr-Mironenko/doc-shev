@@ -148,6 +148,22 @@ export default function Appointment() {
         resetAppointmentState()
         window.location.href = '/#reviews'
     }
+    const userSelectedDate = (value: Dayjs | null) => {
+        setSelectedDate(value)
+        setTimeout(() => {
+            if (document.getElementById('timepodskazka')) {
+                document.getElementById('timepodskazka')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                })
+            } else {
+                document.getElementById('time')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                })
+            }
+        }, 0)
+    }
 
     return (
         <div
@@ -175,6 +191,7 @@ export default function Appointment() {
                 >
                     {/* 1. БЛОК ВЫБОРА ВРЕМЕНИ (Слева в строке, снизу в столбике) */}
                     <div
+                        id="time"
                         style={{
                             backgroundColor: '#ffffff',
                             borderRadius: 20,
@@ -275,11 +292,8 @@ export default function Appointment() {
                     </div>
 
                     {/* 2. БЛОК ПОДСКАЗКИ (Справа в строке, сверху в столбике) */}
-               
-                    <div
-                        className={styles.podskazka}
-                        
-                    >
+
+                    <div id="timepodskazka" className={styles.podskazka}>
                         <h3
                             style={{
                                 margin: 0,
@@ -310,7 +324,7 @@ export default function Appointment() {
                     dates={dates}
                     selectedDate={selectedDate}
                     isSelected={isSelected}
-                    setSelectedDate={setSelectedDate}
+                    userSelectedDate={userSelectedDate}
                     setIsSelected={setIsSelected}
                 />
             </div>

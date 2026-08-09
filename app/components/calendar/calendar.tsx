@@ -18,7 +18,7 @@ interface AppProps {
     dates?: Dayjs[]
     selectedDate: Dayjs | null
     isSelected: boolean
-    setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs | null>>
+    userSelectedDate: (value: Dayjs | null) => void
     setIsSelected: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -58,7 +58,7 @@ const App: React.FC<AppProps> = ({
     dates = [dayjs().date(3)],
     selectedDate,
     isSelected,
-    setSelectedDate,
+    userSelectedDate,
     setIsSelected,
 }) => {
     const { styles: classNames } = useStyles()
@@ -258,7 +258,7 @@ const App: React.FC<AppProps> = ({
          * Доступная дата выбрана
          */
         setIsSelected(true)
-        setSelectedDate(date)
+        userSelectedDate(date)
 
         console.log('Дата выбрана:', date.format('YYYY-MM-DD'))
         console.log('isSelected:', true)
@@ -273,7 +273,7 @@ const App: React.FC<AppProps> = ({
     console.log({
         selectedDate,
         isSelected,
-        setSelectedDate,
+        userSelectedDate,
         setIsSelected,
         setIsSelectedType: typeof setIsSelected,
     })
