@@ -1,0 +1,126 @@
+.wrapper {
+    // align-items: flex-end;
+    @media (max-width: 1160px) {
+        flex-direction: column-reverse;
+    }
+}
+.podskazka {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    min-width: 280px;
+    flex: 1 1 280px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    // align-self: flex-end;
+    gap: 16px;
+    @media (min-width: 1160px) {
+        display: none;
+    }
+}
+.heroSection__backstage {
+    font-size: clamp(10px, 2vw, 25px);
+    max-width: 80%;
+    margin: 1% 0;
+    // font-size: clamp(10px, 3vw, 20px);
+    // @media (max-width: 970px) {
+    //     font-size: clamp(10px, 2vw, 20px);
+    // }
+    // @media (max-width: 550px) {
+    //     font-size: clamp(10px, 2vw, 20px);
+    // }
+    // @media (max-width: 540px) {
+    //     font-size: clamp(10px, 2vw, 18px);
+    // }
+    // @media (max-width: 540px) {
+    //     font-size: clamp(10px, 2vw, 16px);
+    // }
+    // @media (max-width: 530px) {
+    //     font-size: clamp(8px, 2vw, 14px);
+    // }
+    // @media (max-width: 520px) {
+    //     font-size: clamp(6px, 2vw, 12px);
+    // }
+    // }
+}
+.heroSection__regal {
+    // font-size: 10px;
+    font-size: clamp(10px, 4vw, 50px);
+    @media (max-width: 550px) {
+        font-size: clamp(10px, 4vw, 48px);
+    }
+    @media (max-width: 540px) {
+        font-size: clamp(10px, 4vw, 46px);
+    }
+    @media (max-width: 540px) {
+        font-size: clamp(10px, 4vw, 44px);
+    }
+    @media (max-width: 530px) {
+        font-size: clamp(10px, 4vw, 42px);
+    }
+    @media (max-width: 520px) {
+        font-size: clamp(10px, 4vw, 40px);
+    }
+    @media (max-width: 510px) {
+        font-size: clamp(10px, 4vw, 38px);
+    }
+    @media (max-width: 500px) {
+        font-size: clamp(10px, 4vw, 36px);
+    }
+}
+.heroSection__name {
+    display: flex;
+    flex-direction: column;
+}
+.heroSection__docprof {
+    font-size: xx-large;
+    color: rgb(29, 99, 192);
+    font-size: clamp(10px, 3vw, 50px);
+
+    @media (max-width: 550px) {
+        font-size: clamp(10px, 3vw, 48px);
+    }
+    @media (max-width: 540px) {
+        font-size: clamp(10px, 3vw, 46px);
+    }
+    @media (max-width: 540px) {
+        font-size: clamp(10px, 3vw, 44px);
+    }
+    @media (max-width: 530px) {
+        font-size: clamp(10px, 3vw, 42px);
+    }
+    @media (max-width: 520px) {
+        font-size: clamp(10px, 3vw, 40px);
+    }
+    @media (max-width: 510px) {
+        font-size: clamp(10px, 3vw, 38px);
+    }
+    @media (max-width: 500px) {
+        font-size: clamp(10px, 3vw, 36px);
+    }
+}
+.heroSection__backstage {
+    font-size: clamp(10px, 2vw, 25px);
+    max-width: 80%;
+    margin: 1% 0;
+    // font-size: clamp(10px, 3vw, 20px);
+    // @media (max-width: 970px) {
+    //     font-size: clamp(10px, 2vw, 20px);
+    // }
+    // @media (max-width: 550px) {
+    //     font-size: clamp(10px, 2vw, 20px);
+    // }
+    // @media (max-width: 540px) {
+    //     font-size: clamp(10px, 2vw, 18px);
+    // }
+    // @media (max-width: 540px) {
+    //     font-size: clamp(10px, 2vw, 16px);
+    // }
+    // @media (max-width: 530px) {
+    //     font-size: clamp(8px, 2vw, 14px);
+    // }
+    // @media (max-width: 520px) {
+    //     font-size: clamp(6px, 2vw, 12px);
+    // }
+}

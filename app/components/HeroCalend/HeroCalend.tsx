@@ -1,9 +1,10 @@
-import styles from './HeroSection.module.scss'
+import styles from './HeroCalend.module.scss'
 import image from '../../../public/face.png'
 import Image from 'next/image'
 import OrderButton from '../orderButton/orderButton'
 import logo from '@/public/str.png'
-export default function HeroSection() {
+import Appointment from '@/app/components/appointment/appointment'
+export default function HeroCalend() {
     return (
         <div className={styles.heroSection}>
             {/* <div className={styles.heroSection__text_wrapper}>
@@ -18,16 +19,16 @@ export default function HeroSection() {
                 <div className={styles.heroSection__regal}>
                     <div className={styles.heroSection__name}>
                         <p className={styles.heroSection__namedoc}>
-                            Добрый день!
+                            Екатерина Шитова
                         </p>
                         <p className={styles.heroSection__docprof}>
-                            выберите дату для нашей встечи
+                            врач-терапевт
                         </p>
                     </div>
                     <p className={styles.heroSection__backstage}>
-                        Смелее нажимайте на любую доступную дату в катендаре
+                        Ведущий врач - терапевт в крупнейшей цифровой клинике
                     </p>
-                    {/*<div className={styles.info__content_items}>
+                    <div className={styles.info__content_items}>
                         <div className={styles.info__content_item}>
                             <Image
                                 className={styles.logo__str}
@@ -62,7 +63,7 @@ export default function HeroSection() {
 
                     <div className={styles.info__orderButton}>
                         <OrderButton />
-                    </div> */}
+                    </div>
                 </div>
             </div>
             <div className={styles.heroSection__imageContainer}>

@@ -154,119 +154,166 @@ export default function Appointment() {
             className={styles.wrapper}
             style={{
                 display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end', // Гарантируем прижатие всех элементов вправо
                 gap: '24px',
-                alignItems: 'flex-start',
                 flexWrap: 'wrap',
                 position: 'relative',
             }}
         >
-            <App
-                dates={dates}
-                selectedDate={selectedDate}
-                isSelected={isSelected}
-                setSelectedDate={setSelectedDate}
-                setIsSelected={setIsSelected}
-            />
-
+            {/* НОВЫЕ БЛОКИ: Рендерятся ПЕРЕД календарем, чтобы появляться левее */}
             {isSelected && selectedDate && (
                 <div
                     style={{
-                        backgroundColor: '#ffffff',
-                        borderRadius: 20,
-                        padding: '24px',
-                        minWidth: '280px',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
                         display: 'flex',
-                        flexDirection: 'column',
+                        flexWrap: 'wrap-reverse', // Магия переноса: при сужении экрана правый блок уходит наверх
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end',
                         gap: '16px',
+                        flex: '1 1 auto', // Блок занимает всё доступное свободное место
                     }}
                 >
-                    <h3
+                    {/* 1. БЛОК ВЫБОРА ВРЕМЕНИ (Слева в строке, снизу в столбике) */}
+                    <div
                         style={{
-                            margin: 0,
-                            fontSize: 18,
-                            fontWeight: 600,
-                            textAlign: 'center',
+                            backgroundColor: '#ffffff',
+                            borderRadius: 20,
+                            padding: '24px',
+                            minWidth: '280px',
+                            flex: '1 1 280px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '16px',
                         }}
                     >
-                        Доступное время на {selectedDate.format('D MMMM')}
-                    </h3>
-
-                    {isTimesLoading ? (
-                        <div
+                        <h3
                             style={{
-                                textAlign: 'center',
-                                opacity: 0.5,
-                                padding: '20px 0',
-                            }}
-                        >
-                            Поиск времени...
-                        </div>
-                    ) : availableTimes.length > 0 ? (
-                        <ul
-                            style={{
-                                listStyle: 'none',
-                                padding: 0,
                                 margin: 0,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '10px',
-                            }}
-                        >
-                            {availableTimes.map((time) => {
-                                const isTimeSelected = selectedTime === time
-                                const color = '#59B86A'
-
-                                return (
-                                    <li
-                                        key={time}
-                                        onClick={() => handleTimeClick(time)}
-                                        style={{
-                                            padding: '12px 16px',
-                                            borderRadius: 20,
-                                            cursor: 'pointer',
-                                            textAlign: 'center',
-                                            fontWeight: 600,
-                                            fontSize: 16,
-                                            background: isTimeSelected
-                                                ? `radial-gradient(circle at center, ${color}35 0%, ${color}35 25%, ${color}30 60%, ${color}20 80%, ${color}05 100%)`
-                                                : '#F5F5F5',
-                                            boxShadow: isTimeSelected
-                                                ? `0 0 0 2px ${color}`
-                                                : 'none',
-                                            transition: 'all 250ms ease',
-                                            color: isTimeSelected
-                                                ? '#000'
-                                                : '#333',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            if (!isTimeSelected)
-                                                e.currentTarget.style.boxShadow = `0 0 0 1px ${color}80`
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            if (!isTimeSelected)
-                                                e.currentTarget.style.boxShadow =
-                                                    'none'
-                                        }}
-                                    >
-                                        {time}
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    ) : (
-                        <div
-                            style={{
+                                fontSize: 18,
+                                fontWeight: 600,
                                 textAlign: 'center',
-                                opacity: 0.5,
-                                padding: '20px 0',
                             }}
                         >
-                            Нет доступного времени
-                        </div>
-                    )}
+                            Доступное время на {selectedDate.format('D MMMM')}
+                        </h3>
+
+                        {isTimesLoading ? (
+                            <div
+                                style={{
+                                    textAlign: 'center',
+                                    opacity: 0.5,
+                                    padding: '20px 0',
+                                }}
+                            >
+                                Поиск времени...
+                            </div>
+                        ) : availableTimes.length > 0 ? (
+                            <ul
+                                style={{
+                                    listStyle: 'none',
+                                    padding: 0,
+                                    margin: 0,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '10px',
+                                }}
+                            >
+                                {availableTimes.map((time) => {
+                                    const isTimeSelected = selectedTime === time
+                                    const color = '#59B86A'
+                                    return (
+                                        <li
+                                            key={time}
+                                            onClick={() =>
+                                                handleTimeClick(time)
+                                            }
+                                            style={{
+                                                padding: '12px 16px',
+                                                borderRadius: 20,
+                                                cursor: 'pointer',
+                                                textAlign: 'center',
+                                                fontWeight: 600,
+                                                fontSize: 16,
+                                                background: isTimeSelected
+                                                    ? `radial-gradient(circle at center, ${color}35 0%, ${color}35 25%, ${color}30 60%, ${color}20 80%, ${color}05 100%)`
+                                                    : '#F5F5F5',
+                                                boxShadow: isTimeSelected
+                                                    ? `0 0 0 2px ${color}`
+                                                    : 'none',
+                                                transition: 'all 250ms ease',
+                                                color: isTimeSelected
+                                                    ? '#000'
+                                                    : '#333',
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (!isTimeSelected)
+                                                    e.currentTarget.style.boxShadow = `0 0 0 1px ${color}80`
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (!isTimeSelected)
+                                                    e.currentTarget.style.boxShadow =
+                                                        'none'
+                                            }}
+                                        >
+                                            {time}
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        ) : (
+                            <div
+                                style={{
+                                    textAlign: 'center',
+                                    opacity: 0.5,
+                                    padding: '20px 0',
+                                }}
+                            >
+                                Нет доступного времени
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 2. БЛОК ПОДСКАЗКИ (Справа в строке, сверху в столбике) */}
+               
+                    <div
+                        className={styles.podskazka}
+                        
+                    >
+                        <h3
+                            style={{
+                                margin: 0,
+                                fontSize: 18,
+                                fontWeight: 600,
+                                textAlign: 'center',
+                            }}
+                        >
+                            <div className={styles.heroSection__regal}>
+                                <div className={styles.heroSection__name}>
+                                    <p className={styles.heroSection__docprof}>
+                                        Самое время выбрать время записи
+                                    </p>
+                                </div>
+                                <p className={styles.heroSection__backstage}>
+                                    Клик на самое подходящее
+                                </p>
+                            </div>
+                        </h3>
+                    </div>
+                    {/* )} */}
                 </div>
             )}
+
+            {/* КАЛЕНДАРЬ: Рендерится последним, поэтому всегда "прибит" к правому краю */}
+            <div style={{ flex: '0 0 auto' }}>
+                <App
+                    dates={dates}
+                    selectedDate={selectedDate}
+                    isSelected={isSelected}
+                    setSelectedDate={setSelectedDate}
+                    setIsSelected={setIsSelected}
+                />
+            </div>
 
             {modalStep > 0 && (
                 <div

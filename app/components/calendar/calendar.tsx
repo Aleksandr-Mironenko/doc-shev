@@ -28,13 +28,28 @@ const useStyles = createStyles(() => ({
     root: {
         padding: 10,
         backgroundColor: '#ffffff',
+        // --- ИСПРАВЛЕНИЕ СБРОСА ВЫРАВНИВАНИЯ ПРИ КЛИКЕ ---
+        // Растягиваем внутренний контейнер AntD на 100% ширины,
+        // чтобы flex-end работал корректно до и после клика.
+        '.ant-picker-cell': {
+            '.ant-picker-cell-inner': {
+                width: '100% !important',
+                height: '100% !important',
+                display: 'flex !important',
+                padding: '0 !important',
+                backgroundColor: 'transparent !important', // Убираем синий фон выделения
+            },
+            '&::before': {
+                display: 'none !important', // Скрываем псевдоэлемент фокуса AntD
+            },
+        },
     },
 }))
 
 const stylesObject: CalendarProps<Dayjs>['styles'] = {
     root: {
         borderRadius: 20,
-        width: '75%',
+        width: '100%',
         maxWidth: '700px',
     },
 }
@@ -52,14 +67,6 @@ const App: React.FC<AppProps> = ({
      * Текущий отображаемый месяц
      */
     const [currentMonth, setCurrentMonth] = useState(dayjs())
-
-    /*
-     * Выбранная дата
-     */
-
-    /*
-     * Флаг выбора даты
-     */
 
     /*
      * Анимация смены месяца
@@ -254,9 +261,7 @@ const App: React.FC<AppProps> = ({
         setSelectedDate(date)
 
         console.log('Дата выбрана:', date.format('YYYY-MM-DD'))
-
         console.log('isSelected:', true)
-
         console.log('selectedDate:', date.format('YYYY-MM-DD'))
     }
 
@@ -264,6 +269,7 @@ const App: React.FC<AppProps> = ({
      * Только текст меняет opacity
      */
     const textOpacity = isChangingMonth ? 0 : 1
+
     console.log({
         selectedDate,
         isSelected,
@@ -271,6 +277,7 @@ const App: React.FC<AppProps> = ({
         setIsSelected,
         setIsSelectedType: typeof setIsSelected,
     })
+
     return (
         <ConfigProvider locale={ruRU}>
             <Flex vertical gap="medium">
@@ -442,7 +449,8 @@ const App: React.FC<AppProps> = ({
                                         position: 'relative',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        justifyContent: 'center',
+                                        justifyContent: 'flex-end', // Изменено на flex-end
+                                        paddingRight: 10, // Отступ от правого края
                                         width: '100%',
                                         height: '100%',
                                         cursor: isNextMonth
@@ -450,16 +458,7 @@ const App: React.FC<AppProps> = ({
                                             : 'default',
                                     }}
                                     onMouseEnter={(event) => {
-                                        /*
-                                         * Сначала удаляем
-                                         * стандартный tooltip
-                                         */
                                         removeAntTooltip(event.currentTarget)
-
-                                        /*
-                                         * Затем запускаем
-                                         * собственный таймер
-                                         */
                                         handleMouseEnter(date)
                                     }}
                                     onMouseLeave={handleMouseLeave}
@@ -538,21 +537,13 @@ const App: React.FC<AppProps> = ({
                                     position: 'relative',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    justifyContent: 'center',
+                                    justifyContent: 'flex-end', // Изменено на flex-end
+                                    paddingRight: 10, // Отступ от правого края
                                     width: '100%',
                                     height: '100%',
                                 }}
                                 onMouseEnter={(event) => {
-                                    /*
-                                     * Убираем стандартный
-                                     * tooltip Ant Design
-                                     */
                                     removeAntTooltip(event.currentTarget)
-
-                                    /*
-                                     * Запускаем нашу
-                                     * подсказку через 1.5 сек
-                                     */
                                     handleMouseEnter(date)
                                 }}
                                 onMouseLeave={handleMouseLeave}

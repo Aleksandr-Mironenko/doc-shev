@@ -4,64 +4,22 @@
 // Привязать к этому же адресу и телефону
 // Добавить сайт
 
-export default function Wrapper() {
-    return (
-        <div className={styles.wrapper}>
-            <Header />
-            <HeroSection />
-            <ButtonsHero />
-            <Info />
-            {/* <Down /> */}
-            <IHelp />
-            <PublicsSection />
-            {/* <ServicesSection /> */}
-            <Reviews />
-            <CatchUp />
-            <Appointment />
-        </div>
-    )
-}
-
 import styles from './pageStyles.module.scss'
-import Header from '@/app/components/Header/Header'
-import Footer from '@/app/components/Footer/Footer'
-import Menus from '@/app/components/Menus/Menus'
-import Basket from '@/app/components/Basket/Basket'
-import Appointment from '../appointment/appointment'
-import ButtonsHero from '../buttonsHero/buttonsHero'
-import CatchUp from '../catchUp/catchUp'
-import HeroSection from '../HeroSection/HeroSection'
-import Info from '../Info/Info'
-import PublicsSection from '../publicsSection/publicsSection'
-import Reviews from '../reviews/reviews'
-import styles from './wrapper.module.scss'
+
+import ButtonsHero from '@/app/components/buttonsHero/buttonsHero'
+import CatchUp from '@/app/components/catchUp/catchUp'
+import HeroSection from '@/app/components/HeroSection/HeroSection'
+import Info from '@/app/components/Info/Info'
+import PublicsSection from '@/app/components/publicsSection/publicsSection'
 import Header from '@/app/components/header/header'
 import IHelp from '@/app/components/iHelp/iHelp'
-import { getReviews } from '@/services/reviewsServise'
-import ReviewPage from '../components/ReviewPage/ReviewPage'
-import { getPublicInfo } from '@/services/publicInfoServise'
+import ButtonsHeroCopy from '../components/buttonsHeroCopy/buttonsHero'
 
 export const dynamic = 'force-dynamic'
 
-type Review = {
-    id: string
-    image_url: string
-    created_at: string
-}
-export default async function MenuPagesClient() {
-    const generateReviewsSEO = (city = 'Бор') => {
-        return [
-            `Отзывы о доставке еды ${city}`,
-            `Отзывы о кафе ${city}`,
-            `Отзывы клиентов кафе`,
-            `Рейтинг доставки еды`,
-            `Лучшее кафе отзывы`,
-        ]
-    }
-    const reviews: Review[] = await getReviews() // получу все отзывы и передам на отображение
-
+export default async function MakeAnAppointment() {
     const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const publicInfo = await getPublicInfo()
+
     return (
         <>
             {/* Local Business */}
@@ -142,33 +100,35 @@ export default async function MenuPagesClient() {
                     }),
                 }}
             />
+            <div>
+                <main className={styles.main}>
+                    <div className={styles.wrapper}>
+                        <section>
+                            <h2 className={styles.visuallyHidden}>
+                                Советы по вашему здоровью от врача нутрициолога
+                            </h2>
+                            <p className={styles.visuallyHidden}>
+                                Шитова Екатерина Вадимовна оказание
+                                консультационных о здоровье
+                            </p>
+                        </section>
 
-            <main className={styles.wrapper}>
-                <section>
-                    <h2 className={styles.visuallyHidden}>
-                        Советы по вашему здоровью от врача нутрициолога
-                    </h2>
-                    <p className={styles.visuallyHidden}>
-                        Шитова Екатерина Вадимовна оказание консультационных о
-                        здоровье
-                    </p>
-                </section>
-
-                <Header />
-                <HeroSection />
-                <ButtonsHero />
-                <Info />
-                {/* <Down /> */}
-                <IHelp />
-                <PublicsSection />
-                {/* <ServicesSection /> */}
-                <Reviews />
-                <CatchUp />
-                <Appointment />
-            </main>
+                        <Header />
+                        <HeroSection />
+                        <ButtonsHeroCopy />
+                        <Info />
+                        {/* <Down /> */}
+                        <IHelp />
+                        <PublicsSection />
+                        {/* <ServicesSection /> */}
+                        <CatchUp />
+                    </div>
+                </main>
+            </div>
         </>
     )
 }
+
 // ✅ Что нужно сделать (обязательно)
 // 🔹 1. Добавить сайт в поисковики
 // Google Search Console
