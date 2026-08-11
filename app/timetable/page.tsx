@@ -6,14 +6,14 @@
 
 import styles from './pageStyles.module.scss'
 
-import ButtonsHero from '@/app/components/buttonsHero/buttonsHero'
 import CatchUp from '@/app/components/catchUp/catchUp'
-import HeroSection from '@/app/components/HeroSection/HeroSection'
+// import HeroSection from '@/app/components/HeroSection/HeroSection'
 import Info from '@/app/components/Info/Info'
 import PublicsSection from '@/app/components/publicsSection/publicsSection'
 import Header from '@/app/components/header/header'
 import IHelp from '@/app/components/iHelp/iHelp'
 import ButtonsHeroCopy from '../components/buttonsHeroCopy/buttonsHero'
+import HeroCalend from '../components/HeroCalend/HeroCalend'
 
 export const dynamic = 'force-dynamic'
 
@@ -114,7 +114,7 @@ export default async function MakeAnAppointment() {
                         </section>
 
                         <Header />
-                        <HeroSection />
+                        <HeroCalend />
                         <ButtonsHeroCopy />
                         <Info />
                         {/* <Down /> */}

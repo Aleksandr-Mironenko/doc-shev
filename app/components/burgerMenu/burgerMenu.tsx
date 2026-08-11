@@ -9,6 +9,7 @@ import Contacts from '../contacts/contacts'
 import Documents from '../documents/documents'
 import { useWindowWidth } from '@/app/hucks/useWindowWidth'
 import Publics from '../publics/publics'
+import Link from 'next/link'
 
 export default function BurgerMenu({
     isOpen,
@@ -41,16 +42,56 @@ export default function BurgerMenu({
                     width={30}
                     height={30}
                     priority
-                    style={{ minWidth: '30px', minHeight: '30px' }}
                 />
             </button>
             <div className={styles.burgerMenu__menu}>
-                {adaptiveFontSize && <Publics />}
-                {adaptiveFontSizeContacts && <Contacts />}
-                <FreeMaterial />
-                <InfoProducts />
-                {adaptiveFontSizeReviews && <Review />}
-                {adaptiveFontSizeInfoDocuments && <Documents />}
+                {/* {adaptiveFontSize && ( */}
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.publics}`}
+                >
+                    <Publics />
+                </Link>
+                {/* )} */}
+                {/* {adaptiveFontSizeContacts && ( */}
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.contacts}`}
+                >
+                    <Contacts />
+                </Link>
+                {/* )} */}
+
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.freeMaterial}`}
+                >
+                    <FreeMaterial />
+                </Link>
+
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.infoProducts}`}
+                >
+                    <InfoProducts />
+                </Link>
+
+                {/* {adaptiveFontSizeReviews && ( */}
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.review}`}
+                >
+                    <Review />
+                </Link>
+                {/* )} */}
+                {/* {adaptiveFontSizeInfoDocuments && ( */}
+                <Link
+                    href="/publics"
+                    className={`{styles.burgerMenu__nav_link} ${styles.documents}`}
+                >
+                    <Documents />
+                </Link>
+                {/* )} */}
             </div>
 
             {/* блок иконок с контакстами */}

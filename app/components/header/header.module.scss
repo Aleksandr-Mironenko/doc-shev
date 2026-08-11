@@ -5,6 +5,7 @@
     // min-width: 286px;
     position: relative;
     z-index: 1000;
+
     background-image: linear-gradient(
         to bottom,
         rgba(255, 255, 255, 1) 0%,
@@ -16,16 +17,20 @@
         // цвет header
         rgba(255, 255, 255, 0) 100%
     );
-    @media (min-width: 1500px) {
-        padding-right: 80px;
-    }
 
     &__nav {
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+
+        &_link {
+            position: relative;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+        }
     }
     &__rigth {
         font-size: 15px;
@@ -70,5 +75,64 @@
         @media (max-width: 429px) {
             gap: 16px;
         }
+
+        @media (min-width: 1500px) {
+            margin-right: 20px;
+        }
+    }
+}
+
+.services {
+}
+.aboutMe {
+}
+.logo {
+}
+
+.publics {
+    @media (max-width: 563px) {
+        display: none;
+    }
+}
+
+.reviews {
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
+
+.contacts {
+    @media (max-width: 740px) {
+        display: none;
+    }
+}
+
+.review {
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
+
+.documents {
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+
+.infoProducts {
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
+
+.freeMaterial {
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
+
+.burger {
+    @media (min-width: 1500px) {
+        display: none;
     }
 }

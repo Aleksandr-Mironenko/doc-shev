@@ -1,6 +1,7 @@
 import styles from './orderButton.module.scss'
 import Image from 'next/image'
 import calend from '../../../public/ggg/cal.png'
+import Link from 'next/link'
 
 interface OrderButtonProps {
     linka?: string
@@ -13,9 +14,9 @@ export default function OrderButton({
 }: OrderButtonProps) {
     return (
         <div className={`${styles.buttonsHero} ${styles.first} `}>
-            <button
+            <Link
+                href="/timetable"
                 className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.blue}`}
-                // onClick={() => {}}
             >
                 <span>Записаться на консультацияю</span>
                 <Image
@@ -27,7 +28,7 @@ export default function OrderButton({
                     priority
                     style={{ minWidth: '40px', minHeight: '30px' }}
                 />
-            </button>
+            </Link>
             <button
                 className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.buttonsHero__info_second}`} // onClick={() => {}}
             >

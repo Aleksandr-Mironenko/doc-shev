@@ -1,15 +1,12 @@
 import styles from './freeMaterial.module.scss'
 
-import Link from 'next/link'
 export default function FreeMaterial() {
     return (
-        <Link href="/" className={styles.freeMaterial__link}>
-            <div className={styles.freeMaterial__text_wrapper}>
-                <div className={styles.freeMaterial__text}>
-                    Бесплатные материалы
-                </div>
+        <div className={styles.freeMaterial__text_wrapper}>
+            <div className={styles.freeMaterial__text}>
+                Бесплатные материалы
             </div>
-        </Link>
+        </div>
     )
 }
 // .freeMaterial {

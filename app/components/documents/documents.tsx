@@ -1,13 +1,10 @@
 import styles from './documents.module.scss'
 
-import Link from 'next/link'
 export default function Documents() {
     return (
-        <Link href="/" className={styles.documents__link}>
-            <div className={styles.documents__text_wrapper}>
-                <div className={styles.documents__text}>Документы</div>
-            </div>
-        </Link>
+        <div className={styles.documents__text_wrapper}>
+            <div className={styles.documents__text}>Документы</div>
+        </div>
     )
 }
 // .documents {

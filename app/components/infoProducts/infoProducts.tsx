@@ -1,15 +1,12 @@
 import styles from './infoProducts.module.scss'
 
-import Link from 'next/link'
 export default function InfoProducts() {
     return (
-        <Link href="/" className={styles.infoProducts__link}>
-            <div className={styles.infoProducts__text_wrapper}>
-                <div className={styles.infoProducts__text}>
-                    Информационные продукты
-                </div>
+        <div className={styles.infoProducts__text_wrapper}>
+            <div className={styles.infoProducts__text}>
+                Информационные продукты
             </div>
-        </Link>
+        </div>
     )
 }
 // .infoProducts {

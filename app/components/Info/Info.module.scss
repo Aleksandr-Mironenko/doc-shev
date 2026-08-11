@@ -28,12 +28,12 @@
         }
         &_three {
             display: flex;
-            flex-direction: row;
+            flex-direction: column; //row;
             justify-content: space-between;
             align-items: flex-start;
-            @media (max-width: 960px) {
-                flex-direction: column;
-            }
+            // @media (max-width: 960px) {
+            //     flex-direction: column;
+            // }
         }
         &_boxtext {
             font-size: clamp(8px, 1vw, 16px);

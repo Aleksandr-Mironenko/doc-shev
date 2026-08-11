@@ -170,8 +170,8 @@ export default function Appointment() {
             className={styles.wrapper}
             style={{
                 display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end', // Гарантируем прижатие всех элементов вправо
+                alignItems: 'flex-start',
+                justifyContent: 'flex-end',
                 gap: '24px',
                 flexWrap: 'wrap',
                 position: 'relative',
@@ -182,9 +182,9 @@ export default function Appointment() {
                 <div
                     style={{
                         display: 'flex',
-                        flexWrap: 'wrap-reverse', // Магия переноса: при сужении экрана правый блок уходит наверх
-                        justifyContent: 'flex-end',
-                        alignItems: 'flex-end',
+                        flexWrap: 'wrap-reverse', // перенос : при сужении экрана правый блок уходит наверх
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-end ',
                         gap: '16px',
                         flex: '1 1 auto', // Блок занимает всё доступное свободное место
                     }}

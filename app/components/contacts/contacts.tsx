@@ -1,15 +1,10 @@
 import styles from './contacts.module.scss'
 
-import Link from 'next/link'
 export default function Contacts() {
     return (
-        <Link href="/" className={styles.contacts__link}>
-            <div className={styles.contacts__text_wrapper}>
-                <div className={styles.contacts__text}>
-                    Контакты
-                </div>
-            </div>
-        </Link>
+        <div className={styles.contacts__text_wrapper}>
+            <div className={styles.contacts__text}>Контакты</div>
+        </div>
     )
 }
 // .contacts {

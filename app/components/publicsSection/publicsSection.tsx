@@ -280,7 +280,7 @@ export default function PublicsSection() {
     return (
         <div className={styles.publics}>
             <div className={styles.publics__head}>
-                <h2 className={styles.publics__h2}>Публикации в СМИ</h2>
+                <h2 className={styles.publics__h2}>Мои публикации в СМИ</h2>
 
                 <p className={styles.publics__button}>Подробнее</p>
             </div>
