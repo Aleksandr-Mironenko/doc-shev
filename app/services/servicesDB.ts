@@ -1,0 +1,206 @@
+// services.ts
+import sql from '@/app/services/lib/db' // Подключение к вашей БД
+
+// --- РАБОТА С БД ---
+interface FetchDatesResult {
+    dates: string[]
+    success: boolean
+}
+
+export async function dbGetAvailableDates(): Promise<FetchDatesResult> {
+    try {
+        // Получаем уникальные даты, отсортированные по возрастанию
+        const result = await sql`
+            SELECT DISTINCT data::text AS date 
+            FROM time_slots 
+            WHERE data IS NOT NULL
+            ORDER BY date ASC
+        `
+
+        // Извлекаем массив строк с датами
+        const dates = result.map((row) => row.date)
+
+        return {
+            dates,
+            success: true,
+        }
+    } catch (error) {
+        console.error('Ошибка при получении списка дат:', error)
+
+        // В случае ошибки возвращаем пустой массив и false
+        return {
+            dates: [],
+            success: false,
+        }
+    }
+}
+export async function dbGetAvailableTimes(dateString: string) {
+    const slots = await sql`
+        SELECT time FROM time_slots 
+        WHERE data = ${dateString} 
+          AND (datatime_reserved IS NULL OR datatime_reserved < NOW())
+        ORDER BY time ASC
+    `
+    return slots.length > 0
+        ? { success: true, times: slots.map((s) => s.time), date: dateString }
+        : { success: false }
+}
+
+export async function dbCheckSpecificTime(
+    dateString: string,
+    timeString: string,
+) {
+    // Делаем UPDATE строки, которая подходит под условия.
+    // Если время занято, условие WHERE не выполнится, и UPDATE ничего не обновит.
+    const slot = await sql`
+        UPDATE time_slots 
+        SET datatime_reserved = NOW() + INTERVAL '900 seconds'
+        WHERE data = ${dateString} 
+          AND time = ${timeString}
+          AND (datatime_reserved IS NULL OR datatime_reserved < NOW())
+        RETURNING data, datatime_reserved
+    `
+    // Если UPDATE успешно нашел и обновил строку, он вернет массив с этой строкой
+    return slot.length > 0
+        ? {
+              success: true,
+              date: slot[0].data,
+              datatime_reserved: slot[0].datatime_reserved,
+          }
+        : {
+              success: false,
+          }
+}
+
+export async function dbNullSpecificTime(
+    dateString: string,
+    timeString: string,
+) {
+    try {
+        const result = await sql`
+            UPDATE time_slots 
+            SET datatime_reserved = NULL 
+            WHERE data = ${dateString} AND time = ${timeString}
+        `
+
+        // 2. В большинстве SQL-библиотек (включая pg и @vercel/postgres)
+        // количество затронутых строк хранится в свойстве rowCount, а не length.
+        if (result.length === 0) {
+            return {
+                success: false,
+                message: 'Слот не найден или уже свободен',
+            }
+        }
+
+        return { success: true, message: 'Бронь успешно снята' }
+    } catch (error) {
+        console.error('Ошибка при снятии брони (dbNullSpecificTime):', error)
+        return { success: false, message: 'Внутренняя ошибка сервера' }
+    }
+}
+
+export async function dbDeleteTimeSlot(dateString: string, timeString: string) {
+    try {
+        const result = await sql`
+            DELETE FROM time_slots 
+            WHERE data = ${dateString} AND time = ${timeString}
+            RETURNING data, time
+        `
+
+        // Возвращаем true, если строка была найдена и успешно удалена
+        return result.length > 0
+    } catch (error) {
+        console.error('Ошибка при удалении слота времени из БД:', error)
+        return false
+    }
+}
+
+export async function dbCreateClient(
+    fio: string,
+    phone: string,
+    email: string,
+) {
+    await sql`INSERT INTO all_clients (fio, phone, email) VALUES (${fio}, ${phone}, ${email})`
+}
+
+export async function dbGenerateEmailCode(email: string) {
+    // Передаем 'q', триггер БД сам сгенерирует 5 цифр
+    const result = await sql`
+        INSERT INTO email_codes (email, verification_code) 
+        VALUES (${email}, 'q') 
+        RETURNING verification_code
+    `
+    return result[0].verification_code
+}
+
+export async function dbVerifyCode(email: string, code: string) {
+    const result = await sql`
+        SELECT id FROM email_codes 
+        WHERE email = ${email} AND verification_code = ${code}
+        ORDER BY created_at DESC LIMIT 1
+    `
+    return result.length !== 0
+}
+
+//выбрать конкретный тип orderData
+export async function dbCreateOrder(orderData: any) {
+    orderData.price = orderData.price === 'consult' ? 1500 : 1000
+
+    const result = await sql`
+        INSERT INTO orders (
+            fio, phone, email, date, time, consent_pd, consent_promo, 
+            verification_code, approve, approve_pr,  price, payment
+        ) VALUES (
+            ${orderData.fio}, ${orderData.phone}, ${orderData.email}, 
+            ${orderData.date}, ${orderData.time}, ${orderData.consent_pd}, 
+            ${orderData.consent_promo}, ${orderData.verification_code},  
+            true, true, ${orderData.price}, false
+        ) RETURNING id
+    `
+    return result[0].id
+}
+
+export async function dbUpdatePaymentStatus(orderId: number) {
+    const result = await sql`
+        UPDATE orders 
+        SET paiment = true 
+        WHERE id = ${orderId}
+        RETURNING fio, email, date, time
+    `
+    return result[0]
+}
+
+export async function dbGetOrderById(orderId: number) {
+    try {
+        const order = await sql`
+            SELECT fio, email, date, time, price
+            FROM orders 
+            WHERE id = ${orderId}
+        `
+
+        return order.length > 0
+            ? { success: true, data: order[0] }
+            : { success: false }
+    } catch (error) {
+        console.error('Ошибка поиска заказа в БД:', error)
+        return { success: false }
+    }
+}
+
+// Обновление статуса оплаты и сохранение сгенерированной ссылки
+export async function dbUpdatePaymentAndLink(orderId: number, link: string) {
+    try {
+        const result = await sql`
+            UPDATE orders 
+            SET paiment = true, link = ${link}
+            WHERE id = ${orderId}
+            RETURNING id
+        `
+
+        // Возвращаем true, если строка была успешно обновлена
+        return result.length > 0
+    } catch (error) {
+        console.error('Ошибка обновления оплаты и ссылки в БД:', error)
+        return false
+    }
+}

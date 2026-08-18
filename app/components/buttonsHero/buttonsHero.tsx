@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import styles from './buttonsHero.module.scss'
 // Adjust the logo import path if your asset is located elsewhere
-import logo from '../../../public/close.svg'
-import calend from '../../../public/ggg/cal.png'
+import logo from '../../../public/close.svg' 
 import zvezda from '../../../public/ggg/zvezda.svg'
 import cserd from '../../../public/ggg/kardioserd.svg'
 import OrderButton from '../orderButton/orderButton'

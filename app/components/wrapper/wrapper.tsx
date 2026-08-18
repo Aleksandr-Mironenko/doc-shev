@@ -10,6 +10,7 @@ import Reviews from '../reviews/reviews'
 import styles from './wrapper.module.scss'
 import Header from '@/app/components/header/header'
 import IHelp from '@/app/components/iHelp/iHelp'
+import { AddTimeForm } from '@/app/components/createDataTime/createDataTime'
 export default function Wrapper() {
     return (
         <div className={styles.wrapper}>
@@ -23,6 +24,7 @@ export default function Wrapper() {
             {/* <ServicesSection /> */}
             <Reviews />
             <CatchUp />
+            {/* <AddTimeForm /> */}
             <Footer />
             {/* <Appointment /> */}
         </div>

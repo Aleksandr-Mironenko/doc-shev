@@ -7,7 +7,7 @@ import InfoProducts from '../infoProducts/infoProducts'
 import Review from '../review/review'
 import Contacts from '../contacts/contacts'
 import Documents from '../documents/documents'
-import { useWindowWidth } from '@/app/hucks/useWindowWidth'
+
 import Publics from '../publics/publics'
 import Link from 'next/link'
 
@@ -18,13 +18,6 @@ export default function BurgerMenu({
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }) {
-    const width = useWindowWidth()
-    const adaptiveFontSize = width < 430
-    const adaptiveFontSizeContacts = width < 740
-    const adaptiveFontSizeReviews = width < 900
-
-    const adaptiveFontSizeInfoDocuments = width < 1100
-
     return (
         <div className={styles.burgerMenu}>
             <button

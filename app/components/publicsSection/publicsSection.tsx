@@ -237,13 +237,7 @@ export default function PublicsSection() {
                     alt="Логотип компании"
                     priority
                     fill
-                    // width={50}
-                    // height={50}
-                    // style={{
-                    //     objectFit: 'cover',
-                    //     minWidth: '40px',
-                    //     minHeight: '40x',
-                    // }}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                 />
             </div>
 

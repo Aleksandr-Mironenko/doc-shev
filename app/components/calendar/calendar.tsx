@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 import { Calendar, ConfigProvider, Flex } from 'antd'
 import type { CalendarProps } from 'antd'
@@ -20,6 +20,7 @@ interface AppProps {
     isSelected: boolean
     userSelectedDate: (value: Dayjs | null) => void
     setIsSelected: React.Dispatch<React.SetStateAction<boolean>>
+    setIsMountedCalendar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type NavigationDirection = 'prev' | 'next' | null
@@ -54,13 +55,14 @@ const stylesObject: CalendarProps<Dayjs>['styles'] = {
     },
 }
 
-const App: React.FC<AppProps> = ({
+const App = ({
     dates = [dayjs().date(3)],
     selectedDate,
     isSelected,
     userSelectedDate,
     setIsSelected,
-}) => {
+    setIsMountedCalendar,
+}: AppProps) => {
     const { styles: classNames } = useStyles()
 
     /*
@@ -270,13 +272,9 @@ const App: React.FC<AppProps> = ({
      */
     const textOpacity = isChangingMonth ? 0 : 1
 
-    console.log({
-        selectedDate,
-        isSelected,
-        userSelectedDate,
-        setIsSelected,
-        setIsSelectedType: typeof setIsSelected,
-    })
+    useEffect(() => {
+        setIsMountedCalendar(true)
+    }, [])
 
     return (
         <ConfigProvider locale={ruRU}>

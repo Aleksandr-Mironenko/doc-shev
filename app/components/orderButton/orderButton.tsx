@@ -19,6 +19,7 @@ export default function OrderButton({
                 className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.blue}`}
             >
                 <span>Записаться на консультацияю</span>
+
                 <Image
                     className={styles.buttonsHero__calendarLogo}
                     src={calend}
@@ -26,7 +27,7 @@ export default function OrderButton({
                     width={30}
                     height={30}
                     priority
-                    style={{ minWidth: '40px', minHeight: '30px' }}
+                    style={{ width: 'auto', height: 'auto' }}
                 />
             </Link>
             <button
