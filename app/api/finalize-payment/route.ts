@@ -12,7 +12,8 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
         const { isPaymentSuccess, orderId } = body
-        // console.log(body)   { isPaymentSuccess: true, orderId: null }
+        console.log(body)
+        // { isPaymentSuccess: true, orderId: null }
         if (!isPaymentSuccess) {
             return NextResponse.json(
                 { success: false, message: 'Оплата не подтверждена' },
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-
+        console.log(orderId)
         // 1. Получаем данные заказа по ID
         const orderData = await dbGetOrderById(orderId)
         if (!orderData.success || !orderData.data) {
