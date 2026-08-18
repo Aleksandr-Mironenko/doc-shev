@@ -755,9 +755,11 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                                     {selectedTime}?
                                 </h3>
                                 <button
-                                    onClick={() =>
-                                        handleConfirmTime(selectedTime)
-                                    }
+                                    onClick={() => {
+                                        if (selectedTime) {
+                                            handleConfirmTime(selectedTime)
+                                        }
+                                    }}
                                     disabled={isActionLoading}
                                     style={{
                                         padding: '14px',
