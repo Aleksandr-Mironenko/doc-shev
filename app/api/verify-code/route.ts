@@ -18,7 +18,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-        console.log(price)
+        console.log(22, price)
         // Проверяем пару email + код
         const isValid = await dbVerifyCode(email, code)
 
@@ -66,13 +66,13 @@ export async function POST(request: Request) {
 
         //auth.robokassa.ru/Merchant/PaymentForm/FormMS.js?" .
         // const paymentUrl = `https://auth.robokassa.ru/MerchantLogin=${mrh_login}&OutSum=${out_summ}&InvoiceID=${inv_id}&Description=${inv_desc}&SignatureValue=${signatureValue}&IsTest=${IsTest}&Iframe=1`
+        const mrh_login = (process.env.ROBOKASSA_MERCHANT_LOGIN || '').trim()
+        const mrh_pass1 = (process.env.ROBOKASSA_PASSWORD_1 || '').trim() // Тестовый пароль #1 из ЛК
+        const isTest = (process.env.ROBOKASSA_TEST || '1').trim()
 
-        const mrh_login = process.env.ROBOKASSA_MERCHANT_LOGIN
-        const mrh_pass1 = process.env.ROBOKASSA_PASSWORD_1 // Тестовый пароль #1 из ЛК
-        const inv_id = orderId
+        const inv_id = Number(orderId)
         const inv_desc = 'Консультационные услуги'
-        const out_summ = price
-        const isTest = process.env.ROBOKASSA_TEST
+        const out_summ = Number(price).toFixed(2)
 
         // Oo5qkAK6Q0fL1dTXjUB7
 
@@ -94,6 +94,13 @@ export async function POST(request: Request) {
         // Формируем итоговую ссылку для оплаты (с параметром iframe=1)
         // const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${orderId}&SignatureValue=${signatureValue}&IsTest=1&Iframe=1`
 
+        console.log(97, mrh_login)
+        console.log(98, mrh_pass1)
+        console.log(99, inv_id)
+        console.log(100, inv_desc)
+        console.log(101, out_summ)
+        console.log(102, isTest)
+        console.log(103, paymentUrl)
         //
         //
         //

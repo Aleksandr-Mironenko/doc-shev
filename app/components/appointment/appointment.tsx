@@ -61,7 +61,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     const [dates, setDates] = useState<Dayjs[]>([])
     const [isDatesLoading, setIsDatesLoading] = useState<boolean>(true) ///надо сделать лоадер для календаря
     const [product, setProduct] = useState<Product>('consult')
-    const [price, setPrice] = useState<number>(1)
+    const [price, setPrice] = useState<number>(100)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -259,17 +259,17 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     useEffect(() => {
         const handleIframeMessage = async (event: MessageEvent) => {
             // Проверяем, что пришло именно наше сообщение об успехе
-
+            console.log(262)
             if (event.data && event.data.type === 'payment_success') {
                 const invId = event.data.InvId
-
+                console.log(265)
                 // Оплата прошла, переводим пользователя на экран успеха
                 // Очищаем таймер брони, так как оплата прошла успешно
                 clearReservationTimer()
                 console.log('payment_success 265')
 
                 try {
-                    // Вызываем эндпоинт финализации оплаты
+                    console.log(272) // Вызываем эндпоинт финализации оплаты
                     const response = await fetch('/api/finalize-payment', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -279,7 +279,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         }),
                     })
                     console.log('response 276', response)
-
+                    console.log(82)
                     const result = await response.json()
                     console.log('result 279', result)
                     if (result.success) {
@@ -307,7 +307,9 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                 }
 
                 // finalize-payment
+                console.log(310)
                 setModalStep(5)
+                console.log()
             } else if (event.data === 'payment_fail') {
                 // Выводим уведомление. Клиент при этом остается на modalStep === 4
                 setModalStep(2)
