@@ -258,7 +258,10 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     useEffect(() => {
         const handleIframeMessage = async (event: MessageEvent) => {
             // Проверяем, что пришло именно наше сообщение об успехе
-            if (event.data === 'payment_success') {
+
+            if (event.data && event.data.type === 'payment_success') {
+                const invId = event.data.InvId
+
                 // Оплата прошла, переводим пользователя на экран успеха
                 // Очищаем таймер брони, так как оплата прошла успешно
                 clearReservationTimer()
@@ -271,7 +274,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             isPaymentSuccess: true,
-                            orderId: orderId, // Убедитесь, что в стейте компонента хранится ID текущего заказа
+                            orderId: invId, // Убедитесь, что в стейте компонента хранится ID текущего заказа
                         }),
                     })
                     console.log('response 276', response)

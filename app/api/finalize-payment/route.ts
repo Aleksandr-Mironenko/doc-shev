@@ -11,8 +11,8 @@ export async function POST(request: Request) {
     console.log('финал')
     try {
         const body = await request.json()
-        const { isPaymentSuccess, InvId } = body
-        console.log(body)
+        const { isPaymentSuccess, orderId } = body
+        // console.log(body)   { isPaymentSuccess: true, orderId: null }
         if (!isPaymentSuccess) {
             return NextResponse.json(
                 { success: false, message: 'Оплата не подтверждена' },
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
             )
         }
 
-        if (!InvId) {
+        if (!orderId) {
             return NextResponse.json(
                 { success: false, message: 'Не указан ID заказа' },
                 { status: 400 },
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         }
 
         // 1. Получаем данные заказа по ID
-        const orderData = await dbGetOrderById(InvId)
+        const orderData = await dbGetOrderById(orderId)
         if (!orderData.success || !orderData.data) {
             return NextResponse.json(
                 { success: false, message: 'Заказ не найден' },
@@ -49,7 +49,10 @@ export async function POST(request: Request) {
         }
 
         // 3. Обновляем статус оплаты и сохраняем ссылку в БД
-        const isDbUpdated = await dbUpdatePaymentAndLink(InvId, mtsResult.link)
+        const isDbUpdated = await dbUpdatePaymentAndLink(
+            orderId,
+            mtsResult.link,
+        )
 
         if (!isDbUpdated) {
             return NextResponse.json(
