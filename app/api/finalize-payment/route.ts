@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
         const { isPaymentSuccess, InvId } = body
-
+        console.log(body)
         if (!isPaymentSuccess) {
             return NextResponse.json(
                 { success: false, message: 'Оплата не подтверждена' },
