@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
         const { email, code, orderDetails } = body
-        // const { date, time } = orderDetails
+        const { price } = orderDetails //date, time,
         console.log(email, code, orderDetails)
         if (!email || !code || !orderDetails) {
             return NextResponse.json(
@@ -38,12 +38,12 @@ export async function POST(request: Request) {
         })
         console.log('orderId', orderId)
 
-        const merchantLogin = process.env.ROBOKASSA_LOGIN || 'ВАШ_ЛОГИН'
-        const password1 = process.env.ROBOKASSA_PASSWORD_1 || 'ВАШ_ПАРОЛЬ_1'
-        const outSum = orderDetails.price.toString() // Сумма к оплате
+        // const merchantLogin = process.env.ROBOKASSA_LOGIN || 'ВАШ_ЛОГИН'
+        // const password1 = process.env.ROBOKASSA_PASSWORD_1 || 'ВАШ_ПАРОЛЬ_1'
+        // const outSum = orderDetails.price.toString() // Сумма к оплате
 
         // Формируем строку для подписи: Логин:Сумма:НомерЗаказа:Пароль1
-        const signatureString = `${merchantLogin}:${outSum}:${orderId}:${password1}`
+        // const signatureString = `${merchantLogin}:${outSum}:${orderId}:${password1}`
 
         // // Генерируем MD5-хеш
         // const signatureValue = createHash('md5')
@@ -67,12 +67,12 @@ export async function POST(request: Request) {
         //auth.robokassa.ru/Merchant/PaymentForm/FormMS.js?" .
         // const paymentUrl = `https://auth.robokassa.ru/MerchantLogin=${mrh_login}&OutSum=${out_summ}&InvoiceID=${inv_id}&Description=${inv_desc}&SignatureValue=${signatureValue}&IsTest=${IsTest}&Iframe=1`
 
-        const mrh_login = 'doctor-shev'
-        const mrh_pass1 = 'Oo5qkAK6Q0fL1dTXjUB7' // Тестовый пароль #1 из ЛК
-        const inv_id = 678678
-        const inv_desc = 'Товары для животных'
-        const out_summ = '100.00'
-        const isTest = 1
+        const mrh_login = process.env.ROBOKASSA_MERCHANT_LOGIN
+        const mrh_pass1 = process.env.ROBOKASSA_PASSWORD_1 // Тестовый пароль #1 из ЛК
+        const inv_id = orderId
+        const inv_desc = 'Консультационные услуги'
+        const out_summ = price
+        const isTest = process.env.ROBOKASSA_TEST
 
         // Oo5qkAK6Q0fL1dTXjUB7
 
