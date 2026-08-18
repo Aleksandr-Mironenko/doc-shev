@@ -60,7 +60,8 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     const [isActionLoading, setIsActionLoading] = useState<boolean>(false)
     const [dates, setDates] = useState<Dayjs[]>([])
     const [isDatesLoading, setIsDatesLoading] = useState<boolean>(true) ///надо сделать лоадер для календаря
-    const [price, setPrice] = useState<Product>('consult')
+    const [product, setProduct] = useState<Product>('consult')
+    const [price, setPrice] = useState<number>(1)
     const [formData, setFormData] = useState({
         name: '',
         email: '',

@@ -18,7 +18,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-
+        console.log(price)
         // Проверяем пару email + код
         const isValid = await dbVerifyCode(email, code)
 
