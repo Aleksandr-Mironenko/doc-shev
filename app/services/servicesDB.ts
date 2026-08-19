@@ -187,20 +187,126 @@ export async function dbGetOrderById(orderId: number) {
     }
 }
 
-// Обновление статуса оплаты и сохранение сгенерированной ссылки
-export async function dbUpdatePaymentAndLink(orderId: number, link: string) {
+// // Обновление статуса оплаты и сохранение сгенерированной ссылки
+// export async function dbUpdatePaymentAndLink(orderId: number, link: string) {
+//     try {
+//         const result = await sql`
+//             UPDATE orders
+//             SET paiment = true, link = ${link}
+//             WHERE id = ${orderId}
+//             RETURNING id
+//         `
+
+//         // Возвращаем true, если строка была успешно обновлена
+//         return result.length > 0
+//     } catch (error) {
+//         console.error('Ошибка обновления оплаты и ссылки в БД:', error)
+//         return false
+//     }
+// }
+// Обновление статуса оплаты и получение сгенерированной ссылки из БД
+export async function dbUpdatePaymentAndLink(orderId: number) {
     try {
+        console.log(orderId)
         const result = await sql`
             UPDATE orders 
-            SET paiment = true, link = ${link}
+            SET payment = true
             WHERE id = ${orderId}
-            RETURNING id
+            RETURNING id,  room_id  
+        ` //RETURNING id,  room_id, link
+
+        // Если запись успешно обновлена, возвращаем id и сгенерированную ссылку
+        if (result.length > 0) {
+            return {
+                id: result[0].id,
+                // link: result[0].link,
+                room_id: result[0].room_id,
+            }
+        }
+
+        // Если заказ с таким orderId не найден
+        return null // return { success: false }
+    } catch (error) {
+        console.error(
+            'Ошибка обновления оплаты и получения ссылки из БД:',
+            error,
+        )
+        return null // return { success: false }
+    }
+}
+
+export async function dbGetLinkByRoomId(roomId: string) {
+    try {
+        const orders = await sql`
+            SELECT link, time, date, payment, fio, email 
+            FROM orders 
+            WHERE room_id = ${roomId}
+        `
+        if (orders.length === 0) {
+            return { success: false, error: 'NOT_FOUND' }
+        }
+
+        const row = orders[0]
+
+        if (!row.payment) {
+            return { success: false, error: 'NOT_PAID' }
+        }
+
+        // 1. Формируем ISO-строку (UTC+3)
+        const isoString = `${row.date}T${row.time}:00+03:00`
+        const startTime = new Date(isoString)
+        const now = new Date()
+        console.log('startTime 259', startTime)
+        console.log('now 260', now)
+        // 2. Временные рамки
+        const durationMinutes = 60
+        const endTime = new Date(startTime.getTime() + durationMinutes * 60000)
+        const allowedStartTime = new Date(startTime.getTime() - 5 * 60000)
+        console.log('endTime 265', endTime)
+        console.log('allowedStartTime 266', allowedStartTime)
+        let status: 'too_early' | 'active' | 'expired' = 'active'
+
+        if (now < allowedStartTime) {
+            status = 'too_early'
+        } else if (now > endTime) {
+            status = 'expired'
+        }
+        console.log('status 274', status)
+        return {
+            success: true,
+            data: {
+                fio: row.fio as string,
+                email: row.email as string,
+                status,
+                link: row.link as string,
+                startTime: startTime.toISOString(),
+            },
+        }
+    } catch (error) {
+        console.error('Ошибка проверки заказа в БД:', error)
+        return { success: false, error: 'SERVER_ERROR' }
+    }
+}
+
+export async function dbGeSucsessbyPassworsEmail(
+    email: string,
+    password: number,
+    roomId: string,
+) {
+    try {
+        const order = await sql`
+            SELECT link
+            FROM orders 
+            WHERE email = ${email} 
+              AND verification_code = ${password} 
+              AND room_id = ${roomId}
         `
 
-        // Возвращаем true, если строка была успешно обновлена
-        return result.length > 0
+        return order.length > 0
+            ? { success: true, link: order[0].link as string } // Берем именно строку ссылки
+            : { success: false }
     } catch (error) {
-        console.error('Ошибка обновления оплаты и ссылки в БД:', error)
-        return false
+        console.error('Ошибка поиска заказа в БД:', error)
+        return { success: false }
     }
 }

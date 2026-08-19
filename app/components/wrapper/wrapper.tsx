@@ -24,7 +24,7 @@ export default function Wrapper() {
             {/* <ServicesSection /> */}
             <Reviews />
             <CatchUp />
-            {/* <AddTimeForm /> */}
+            <AddTimeForm />
             <Footer />
             {/* <Appointment /> */}
         </div>

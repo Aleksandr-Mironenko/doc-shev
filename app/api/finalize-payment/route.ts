@@ -39,22 +39,21 @@ export async function POST(request: Request) {
 
         const { fio, email, date, time } = orderData.data
 
-        // 2. Генерируем ссылку MTS Link
-        const mtsResult = await serviceCreateMtsLink(date, time, fio)
+        // // 2. Генерируем ссылку MTS Link
+        // const mtsResult = await serviceCreateMtsLink(date, time, fio)
 
-        if (!mtsResult || !mtsResult.success || !mtsResult.link) {
-            return NextResponse.json(
-                { success: false, message: 'Ошибка создания видеовстречи' },
-                { status: 500 },
-            )
-        }
+        // if (!mtsResult || !mtsResult.success || !mtsResult.link) {
+        //     return NextResponse.json(
+        //         { success: false, message: 'Ошибка создания видеовстречи' },
+        //         { status: 500 },
+        //     )
+        // }
 
         // 3. Обновляем статус оплаты и сохраняем ссылку в БД
-        const isDbUpdated = await dbUpdatePaymentAndLink(
-            orderId,
-            mtsResult.link,
-        )
-
+        const isDbUpdated = await dbUpdatePaymentAndLink(orderId)
+        // isDbUpdated?.link
+        // isDbUpdated?.id
+        // isDbUpdated?.room_id
         if (!isDbUpdated) {
             return NextResponse.json(
                 { success: false, message: 'Ошибка обновления БД' },
@@ -77,7 +76,7 @@ export async function POST(request: Request) {
             <p>Ваша консультация успешно оплачена и подтверждена.</p>
             <p><strong>Дата:</strong> ${date}</p>
             <p><strong>Время:</strong> ${time}</p>
-            <p><strong>Ссылка на встречу:</strong> <a href="${mtsResult.link}">${mtsResult.link}</a></p>
+            <p><strong>Ссылка на встречу:</strong> <a href="https://doc-shev.relaxdev.ru/room/${isDbUpdated.room_id}">${`https://doc-shev.relaxdev.ru/room/${isDbUpdated.room_id}`}</a></p>
             <p>Ждем вас!</p>
         `
 

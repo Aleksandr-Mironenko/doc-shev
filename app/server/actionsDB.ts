@@ -131,11 +131,8 @@ export async function finalizePaymentAndOrderAction(
             return { success: false, message: 'Ошибка создания видеовстречи' }
         }
 
-        // 3. Обновляем статус оплаты и сохраняем ссылку в БД
-        const isDbUpdated = await dbUpdatePaymentAndLink(
-            orderId,
-            mtsResult.link,
-        )
+        // 3. Обновляем статус оплаты
+        const isDbUpdated = await dbUpdatePaymentAndLink(orderId)
 
         if (!isDbUpdated) {
             console.error('Ошибка сохранения данных оплаты и ссылки в БД')
