@@ -28,8 +28,6 @@ export default function VideoCall({ roomUuid, link }: VideoCallProps) {
                 className={styles.iframe}
                 allow="camera; microphone; display-capture; fullscreen"
                 allowFullScreen={true} // Явно указываем {true}
-                webkitAllowFullScreen={true} // Для старых версий Safari и iOS
-                mozAllowFullScreen={true} // Для старых версий Firefox
                 onLoad={() => setIsLoading(false)}
                 title="Видеоконсультация"
             />
