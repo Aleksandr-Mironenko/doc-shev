@@ -14,6 +14,7 @@ import Header from '@/app/components/header/header'
 import IHelp from '@/app/components/iHelp/iHelp'
 import ButtonsHeroCopy from '../components/buttonsHeroCopy/buttonsHero'
 import HeroCalend from '../components/HeroCalend/HeroCalend'
+import Footer from '../components/footer/Footer'
 
 export const dynamic = 'force-dynamic'
 
@@ -112,7 +113,6 @@ export default async function MakeAnAppointment() {
                                 консультационных о здоровье
                             </p>
                         </section>
-
                         <Header />
                         <HeroCalend />
                         <ButtonsHeroCopy />
@@ -122,6 +122,7 @@ export default async function MakeAnAppointment() {
                         <PublicsSection />
                         {/* <ServicesSection /> */}
                         <CatchUp />
+                        <Footer />
                     </div>
                 </main>
             </div>

@@ -61,7 +61,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     const [dates, setDates] = useState<Dayjs[]>([])
     const [isDatesLoading, setIsDatesLoading] = useState<boolean>(true) ///надо сделать лоадер для календаря
     const [product, setProduct] = useState<Product>('consult')
-    const [price, setPrice] = useState<number>(100)
+    const [price, setPrice] = useState<number>(1000)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -524,14 +524,14 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                 // Ошибка от сервера (например, "Неверный код")
                 alert(result.message || 'Неверный код подтверждения')
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(
                 'Ошибка при проверке кода и оформлении заказа:',
                 error,
             )
             // Показываем сообщение об ошибке, которое пришло от сервера, или дефолтное
             alert(
-                error.message === 'Неверный код'
+                error instanceof Error && error.message === 'Неверный код'
                     ? 'Неверный код подтверждения'
                     : 'Произошла ошибка при оформлении. Попробуйте еще раз.',
             )

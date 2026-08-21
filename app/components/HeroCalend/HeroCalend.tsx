@@ -90,8 +90,7 @@
 import styles from './HeroCalend.module.scss'
 import image from '../../../public/face.png'
 import Image from 'next/image'
-import OrderButton from '../orderButton/orderButton'
-import logo from '@/public/str.png'
+
 export default function HeroCalend() {
     return (
         <div className={styles.heroSection}>

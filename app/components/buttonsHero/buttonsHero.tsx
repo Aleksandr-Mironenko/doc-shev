@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from './buttonsHero.module.scss'
 // Adjust the logo import path if your asset is located elsewhere
-import logo from '../../../public/close.svg' 
+import logo from '../../../public/close.svg'
 import zvezda from '../../../public/ggg/zvezda.svg'
 import cserd from '../../../public/ggg/kardioserd.svg'
 import OrderButton from '../orderButton/orderButton'
@@ -9,7 +9,7 @@ export default function ButtonsHero() {
     return (
         <div className={styles.buttonsHero__wrapper}>
             <div className={styles.buttonsHero__orderButton}>
-                <OrderButton />
+                <OrderButton text={'Обо мне'} />
             </div>
             <div className={`${styles.buttonsHero} ${styles.second} `}>
                 <div className={styles.buttonsHero__part}>

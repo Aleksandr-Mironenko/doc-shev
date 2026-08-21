@@ -4,6 +4,7 @@ import RoomClient from '@/app/components/RoomClient/RoomClient'
 import styles from './styles.module.scss'
 import Header from '@/app/components/header/header'
 import Footer from '@/app/components/footer/Footer'
+import { cookies } from 'next/headers'
 
 interface PageProps {
     params: Promise<{ roomId: string }>
@@ -18,7 +19,11 @@ export default async function RoomPage({ params }: PageProps) {
     if (!res.success || !res.data) {
         notFound() // Отобразит страницу 404
     }
-
+    // const hasAuthCookie = document.cookie
+    //     .split('; ')
+    //     .some((item) => item.startsWith('auth'))
+    const cookieStore = cookies()
+    const hasAuthCookie = (await cookieStore).has('auth')
     const { fio, status, startTime } = res.data
 
     return (
@@ -26,6 +31,7 @@ export default async function RoomPage({ params }: PageProps) {
             <div className={styles.wrapper}>
                 <Header />
                 <RoomClient
+                    hasAuthCookie={hasAuthCookie}
                     roomId={roomId}
                     fio={fio}
                     initialStatus={status}

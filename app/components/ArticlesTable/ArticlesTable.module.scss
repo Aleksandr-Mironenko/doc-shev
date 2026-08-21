@@ -1,0 +1,362 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111;
+}
+
+// Обертка для реализации горизонтальной/вертикальной прокрутки таблицы
+.tableWrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+    color: #334155;
+
+    th,
+    td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #e2e8f0;
+        white-space: nowrap; // Предотвращает перенос текста в ячейках
+    }
+
+    th {
+        background-color: #f8fafc;
+        font-weight: 600;
+        color: #475569;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    tbody tr {
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: #f1f5f9;
+        }
+
+        &:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+// Стили для ячеек, доступных для редактирования (двойной клик)
+.editable {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        background-color: #e2e8f0;
+    }
+}
+
+// Контейнер редактора внутри ячейки (select + кнопки)
+.editor {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    select {
+        padding: 4px 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 0.875rem;
+        outline: none;
+
+        &:focus {
+            border-color: #3b82f6;
+        }
+    }
+
+    button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+
+        &:first-of-type {
+            background-color: #22c55e;
+            color: white;
+
+            &:hover {
+                background-color: #16a34a;
+            }
+        }
+
+        &:last-of-type {
+            background-color: #ef4444;
+            color: white;
+
+            &:hover {
+                background-color: #dc2626;
+            }
+        }
+    }
+}
+.addForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 100%;
+
+    padding: 20px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    background: #fff;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.addFormHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.addFormTitle {
+    margin: 0;
+
+    font-size: 1.125rem;
+    font-weight: 600;
+
+    color: #111;
+}
+
+.closeButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    cursor: pointer;
+
+    &:hover {
+        background: #f1f5f9;
+        color: #111;
+    }
+}
+
+.formGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    span {
+        font-size: 0.875rem;
+        font-weight: 500;
+
+        color: #475569;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+
+        padding: 9px 11px;
+
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+
+        background: #fff;
+
+        color: #334155;
+
+        font-family: inherit;
+        font-size: 0.875rem;
+
+        outline: none;
+
+        transition: border-color 0.15s ease;
+
+        &:focus {
+            border-color: #3b82f6;
+        }
+
+        &:disabled {
+            background: #f8fafc;
+            cursor: not-allowed;
+        }
+    }
+
+    textarea {
+        min-height: 90px;
+
+        resize: vertical;
+    }
+}
+
+.checkboxField {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    width: fit-content;
+
+    cursor: pointer;
+
+    color: #334155;
+
+    font-size: 0.875rem;
+
+    input {
+        width: 16px;
+        height: 16px;
+
+        cursor: pointer;
+    }
+}
+
+.error {
+    padding: 10px 12px;
+
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 0.875rem;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding-top: 4px;
+}
+
+.cancelButton,
+.saveButton {
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.cancelButton {
+    border: 1px solid #cbd5e1;
+
+    background: #fff;
+
+    color: #475569;
+
+    &:hover:not(:disabled) {
+        background: #f8fafc;
+    }
+}
+
+.saveButton {
+    border: 1px solid #2563eb;
+
+    background: #2563eb;
+
+    color: #fff;
+
+    &:hover:not(:disabled) {
+        background: #1d4ed8;
+    }
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.addButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 14px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+
+    background-color: #fff;
+
+    color: #334155;
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+
+    &:hover {
+        background-color: #f1f5f9;
+        border-color: #94a3b8;
+    }
+
+    &:active {
+        background-color: #e2e8f0;
+    }
+}

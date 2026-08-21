@@ -11,14 +11,14 @@ export async function POST(request: Request) {
         const body = await request.json()
         const { email, code, orderDetails } = body
         const { price } = orderDetails //date, time,
-        console.log(email, code, orderDetails)
+    
         if (!email || !code || !orderDetails) {
             return NextResponse.json(
                 { success: false, message: 'Недостаточно данных' },
                 { status: 400 },
             )
         }
-        console.log(22, price)
+    
         // Проверяем пару email + код
         const isValid = await dbVerifyCode(email, code)
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-        console.log('isValid', isValid)
+       
 
         // Создаем заказ
         const orderId = await dbCreateOrder({
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
             email,
             verification_code: code,
         })
-        console.log('orderId', orderId)
+ 
 
         // const merchantLogin = process.env.ROBOKASSA_LOGIN || 'ВАШ_ЛОГИН'
         // const password1 = process.env.ROBOKASSA_PASSWORD_1 || 'ВАШ_ПАРОЛЬ_1'
@@ -94,13 +94,7 @@ export async function POST(request: Request) {
         // Формируем итоговую ссылку для оплаты (с параметром iframe=1)
         // const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${orderId}&SignatureValue=${signatureValue}&IsTest=1&Iframe=1`
 
-        console.log(97, mrh_login)
-        console.log(98, mrh_pass1)
-        console.log(99, inv_id)
-        console.log(100, inv_desc)
-        console.log(101, out_summ)
-        console.log(102, isTest)
-        console.log(103, paymentUrl)
+        
         //
         //
         //

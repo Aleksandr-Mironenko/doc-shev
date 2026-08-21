@@ -115,12 +115,82 @@ export async function dbDeleteTimeSlot(dateString: string, timeString: string) {
     }
 }
 
+// export async function dbCreateClient(
+//     fio: string,
+//     phone: string,
+//     email: string,
+// ) {
+//     await sql`INSERT INTO all_clients (fio, phone, email) VALUES (${fio}, ${phone}, ${email})`
+// }замена
+
 export async function dbCreateClient(
     fio: string,
     phone: string,
     email: string,
 ) {
-    await sql`INSERT INTO all_clients (fio, phone, email) VALUES (${fio}, ${phone}, ${email})`
+    // 1. Ищем клиента по телефону или email
+    const clients = await sql`
+        SELECT id, fio, phone, email
+        FROM all_clients
+        WHERE email = ${email}
+           OR phone = ${phone}
+    `
+
+    // 2. Нет ни телефона, ни email
+    if (clients.length === 0) {
+        await sql`
+            INSERT INTO all_clients (fio, phone, email)
+            VALUES (${fio}, ${phone}, ${email})
+        `
+
+        return
+    }
+
+    const clientByEmail = clients.find((client) => client.email === email)
+
+    const clientByPhone = clients.find((client) => client.phone === phone)
+
+    // 3. Есть и email, и телефон у одной записи
+    if (
+        clientByEmail &&
+        clientByPhone &&
+        clientByEmail.id === clientByPhone.id
+    ) {
+        await sql`
+            UPDATE all_clients
+            SET fio = ${fio}
+            WHERE id = ${clientByEmail.id}
+        `
+
+        return
+    }
+
+    // 4. Есть только телефон
+    if (clientByPhone && !clientByEmail) {
+        await sql`
+            UPDATE all_clients
+            SET fio = ${fio},
+                email = ${email}
+            WHERE id = ${clientByPhone.id}
+        `
+
+        return
+    }
+
+    // 5. Есть только email
+    if (clientByEmail && !clientByPhone) {
+        await sql`
+            UPDATE all_clients
+            SET fio = ${fio},
+                phone = ${phone}
+            WHERE id = ${clientByEmail.id}
+        `
+
+        return
+    }
+
+    // 6. Email и телефон существуют,  но принадлежат разным клиентам
+    throw new Error('Email и телефон принадлежат разным клиентам')
 }
 
 export async function dbGenerateEmailCode(email: string) {
@@ -143,8 +213,20 @@ export async function dbVerifyCode(email: string, code: string) {
 }
 
 //выбрать конкретный тип orderData
-export async function dbCreateOrder(orderData: any) {
-    orderData.price = orderData.price === 'consult' ? 1500 : 1000
+interface OrderData {
+    fio: string
+    phone: string
+    email: string
+    date: string
+    time: string
+    consent_pd: boolean
+    consent_promo: boolean
+    verification_code: string
+    price: string
+}
+
+export async function dbCreateOrder(orderData: OrderData) {
+    const price = orderData.price === 'consult' ? 1500 : 1000
 
     const result = await sql`
         INSERT INTO orders (
@@ -154,7 +236,7 @@ export async function dbCreateOrder(orderData: any) {
             ${orderData.fio}, ${orderData.phone}, ${orderData.email}, 
             ${orderData.date}, ${orderData.time}, ${orderData.consent_pd}, 
             ${orderData.consent_promo}, ${orderData.verification_code},  
-            true, true, ${orderData.price}, false
+            true, true, ${price}, false
         ) RETURNING id
     `
     return result[0].id

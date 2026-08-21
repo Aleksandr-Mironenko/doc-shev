@@ -1,0 +1,35 @@
+.createButton {
+    padding: 8px 16px;
+    background-color: #111827;
+    color: #ffffff;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        opacity: 0.9;
+        transform: scale(0.98);
+    }
+}
+
+.wrapper {
+    width: 100%;
+
+    // min-width: 626px;
+    // position: relative;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 90px;
+    right: 10px;
+    z-index: 5;
+}

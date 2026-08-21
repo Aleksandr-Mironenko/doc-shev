@@ -1,0 +1,58 @@
+:global(html),
+:global(body) {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    background-color: rgba(194, 203, 219, 1);
+
+    /* Главное изменение: теперь блок минимум во весь экран */
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh; /* Корректная высота под мобильные браузеры */
+    box-sizing: border-box; /* Чтобы padding не ломал ширину */
+
+    padding: 30px 30px 30px 40px;
+    color: black;
+    min-width: 420px;
+
+    @media (max-width: 400px) {
+        padding: calc((100vw - 340px) / 1.5);
+    }
+    @media (max-width: 360px) {
+        padding: 10px;
+    }
+}
+
+.wrapper {
+    /* background-color: rgba(255, 255, 255, 0.2); */
+
+    /* Растягиваем wrapper на всю доступную высоту внутри main */
+    width: 100%;
+    min-height: calc(
+        100vh - 60px
+    ); /* Вычитаем верхний и нижний padding main (30px + 30px) */
+    position: relative;
+    border-radius: 20px;
+    max-width: 1800px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}

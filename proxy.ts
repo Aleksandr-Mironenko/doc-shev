@@ -3,7 +3,7 @@
 
 // function sign(value: string) {
 //   return crypto
-//     .createHmac("sha256", process.env.SESSION_SECRET!)
+//     .createHmac("sha256", process..SESSION_SECRET!)
 //     .update(value)
 //     .digest("hex")
 // }
