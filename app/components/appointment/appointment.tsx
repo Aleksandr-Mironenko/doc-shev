@@ -298,8 +298,8 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         'Ошибка при обращении к finalize-payment:',
                         error,
                         //console.log(
-                            'Ошибка при обращении к finalize-payment: 293',
-                        ),
+                        //     'Ошибка при обращении к finalize-payment: 293',
+                        // ),
                     )
                     alert(
                         'Произошла ошибка при подтверждении оплаты. Пожалуйста, обратитесь в поддержку.',
