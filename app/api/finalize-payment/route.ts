@@ -8,11 +8,10 @@ import serviceCreateMtsLink from '@/app/services/servicesCreateMtslLnk'
 import sendEmail from '@/app/services/serviceSendEmail'
 //5
 export async function POST(request: Request) {
-    console.log('финал')
     try {
         const body = await request.json()
         const { isPaymentSuccess, orderId } = body
-        console.log(body)
+        // console.log(body)
         // { isPaymentSuccess: true, orderId: null }
         if (!isPaymentSuccess) {
             return NextResponse.json(
@@ -27,7 +26,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-        console.log(orderId)
+        // console.log(orderId)
         // 1. Получаем данные заказа по ID
         const orderData = await dbGetOrderById(orderId)
         if (!orderData.success || !orderData.data) {

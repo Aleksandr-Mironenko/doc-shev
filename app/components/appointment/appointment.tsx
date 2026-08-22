@@ -259,17 +259,17 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     useEffect(() => {
         const handleIframeMessage = async (event: MessageEvent) => {
             // Проверяем, что пришло именно наше сообщение об успехе
-            console.log(262)
+            //console.log(262)
             if (event.data && event.data.type === 'payment_success') {
                 const invId = event.data.InvId
-                console.log(265)
+                //console.log(265)
                 // Оплата прошла, переводим пользователя на экран успеха
                 // Очищаем таймер брони, так как оплата прошла успешно
                 clearReservationTimer()
-                console.log('payment_success 265')
+                //console.log('payment_success 265')
 
                 try {
-                    console.log(272) // Вызываем эндпоинт финализации оплаты
+                    //console.log(272) // Вызываем эндпоинт финализации оплаты
                     const response = await fetch('/api/finalize-payment', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -278,16 +278,16 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                             orderId: invId, // Убедитесь, что в стейте компонента хранится ID текущего заказа
                         }),
                     })
-                    console.log('response 276', response)
-                    console.log(82)
+                    //console.log('response 276', response)
+                    //console.log(82)
                     const result = await response.json()
-                    console.log('result 279', result)
+                    //console.log('result 279', result)
                     if (result.success) {
                         // Переводим пользователя на экран успеха только после успешного выполнения всех серверных задач
                         setTimeout(() => {
                             setModalStep(5)
                         }, 15000)
-                        console.log('setModalStep 284')
+                        //console.log('setModalStep 284')
                     } else {
                         alert(
                             result.message || 'Ошибка при финализации оплаты.',
@@ -297,7 +297,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                     console.error(
                         'Ошибка при обращении к finalize-payment:',
                         error,
-                        console.log(
+                        //console.log(
                             'Ошибка при обращении к finalize-payment: 293',
                         ),
                     )
@@ -307,9 +307,9 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                 }
 
                 // finalize-payment
-                console.log(310)
+                //console.log(310)
                 setModalStep(5)
-                console.log()
+                //console.log()
             } else if (event.data === 'payment_fail') {
                 // Выводим уведомление. Клиент при этом остается на modalStep === 4
                 setModalStep(2)
@@ -341,8 +341,8 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
 
     const handleTimeClick = (time: string) => {
         setSelectedTime(time)
-        console.log(time) //onClick={()=>handleConfirmTime()}
-        console.log(typeof time)
+        //console.log(time) //onClick={()=>handleConfirmTime()}
+        //console.log(typeof time)
         setModalStep(1)
     }
 
@@ -397,7 +397,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                 // fetchAvailableTimes()
             }
         } catch (error) {
-            console.log(7)
+            //console.log(7)
             console.error('Ошибка при проверке времени:', error)
             alert('Произошла ошибка при выборе времени. Попробуйте еще раз.')
         }
@@ -562,7 +562,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
             }
         }, 0)
     }
-    console.log('selectedTime', selectedTime)
+    //console.log('selectedTime', selectedTime)
     return (
         <div className={styles.wrapper}>
             {/* НОВЫЕ БЛОКИ: Рендерятся ПЕРЕД календарем, чтобы появляться левее */}

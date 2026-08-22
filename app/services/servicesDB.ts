@@ -289,7 +289,7 @@ export async function dbGetOrderById(orderId: number) {
 // Обновление статуса оплаты и получение сгенерированной ссылки из БД
 export async function dbUpdatePaymentAndLink(orderId: number) {
     try {
-        console.log(orderId)
+        //console.log(orderId)
         const result = await sql`
             UPDATE orders 
             SET payment = true
@@ -338,14 +338,14 @@ export async function dbGetLinkByRoomId(roomId: string) {
         const isoString = `${row.date}T${row.time}:00+03:00`
         const startTime = new Date(isoString)
         const now = new Date()
-        console.log('startTime 259', startTime)
-        console.log('now 260', now)
+        //console.log('startTime 259', startTime)
+        //console.log('now 260', now)
         // 2. Временные рамки
         const durationMinutes = 60
         const endTime = new Date(startTime.getTime() + durationMinutes * 60000)
         const allowedStartTime = new Date(startTime.getTime() - 5 * 60000)
-        console.log('endTime 265', endTime)
-        console.log('allowedStartTime 266', allowedStartTime)
+        //console.log('endTime 265', endTime)
+        //console.log('allowedStartTime 266', allowedStartTime)
         let status: 'too_early' | 'active' | 'expired' = 'active'
 
         if (now < allowedStartTime) {
@@ -353,7 +353,7 @@ export async function dbGetLinkByRoomId(roomId: string) {
         } else if (now > endTime) {
             status = 'expired'
         }
-        console.log('status 274', status)
+        //console.log('status 274', status)
         return {
             success: true,
             data: {

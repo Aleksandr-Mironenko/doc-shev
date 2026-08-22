@@ -222,10 +222,10 @@ const App = ({
          * Клик по дате следующего месяца
          */
         if (isNextMonth) {
-            console.log(
-                'Переход к следующему месяцу:',
-                date.startOf('month').format('YYYY-MM-DD'),
-            )
+            //console.log(
+            //     'Переход к следующему месяцу:',
+            //     date.startOf('month').format('YYYY-MM-DD'),
+            // )
 
             changeMonth(date.startOf('month'), 'next')
 
@@ -236,10 +236,10 @@ const App = ({
          * Клик по дате прошлого месяца
          */
         if (!isCurrentMonth) {
-            console.log(
-                'Клик по дате прошлого месяца:',
-                date.format('YYYY-MM-DD'),
-            )
+            //console.log(
+            //     'Клик по дате прошлого месяца:',
+            //     date.format('YYYY-MM-DD'),
+            // )
 
             return
         }
@@ -248,10 +248,10 @@ const App = ({
          * Красная дата
          */
         if (!isAvailable) {
-            console.log(
-                'Дата недоступна для записи:',
-                date.format('YYYY-MM-DD'),
-            )
+            //console.log(
+            //     'Дата недоступна для записи:',
+            //     date.format('YYYY-MM-DD'),
+            // )
 
             return
         }
@@ -262,9 +262,9 @@ const App = ({
         setIsSelected(true)
         userSelectedDate(date)
 
-        console.log('Дата выбрана:', date.format('YYYY-MM-DD'))
-        console.log('isSelected:', true)
-        console.log('selectedDate:', date.format('YYYY-MM-DD'))
+        //console.log('Дата выбрана:', date.format('YYYY-MM-DD'))
+        //console.log('isSelected:', true)
+        //console.log('selectedDate:', date.format('YYYY-MM-DD'))
     }
 
     /*

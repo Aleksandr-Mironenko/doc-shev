@@ -31,9 +31,7 @@ export default function LoginForm() {
       setLoading(false)
     }
   }
-  console.log(typeof login, typeof password)
-  console.log(login, password)
-
+   
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>

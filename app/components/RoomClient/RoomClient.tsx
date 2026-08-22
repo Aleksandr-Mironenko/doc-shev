@@ -191,7 +191,6 @@ export default function RoomClient({
             </div>
         )
     }
-    console.log(hasAuthCookie)
     return hasAuthCookie ? (
         <button
             onClick={() => {

@@ -63,7 +63,7 @@ export async function submitClientFormAction(formData: {
 
         await results.forEach((result, index) => {
             if (result.status === 'rejected') {
-                console.log('Ошибка в send-code:', index, result.reason)
+                // console.log('Ошибка в send-code:', index, result.reason)
             }
         })
         return { success: true }
@@ -164,11 +164,11 @@ export async function finalizePaymentAndOrderAction(
 
         results.forEach((result, index) => {
             if (result.status === 'rejected') {
-                console.log(
-                    'Ошибка при отправке письма с ссылкой:',
-                    index,
-                    result.reason,
-                )
+                // console.log(
+                //     'Ошибка при отправке письма с ссылкой:',
+                //     index,
+                //     result.reason,
+                // )
             }
         })
 

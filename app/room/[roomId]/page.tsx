@@ -15,7 +15,7 @@ export default async function RoomPage({ params }: PageProps) {
 
     // Запрос к БД на сервере
     const res = await dbGetLinkByRoomId(roomId)
-    console.log('RoomPage 14', res)
+    // console.log('RoomPage 14', res)
     if (!res.success || !res.data) {
         notFound() // Отобразит страницу 404
     }

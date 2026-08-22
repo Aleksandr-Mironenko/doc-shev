@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         const results = await Promise.allSettled(tasks)
         results.forEach((result, index) => {
             if (result.status === 'rejected') {
-                console.log('Ошибка в send-code:', index, result.reason)
+              //  console.log('Ошибка в send-code:', index, result.reason)
             }
         })
 
