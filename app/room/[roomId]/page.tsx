@@ -13,15 +13,12 @@ interface PageProps {
 export default async function RoomPage({ params }: PageProps) {
     const { roomId } = await params
 
-    // Запрос к БД на сервере
     const res = await dbGetLinkByRoomId(roomId)
-    // console.log('RoomPage 14', res)
+
     if (!res.success || !res.data) {
         notFound() // Отобразит страницу 404
     }
-    // const hasAuthCookie = document.cookie
-    //     .split('; ')
-    //     .some((item) => item.startsWith('auth'))
+
     const cookieStore = cookies()
     const hasAuthCookie = (await cookieStore).has('auth')
     const { fio, status, startTime } = res.data
@@ -37,6 +34,7 @@ export default async function RoomPage({ params }: PageProps) {
                     initialStatus={status}
                     startTime={startTime}
                 />
+                <div style={{ flex: 1 }}></div>
                 <Footer />
             </div>
         </main>

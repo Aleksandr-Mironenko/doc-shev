@@ -18,16 +18,24 @@ export async function POST(request: Request) {
         // Запрашиваем БД
         const result = await dbGetSucsessbyRoomId(roomId)
 
-        if (result.success && result.link && result.clientId) {
+        if (
+            result.success &&
+            result.link &&
+            result.clientId &&
+            result.phone &&
+            result.email
+        ) {
             return NextResponse.json({
                 success: true,
                 link: result.link,
                 clientId: result.clientId,
+                phone: result.phone,
+                email: result.email,
             })
         } else {
             // Если заказ не найден (неверный код или email)
             return NextResponse.json(
-                { success: false, error: 'Неверный email или код' },
+                { success: false, error: 'Заказ не найден' },
                 { status: 401 },
             )
         }

@@ -433,7 +433,7 @@ export async function dbGetSucsessbyRoomId(roomId: string) {
         const client =
             order.length > 0
                 ? await sql`
-                SELECT id
+                SELECT id  
                 FROM all_clients
                 WHERE phone = ${order[0].phone} AND email = ${order[0].email}
             `
@@ -444,6 +444,8 @@ export async function dbGetSucsessbyRoomId(roomId: string) {
                   success: true,
                   link: order[0].link as string,
                   clientId: client[0].id,
+                  phone: order[0].phone,
+                  email: order[0].email,
               }
             : { success: false }
     } catch (error) {
@@ -451,6 +453,7 @@ export async function dbGetSucsessbyRoomId(roomId: string) {
         return { success: false }
     }
 }
+
 export async function dbGetСommentInClient(id: string) {
     try {
         const res = await sql`

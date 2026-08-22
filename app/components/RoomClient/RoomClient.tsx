@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import VideoCall from '@/app/components/VideoCall/VideoCall'
 import OrderButton from '../orderButton/orderButton'
 import CommentClient from '../CommentClient/CommentClient'
+import MessageClient from '../MessageClient/MessageClient'
 
 interface RoomClientProps {
     hasAuthCookie: boolean
@@ -24,6 +25,7 @@ export default function RoomClient({
     const [videoLink, setVideoLink] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [email, setEmail] = useState<string>('')
+    const [phone, setPhone] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [clientId, setClientId] = useState<string>('')
 
@@ -36,7 +38,7 @@ export default function RoomClient({
                 <h1>Здравствуйте, {fio}! 👋</h1>
                 <p>Ваша консультация еще не началась.</p>
                 <p>
-                    Ждем вас:{' '}
+                    Ждем вас:
                     <strong>
                         {new Date(startTime).toLocaleString('ru-RU')}
                     </strong>
@@ -84,6 +86,7 @@ export default function RoomClient({
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    fio,
                     roomId,
                     email: email.trim(), // Убираем случайные пробелы
                     password: password.trim(), // Убираем случайные пробелы
@@ -123,10 +126,18 @@ export default function RoomClient({
 
             const result = await res.json()
 
-            if (result.success && result.link && result.clientId) {
+            if (
+                result.success &&
+                result.link &&
+                result.clientId &&
+                result.phone &&
+                result.email
+            ) {
                 setVideoLink(result.link)
                 setIsConfirmed(true)
                 setClientId(result.clientId)
+                setPhone(result.phone)
+                setEmail(result.email)
             } else {
                 // Выводим текст ошибки с бэкенда (например: "Неверный email или код")
                 alert(result.error || 'Не удалось получить ссылку для входа')
@@ -147,23 +158,30 @@ export default function RoomClient({
                 style={{ width: '100vw', margin: '20px auto' }}
             >
                 {hasAuthCookie ? (
-                    <h2 style={{ textAlign: 'center' }}>Клиент: {fio}</h2>
+                    <div style={{ textAlign: 'center' }}>
+                        <h2>Клиент: {fio}</h2>
+                        <p>Его номер телефона {phone}</p>
+                    </div>
                 ) : (
                     <>
                         <h2 style={{ textAlign: 'center' }}>
-                            Консультант: Шитова Екатерина Вадимовна{' '}
+                            Консультант:<b> Шитова Екатерина Вадимовна</b>{' '}
                         </h2>
                         <h2 style={{ textAlign: 'center' }}>
-                            Здравствуйте, {fio}!
+                            Здравствуйте, <b>{fio}</b>!
                         </h2>
                     </>
                 )}
+                {hasAuthCookie && <CommentClient clientId={clientId} />}
                 <VideoCall roomUuid={roomId} link={videoLink} />
                 {hasAuthCookie ? (
-                    <CommentClient clientId={clientId} />
+                    <MessageClient email={email} fio={fio} />
                 ) : (
                     <div
                         style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '10px',
                             backgroundColor: 'white',
                             margin: '10px auto',
                             padding: '7px',
@@ -182,9 +200,10 @@ export default function RoomClient({
                             для точного ответа по вашему основному вопросу)
                         </p>
                         <p>Они не являются обязательными к предоставлению.</p>
+                        <p>Они не записываются и не архивируются на сервере.</p>
                         <p>
-                            {' '}
-                            Они не записываются и не архивируются на сервере.
+                            После консультации вам придет сообщение с краткой
+                            дополнительной информацией.
                         </p>
                     </div>
                 )}
@@ -193,6 +212,13 @@ export default function RoomClient({
     }
     return hasAuthCookie ? (
         <button
+            style={{
+                textAlign: 'center',
+                backgroundColor: 'white',
+                margin: '10px auto',
+                padding: '7px',
+                borderRadius: '7px',
+            }}
             onClick={() => {
                 handleAdmin()
             }}

@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         const password = body?.password?.trim()
 
         const envLogin = process.env.ADMIN_LOGIN
-        // const envHash = process.env.ADMIN_PASSWORD_HASH    //..локально
+        // const envHash = process.env.ADMIN_PASSWORD_HASH //..локально
         const envHash = '$2b$10$XjO' + process.env.ADMIN_PASSWORD_HASH //..хост
         // проверка env
         if (!envLogin || !envHash) {
@@ -19,11 +19,6 @@ export async function POST(req: Request) {
                 { status: 500 },
             )
         }
-        console.log('password', password)
-
-        console.log('envHash', envHash)
-        console.log('login', login)
-        console.log('envLogin', envLogin)
 
         // проверка логина
         if (login !== envLogin) {
@@ -36,16 +31,13 @@ export async function POST(req: Request) {
         // проверка пароля
         const isValid = await bcrypt.compare(password, envHash)
 
-        console.log(isValid)
         if (!isValid) {
             return NextResponse.json(
                 { error: 'invalid password' },
                 { status: 401 },
             )
         }
-        console.log('envHash JSON:', JSON.stringify(envHash))
 
-        console.log('password JSON:', JSON.stringify(password))
         // создаём signed token
         const token = await sign('admin')
 

@@ -1,13 +1,19 @@
 import { NextResponse } from 'next/server'
-import { dbGeSucsessbyPassworsEmail } from '@/app/services/servicesDB' // Укажите правильный путь
+import {
+    dbGeSucsessbyPassworsEmail,
+    dbUpdateDataLastConsultAndCounterConsult,
+} from '@/app/services/servicesDB' // Укажите правильный путь
+import { dbGetSucsessbyRoomId } from '@/app/services/adminServices'
+import sendEmail from '@/app/services/serviceSendEmail'
 
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const { roomId, email, password } = body
+        const { roomId, email, password, fio } = body
 
+        console.log(roomId, email, password, fio)
         // Базовая валидация: проверяем, что все поля переданы
-        if (!roomId || !email || !password) {
+        if (!roomId || !email || !password || !fio) {
             return NextResponse.json(
                 { success: false, error: 'Заполните все поля' },
                 { status: 400 },
@@ -22,6 +28,50 @@ export async function POST(request: Request) {
             email,
             numericPassword,
             roomId,
+        )
+
+        const client = await dbGetSucsessbyRoomId(roomId)
+
+        if (!client.success || !client.clientId) {
+            return NextResponse.json(
+                { success: false, error: 'clientId не найден' },
+                { status: 401 },
+            )
+        }
+
+        const updateClient = await dbUpdateDataLastConsultAndCounterConsult(
+            client.clientId,
+        )
+        if (!updateClient.success) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: 'Счетчик и последний вход клиента обновить не удалось',
+                },
+                { status: 500 },
+            )
+        }
+
+        const escapeHtml = (text: string) => {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+        }
+        const safeFio = escapeHtml(fio)
+
+        const emailHtml = `
+            <h2>Встреча началась и ${safeFio} подключился!</h2>
+            <p>Прямая ссылка ${result.link} </p>       
+        `
+
+        await sendEmail(
+            email,
+            'Консультация началась',
+            emailHtml,
+            'Консультация началась doctor-shev',
         )
 
         if (result.success && result.link) {

@@ -68,10 +68,18 @@ export async function POST(request: Request) {
                 { status: 500 },
             )
         }
-
+        const escapeHtml = (fio: string) => {
+            return fio
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+        }
+        const safeFio = escapeHtml(fio)
         // 5. Отправляем письмо с подтверждением и ссылкой
         const emailHtml = `
-            <h2>Здравствуйте, ${fio}!</h2>
+            <h2>Здравствуйте, ${safeFio}!</h2>
             <p>Ваша консультация успешно оплачена и подтверждена.</p>
             <p><strong>Дата:</strong> ${date}</p>
             <p><strong>Время:</strong> ${time}</p>

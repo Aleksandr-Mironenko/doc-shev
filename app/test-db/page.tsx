@@ -355,6 +355,12 @@ export default async function TestDBPage() {
         //         await sql`
         // DELETE FROM all_clients
         // WHERE email = 'sanek.miron2@gmail.com';`
+
+        //         await sql`
+        //   ALTER TABLE all_clients
+        //   ADD COLUMN IF NOT EXISTS data_last_consult DATE,
+        //   ADD COLUMN IF NOT EXISTS counter_consult INTEGER DEFAULT 0;
+        // `
         isSuccess = true
     } catch (error) {
         // Если что-то пошло не так (например, неверный пароль в .env.local)

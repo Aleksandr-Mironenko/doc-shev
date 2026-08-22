@@ -30,19 +30,19 @@ const checkTimeAvailability = async (
     })
 }
 
-const sendVerificationEmail = async (email: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), 1000)
-    })
-}
+// const sendVerificationEmail = async (email: string): Promise<boolean> => {
+//     return new Promise((resolve) => {
+//         setTimeout(() => resolve(true), 1000)
+//     })
+// }
 
-const verifyCodeAndProcessPayment = async (code: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(code.length > 3)
-        }, 1500)
-    })
-}
+// const verifyCodeAndProcessPayment = async (code: string): Promise<boolean> => {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve(code.length > 3)
+//         }, 1500)
+//     })
+// }
 type Product = 'consult' | 'manyConsult'
 
 interface AppProps {
@@ -75,7 +75,8 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     const reservationTimerRef = useRef<NodeJS.Timeout | null>(null)
     const reservedSlotRef = useRef<{ date: string; time: string } | null>(null)
 
-    // Вспомогательная функция для сброса таймера
+    const [consent_pd, setConsent_pd] = useState(false)
+    const [consent_promo, setConsent_promo] = useState(false)
 
     // Освобождение времени на бэкенде
     const cancelReservationOnServer = () => {
@@ -173,17 +174,13 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
 
                 const result = await response.json()
 
-                if (!ignore) {
-                    if (result.success && Array.isArray(result.dates)) {
-                        // Преобразуем входящие строки YYYY-MM-DD в объекты dayjs
-                        const dayjsDates = result.dates.map((dateStr: string) =>
-                            dayjs(dateStr),
-                        )
-                        setDates(dayjsDates)
-                    } else {
-                        setDates([])
-                    }
-                }
+                const today = dayjs().startOf('day')
+
+                const dayjsDates = result.dates
+                    .map((dateStr: string) => dayjs(dateStr))
+                    .filter((date) => !date.isBefore(today, 'day'))
+
+                setDates(dayjsDates)
             } catch (error) {
                 console.error('Ошибка при загрузке дат:', error)
                 if (!ignore) {
@@ -204,6 +201,57 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
     }, [])
 
     //поиск времени по дате
+    // useEffect(() => {
+    //     let ignore = false
+
+    //     if (isSelected && selectedDate) {
+    //         setIsTimesLoading(true)
+    //         setSelectedTime(null)
+
+    //         // Явно форматируем в YYYY-MM-DD, чтобы избежать UTC-сдвигов
+    //         const formattedDate = selectedDate.format('YYYY-MM-DD')
+
+    //         const fetchAvailableTimes = async () => {
+    //             try {
+    //                 const response = await fetch('/api/times', {
+    //                     method: 'POST',
+    //                     headers: { 'Content-Type': 'application/json' },
+    //                     body: JSON.stringify({ date: formattedDate }),
+    //                 })
+
+    //                 if (!response.ok) {
+    //                     throw new Error(
+    //                         `HTTP error! status: ${response.status}`,
+    //                     )
+    //                 }
+
+    //                 const result = await response.json()
+
+    //                 if (!result.success) {
+    //                     throw new Error(result.message || 'Ошибка на сервере')
+    //                 }
+
+    //                 if (!ignore) {
+    //                     setAvailableTimes(result.times)
+    //                 }
+    //             } catch (err) {
+    //                 if (!ignore) {
+    //                     console.error('Ошибка при получении времени:', err)
+    //                 }
+    //             } finally {
+    //                 if (!ignore) {
+    //                     setIsTimesLoading(false)
+    //                 }
+    //             }
+    //         }
+
+    //         fetchAvailableTimes()
+    //     }
+
+    //     return () => {
+    //         ignore = true // Защита от race condition: игнорируем ответ, если дата изменилась до его получения
+    //     }
+    // }, [selectedDate, isSelected])
     useEffect(() => {
         let ignore = false
 
@@ -211,15 +259,18 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
             setIsTimesLoading(true)
             setSelectedTime(null)
 
-            // Явно форматируем в YYYY-MM-DD, чтобы избежать UTC-сдвигов
             const formattedDate = selectedDate.format('YYYY-MM-DD')
 
             const fetchAvailableTimes = async () => {
                 try {
                     const response = await fetch('/api/times', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ date: formattedDate }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            date: formattedDate,
+                        }),
                     })
 
                     if (!response.ok) {
@@ -235,11 +286,36 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                     }
 
                     if (!ignore) {
-                        setAvailableTimes(result.times)
+                        const times = Array.isArray(result.times)
+                            ? result.times
+                            : []
+
+                        const now = dayjs()
+
+                        const filteredTimes = times.filter((time: string) => {
+                            // Будущие даты — все времена доступны
+                            if (!selectedDate.isSame(now, 'day')) {
+                                return true
+                            }
+
+                            const [hours, minutes] = time.split(':').map(Number)
+
+                            const slotDateTime = selectedDate
+                                .hour(hours)
+                                .minute(minutes)
+                                .second(0)
+                                .millisecond(0)
+
+                            // До начала должно быть минимум 30 минут
+                            return slotDateTime.diff(now) >= 30 * 60 * 1000
+                        })
+
+                        setAvailableTimes(filteredTimes)
                     }
                 } catch (err) {
                     if (!ignore) {
                         console.error('Ошибка при получении времени:', err)
+                        setAvailableTimes([])
                     }
                 } finally {
                     if (!ignore) {
@@ -252,7 +328,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
         }
 
         return () => {
-            ignore = true // Защита от race condition: игнорируем ответ, если дата изменилась до его получения
+            ignore = true
         }
     }, [selectedDate, isSelected])
 
@@ -306,8 +382,6 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                     )
                 }
 
-                // finalize-payment
-                //console.log(310)
                 setModalStep(5)
                 //console.log()
             } else if (event.data === 'payment_fail') {
@@ -425,6 +499,19 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
             alert('Пожалуйста, заполните все поля')
             return
         }
+        if (
+            !formData.name.trim() ||
+            !formData.email.trim() ||
+            !formData.phone.trim()
+        ) {
+            alert('Заполните все обязательные поля')
+            return
+        }
+
+        if (!consent_pd) {
+            alert('Необходимо дать согласие')
+            return
+        }
 
         setIsActionLoading(true)
 
@@ -496,8 +583,8 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         date: formattedDate,
                         time: formattedTime,
                         // Замените эти значения на актуальные из вашей формы/состояния
-                        consent_pd: true, // Согласие на обработку ПД
-                        consent_promo: true, // Согласие на рассылку (если есть)
+                        consent_pd: consent_pd, // Согласие на обработку ПД
+                        consent_promo: consent_promo, // Согласие на рассылку (если есть)
                         price: price, // Ваша цена услуги (константа или из состояния)
                     },
                 }),
@@ -735,6 +822,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                 >
                     <div
                         style={{
+                            zIndex: 9999999999999999,
                             backgroundColor: '#fff',
                             borderRadius: 24,
                             padding: '32px',
@@ -891,7 +979,80 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                                         fontSize: 16,
                                     }}
                                 />
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 12,
+                                        marginTop: 4,
+                                    }}
+                                >
+                                    <label
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            gap: 10,
+                                            cursor: 'pointer',
+                                            fontSize: 13,
+                                            lineHeight: 1.4,
+                                            color: '#555',
+                                        }}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={consent_promo}
+                                            onChange={(e) =>
+                                                setConsent_promo(
+                                                    e.target.checked,
+                                                )
+                                            }
+                                            style={{
+                                                width: 18,
+                                                height: 18,
+                                                marginTop: 1,
+                                                flexShrink: 0,
+                                                cursor: 'pointer',
+                                            }}
+                                        />
 
+                                        <span>
+                                            Согласен(на) на получение
+                                            информационных рассылок
+                                        </span>
+                                    </label>
+
+                                    <label
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            gap: 10,
+                                            cursor: 'pointer',
+                                            fontSize: 13,
+                                            lineHeight: 1.4,
+                                            color: '#555',
+                                        }}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={consent_pd}
+                                            onChange={(e) =>
+                                                setConsent_pd(e.target.checked)
+                                            }
+                                            style={{
+                                                width: 18,
+                                                height: 18,
+                                                marginTop: 1,
+                                                flexShrink: 0,
+                                                cursor: 'pointer',
+                                            }}
+                                        />
+
+                                        <span>
+                                            Согласен(на) на обработку
+                                            персональных данных
+                                        </span>
+                                    </label>
+                                </div>
                                 <button
                                     onClick={handleFormSubmit}
                                     disabled={isActionLoading}

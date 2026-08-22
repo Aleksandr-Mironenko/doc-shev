@@ -88,29 +88,61 @@ export default function CommentClient({ clientId }: { clientId: string }) {
     return (
         <div
             style={{
-                width: '80%',
-                textAlign: 'center',
+                margin: '15px',
                 backgroundColor: 'white',
-                margin: '10px auto',
-                padding: '7px',
+                display: 'flex',
+
                 borderRadius: '7px',
             }}
         >
-            <h2>
-                <b>Комментарий клиенту:</b>
-            </h2>
-            <textarea
-                value={comment}
-                rows={4}
-                onChange={(e) => setComment(e.target.value)}
+            <div
                 style={{
-                    width: '80%',
-                    backgroundColor: 'white',
-                    margin: '10px',
+                    width: '40%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    backgroundColor: 'rgba(255,255,255,0,8',
+                    margin: '10px auto',
                     padding: '7px',
                     borderRadius: '7px',
                 }}
-            ></textarea>
+            >
+                <h2>
+                    <b>Не забудь сказать</b>{' '}
+                </h2>
+                <p>
+                    В ходе консультации я заполняю комментарий, чтобы отправить
+                    его вам.
+                </p>
+                <p>Вы можете слышать звук печатанья клавиатуры</p>
+                <p>Для вас останется краткое напоминание</p>
+            </div>
+            <div
+                style={{
+                    width: '60%',
+                    backgroundColor: 'white',
+                    margin: '10px auto',
+                    padding: '7px',
+                    borderRadius: '7px',
+                }}
+            >
+                <h2>
+                    <b style={{ marginRight: '10px' }}>Комментарий для себя:</b>
+                </h2>
+                <textarea
+                    value={comment}
+                    rows={4}
+                    onChange={(e) => setComment(e.target.value)}
+                    style={{
+                        border: '2px solid rgba(0,0,0,0.7)',
+                        width: '95%',
+                        backgroundColor: 'white',
+                        margin: '10px',
+                        padding: '7px',
+                        borderRadius: '7px',
+                    }}
+                ></textarea>
+            </div>
         </div>
     )
 }

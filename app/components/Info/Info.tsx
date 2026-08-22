@@ -18,15 +18,30 @@ export default function Info() {
                     className={`${styles.info__content_text} ${styles.info__content_boxes}`}
                 >
                     <h2 className={styles.info__content_head}>Обо мне</h2>
-                    <div>
+                    {/* <div>
                         <p>
                             Ведущий врач терапевт в крупнейшей цифровой клинике.
                         </p>
                         <p>Опыт дистанционной работы 2 года.</p>
                         <p>Подробнее →</p>
+                    </div> */}
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '15px',
+                        }}
+                    >
+                        <p>Помогаю разобраться в непонятном и на всех этапах</p>
+                        <p>
+                            Два года практики, включая пять месяцев в роли
+                            ведущего врача-терапевта и руководителя команды
+                            более чем 30 врачей.
+                        </p>
+                        <p>Подробнее →</p>
                     </div>
 
-                    <div className={styles.info__content_three}>
+                    {/* <div className={styles.info__content_three}>
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
@@ -41,20 +56,7 @@ export default function Info() {
                                 Доказательные методы лечения
                             </p>
                         </div>
-                        {/* <div className={styles.info__content_box}>
-                            <Image
-                                className={styles.logo__str}
-                                src={peaple}
-                                alt=""
-                                width={20}
-                                height={20}
-                                priority
-                                style={{ width: '30px', height: '30px' }}
-                            />
-                            <p className={styles.info__content_boxtext}>
-                                Индивидуальный подход
-                            </p>
-                        </div> */}
+                        
                         <div className={styles.info__content_box}>
                             <Image
                                 className={styles.logo__str}
@@ -69,7 +71,7 @@ export default function Info() {
                                 Поддержка на всех этапах
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.info__content_boxes}>
                     <div className={styles.info__content_items}>
@@ -94,7 +96,19 @@ export default function Info() {
                             <Image
                                 className={styles.logo__str}
                                 src={ok}
-                                alt="Логотип компании"
+                                alt=""
+                                width={25}
+                                height={25}
+                                priority
+                                style={{ width: '25px', height: '25px' }}
+                            />
+                            <p>Доказательная медицина</p>
+                        </div>
+                        <div className={styles.info__content_item}>
+                            <Image
+                                className={styles.logo__str}
+                                src={ok}
+                                alt=""
                                 width={25}
                                 height={25}
                                 priority
@@ -106,7 +120,7 @@ export default function Info() {
                             <Image
                                 className={styles.logo__str}
                                 src={ok}
-                                alt="Логотип компании"
+                                alt=""
                                 width={25}
                                 height={25}
                                 priority

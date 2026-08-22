@@ -20,10 +20,9 @@ export default async function retry<T>(
     //отправка сообщения об ошибке
     await sendEmail(
         'sanek.miron2@gmail.com',
-        `Ошибка при записи в таблицу проверки кода`,
-        `<p>Возникла ошибка при выполнении: ${lastError}
-    нужно обратить внимание. Возможно создать заказ невозможно.</p>`,
-        'BOR_FOOD',
+        `Ошибка в doc.shev`,
+        `<p>Возникла ошибка при выполнении: ${lastError}. Нужно срочно дебажить.</p>`,
+        'doc.shev',
     )
     throw lastError
 }

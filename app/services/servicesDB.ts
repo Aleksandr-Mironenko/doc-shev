@@ -83,8 +83,6 @@ export async function dbNullSpecificTime(
             WHERE data = ${dateString} AND time = ${timeString}
         `
 
-        // 2. В большинстве SQL-библиотек (включая pg и @vercel/postgres)
-        // количество затронутых строк хранится в свойстве rowCount, а не length.
         if (result.length === 0) {
             return {
                 success: false,
@@ -139,8 +137,8 @@ export async function dbCreateClient(
     // 2. Нет ни телефона, ни email
     if (clients.length === 0) {
         await sql`
-            INSERT INTO all_clients (fio, phone, email)
-            VALUES (${fio}, ${phone}, ${email})
+            INSERT INTO all_clients (fio, phone, email, data_last_consult, counter_consult)
+            VALUES (${fio}, ${phone}, ${email}, null, 0) 
         `
 
         return
@@ -390,5 +388,37 @@ export async function dbGeSucsessbyPassworsEmail(
     } catch (error) {
         console.error('Ошибка поиска заказа в БД:', error)
         return { success: false }
+    }
+}
+
+export async function dbUpdateDataLastConsultAndCounterConsult(id: number) {
+    try {
+        const result = await sql`
+            UPDATE all_clients
+            SET
+                counter_consult = COALESCE(counter_consult, 0) + 1,
+                data_last_consult = CURRENT_DATE
+            WHERE id = ${id}
+            RETURNING id, counter_consult, data_last_consult
+        `
+
+        if (result.length === 0) {
+            return {
+                success: false,
+                message: 'Клиент не найден',
+            }
+        }
+
+        return {
+            success: true,
+            message: 'дата последнего обращения и счетчик обновлены',
+        }
+    } catch (error) {
+        console.error('Ошибка обновления даты и счётчика консультаций:', error)
+
+        return {
+            success: false,
+            message: 'Ошибка при обновлении клиента',
+        }
     }
 }
