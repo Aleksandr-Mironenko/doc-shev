@@ -22,8 +22,8 @@ export async function POST(req: Request) {
         console.log('password', password)
 
         console.log('envHash', envHash)
-        console.log('login')
-        console.log('envLogin')
+        console.log('login', login)
+        console.log('envLogin', envLogin)
 
         // проверка логина
         if (login !== envLogin) {
