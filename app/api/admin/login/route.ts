@@ -10,8 +10,8 @@ export async function POST(req: Request) {
         const password = body?.password?.trim()
 
         const envLogin = process.env.ADMIN_LOGIN
-        const envHash = process.env.ADMIN_PASSWORD_HASH
-
+        // const envHash = process.env.ADMIN_PASSWORD_HASH    //..локально
+        const envHash = '$2b$10$XjO' + process.env.ADMIN_PASSWORD_HASH //..хост
         // проверка env
         if (!envLogin || !envHash) {
             return NextResponse.json(
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
 
         // проверка пароля
         const isValid = await bcrypt.compare(password, envHash)
+
         console.log(isValid)
         if (!isValid) {
             return NextResponse.json(
