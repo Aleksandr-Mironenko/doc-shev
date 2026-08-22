@@ -174,11 +174,21 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
 
                 const result = await response.json()
 
-                const today = dayjs().startOf('day')
+                if (!ignore) {
+                    if (result.success && Array.isArray(result.dates)) {
+                        const today = dayjs().startOf('day')
 
-                const dayjsDates = result.dates
-                    .map((dateStr: string) => dayjs(dateStr))
-                    .filter((date) => !date.isBefore(today, 'day'))
+                        const dayjsDates = result.dates
+                            .map((dateStr: string) => dayjs(dateStr))
+                            .filter(
+                                (date: Dayjs) => !date.isBefore(today, 'day'),
+                            )
+
+                        setDates(dayjsDates)
+                    } else {
+                        setDates([])
+                    }
+                }
 
                 setDates(dayjsDates)
             } catch (error) {
