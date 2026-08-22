@@ -25,7 +25,10 @@ export default function LoginForm() {
       if (!res.ok) throw new Error('Неверный логин или пароль')
 
       window.location.href = "/admin"
-    } catch (err: unknown) {
+   
+    console.log(res)
+     }
+    catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
     } finally {
       setLoading(false)

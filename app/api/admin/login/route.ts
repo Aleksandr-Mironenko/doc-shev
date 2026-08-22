@@ -19,6 +19,11 @@ export async function POST(req: Request) {
                 { status: 500 },
             )
         }
+        console.log('password', password)
+
+        console.log('envHash', envHash)
+        console.log('login')
+        console.log('envLogin')
 
         // проверка логина
         if (login !== envLogin) {

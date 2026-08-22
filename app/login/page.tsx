@@ -28,7 +28,7 @@ export type Dish = {
 
 export default async function MenuPagesClient() {
     const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-
+ 
     return (
         <>
             {/* Local Business */}
