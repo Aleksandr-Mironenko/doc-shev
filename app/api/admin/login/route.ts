@@ -35,14 +35,16 @@ export async function POST(req: Request) {
 
         // проверка пароля
         const isValid = await bcrypt.compare(password, envHash)
-
+        console.log(isValid)
         if (!isValid) {
             return NextResponse.json(
                 { error: 'invalid password' },
                 { status: 401 },
             )
         }
+        console.log('envHash JSON:', JSON.stringify(envHash))
 
+        console.log('password JSON:', JSON.stringify(password))
         // создаём signed token
         const token = await sign('admin')
 
