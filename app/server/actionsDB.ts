@@ -13,8 +13,6 @@ import {
 
 import sendEmail from '../services/serviceSendEmail'
 
-import serviceCreateMtsLink from '@/app/services/servicesCreateMtslLnk'
-
 // 1. Проверка доступного времени (Шаг 1)
 export async function getTimesAction(dateString: string) {
     return await dbGetAvailableTimes(dateString)
@@ -122,14 +120,14 @@ export async function finalizePaymentAndOrderAction(
 
         const { fio, email, date, time } = orderData.data
 
-        // 2. Генерируем ссылку MTS Link
-        const mtsResult = await serviceCreateMtsLink(date, time, fio)
+        // // 2. Генерируем ссылку MTS Link
+        // const mtsResult = await serviceCreateMtsLink(date, time, fio)
 
-        // Проверяем, вернула ли функция true + ссылку
-        if (!mtsResult || !mtsResult.success || !mtsResult.link) {
-            console.error('Не удалось сгенерировать ссылку MTS Link')
-            return { success: false, message: 'Ошибка создания видеовстречи' }
-        }
+        // // Проверяем, вернула ли функция true + ссылку
+        // if (!mtsResult || !mtsResult.success || !mtsResult.link) {
+        //     console.error('Не удалось сгенерировать ссылку MTS Link')
+        //     return { success: false, message: 'Ошибка создания видеовстречи' }
+        // }
 
         // 3. Обновляем статус оплаты
         const isDbUpdated = await dbUpdatePaymentAndLink(orderId)
@@ -164,11 +162,6 @@ export async function finalizePaymentAndOrderAction(
 
         results.forEach((result, index) => {
             if (result.status === 'rejected') {
-                // console.log(
-                //     'Ошибка при отправке письма с ссылкой:',
-                //     index,
-                //     result.reason,
-                // )
             }
         })
 

@@ -4,7 +4,7 @@ import {
     dbGetOrderById,
     dbUpdatePaymentAndLink,
 } from '@/app/services/servicesDB'
-// import serviceCreateMtsLink from '@/app/services/servicesCreateMtslLnk' удалить
+
 import sendEmail from '@/app/services/serviceSendEmail'
 //5
 export async function POST(request: Request) {
@@ -37,16 +37,6 @@ export async function POST(request: Request) {
         }
 
         const { fio, email, date, time } = orderData.data
-
-        // // 2. Генерируем ссылку MTS Link                                             удалить
-        // const mtsResult = await serviceCreateMtsLink(date, time, fio)
-
-        // if (!mtsResult || !mtsResult.success || !mtsResult.link) {
-        //     return NextResponse.json(
-        //         { success: false, message: 'Ошибка создания видеовстречи' },
-        //         { status: 500 },
-        //     )
-        // }
 
         // 3. Обновляем статус оплаты и сохраняем ссылку в БД
         const isDbUpdated = await dbUpdatePaymentAndLink(orderId)
