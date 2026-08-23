@@ -4,13 +4,13 @@ import {
     dbGetOrderById,
     dbUpdatePaymentAndLink,
 } from '@/app/services/servicesDB'
-import serviceCreateMtsLink from '@/app/services/servicesCreateMtslLnk'
+// import serviceCreateMtsLink from '@/app/services/servicesCreateMtslLnk' удалить
 import sendEmail from '@/app/services/serviceSendEmail'
 //5
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const { isPaymentSuccess, orderId } = body
+        const { isPaymentSuccess, orderId, code } = body
         // console.log(body)
         // { isPaymentSuccess: true, orderId: null }
         if (!isPaymentSuccess) {
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
         const { fio, email, date, time } = orderData.data
 
-        // // 2. Генерируем ссылку MTS Link
+        // // 2. Генерируем ссылку MTS Link                                             удалить
         // const mtsResult = await serviceCreateMtsLink(date, time, fio)
 
         // if (!mtsResult || !mtsResult.success || !mtsResult.link) {
@@ -84,6 +84,7 @@ export async function POST(request: Request) {
             <p><strong>Дата:</strong> ${date}</p>
             <p><strong>Время:</strong> ${time}</p>
             <p><strong>Ссылка на встречу:</strong> <a href="https://doc-shev.relaxdev.ru/room/${isDbUpdated.room_id}">${`https://doc-shev.relaxdev.ru/room/${isDbUpdated.room_id}`}</a></p>
+            <p><strong>Код доступа к встрече:</strong> ${code}</p>
             <p>Ждем вас!</p>
         `
 

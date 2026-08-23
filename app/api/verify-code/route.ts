@@ -91,21 +91,8 @@ export async function POST(request: Request) {
 
         // 4. Валидный URL к скрипту /Merchant/Index.aspx
         const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${mrh_login}&OutSum=${out_summ}&InvId=${inv_id}&Description=${encodedDesc}&SignatureValue=${signatureValue}&IsTest=${isTest}&Iframe=1`
-        // Формируем итоговую ссылку для оплаты (с параметром iframe=1)
-        // const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${orderId}&SignatureValue=${signatureValue}&IsTest=1&Iframe=1`
-
-        
-        //
-        //
-        //
-        //
-        // УДАЛЯЕМ СЛОТ НАВСЕГДА, так как заказ успешно создан    нужно перенести в модуль успешной оплаты, чтобы слот удалялся только после успешной оплаты
-        // await dbDeleteTimeSlot(date, time)
-        //
-        //
-        //
-        //
-
+   
+    
         return NextResponse.json({ success: true, orderId, paymentUrl })
     } catch (error) {
         console.error('Ошибка проверки кода:', error)
@@ -115,20 +102,4 @@ export async function POST(request: Request) {
         )
     }
 }
-
-// const mrh_login = 'Test1999'
-// const mrh_pass1 = 'password_1' // Тестовый пароль #1 из ЛК Робокассы
-// const inv_id = 678678
-// const inv_desc = 'Товары для животных'
-// const out_summ = '100.00'
-// const IsTest = 1
-
-// // 1. Формируем строку подписи (mrh_login:out_summ:inv_id:mrh_pass1)
-// const crc = `${mrh_login}:${out_summ}:${inv_id}:${mrh_pass1}`
-// const signatureValue = createHash('md5').update(crc).digest('hex').toUpperCase()
-
-// // 2. Кодируем описание для передачи в URL
-// const encodedDesc = encodeURIComponent(inv_desc)
-
-// // 3. Полный корректный URL с эндпоинтом /Merchant/Index.aspx? и параметром InvId
-// const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${mrh_login}&OutSum=${out_summ}&InvId=${inv_id}&Description=${encodedDesc}&SignatureValue=${signatureValue}&IsTest=${IsTest}&Iframe=1`
+ 

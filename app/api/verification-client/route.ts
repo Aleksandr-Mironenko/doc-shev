@@ -30,6 +30,13 @@ export async function POST(request: Request) {
             roomId,
         )
 
+        if (!result.success || !result.link) {
+            // Если заказ не найден (неверный код или email)
+            return NextResponse.json(
+                { success: false, error: 'Неверный email или код' },
+                { status: 401 },
+            )
+        }
         const client = await dbGetSucsessbyRoomId(roomId)
 
         if (!client.success || !client.clientId) {
@@ -68,20 +75,13 @@ export async function POST(request: Request) {
         `
 
         await sendEmail(
-            email,
+            'doc.shev@mail.ru',
             'Консультация началась',
             emailHtml,
             'Консультация началась doctor-shev',
         )
-
         if (result.success && result.link) {
             return NextResponse.json({ success: true, link: result.link })
-        } else {
-            // Если заказ не найден (неверный код или email)
-            return NextResponse.json(
-                { success: false, error: 'Неверный email или код' },
-                { status: 401 },
-            )
         }
     } catch (error) {
         console.error('Ошибка в POST /api/get-room-link:', error)

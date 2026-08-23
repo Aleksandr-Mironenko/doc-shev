@@ -360,6 +360,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         body: JSON.stringify({
                             isPaymentSuccess: true,
                             orderId: invId, // Убедитесь, что в стейте компонента хранится ID текущего заказа
+                            code:formData.code
                         }),
                     })
                     //console.log('response 276', response)
@@ -525,7 +526,7 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
 
         try {
             const response = await fetch('/api/client', {
-                // ☝️ ЗАМЕНИТЕ '/api/send-code' на актуальный путь к вашему 3-му эндпоинту
+              
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
