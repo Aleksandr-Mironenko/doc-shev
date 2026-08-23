@@ -189,8 +189,6 @@ export default function Appointment({ setIsMountedCalendar }: AppProps) {
                         setDates([])
                     }
                 }
-
-                setDates(dayjsDates)
             } catch (error) {
                 console.error('Ошибка при загрузке дат:', error)
                 if (!ignore) {
