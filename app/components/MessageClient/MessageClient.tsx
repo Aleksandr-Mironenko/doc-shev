@@ -14,7 +14,7 @@ export default function MessageClient({
     const [messageOK, setMessageOK] = useState<boolean>(false)
 
     useEffect(() => {
-        setMessage(`Здравствуйте, ${fio}!
+        setMessage(`\nЗдравствуйте, ${fio}!
 В ходе консультации выделила важное для вас:`)
     }, [fio])
 
@@ -63,7 +63,7 @@ export default function MessageClient({
             alert('Не передана электронная почта или сообщение')
         }
     }
-
+    console.log(JSON.stringify(message))
     return messageOK ? (
         <div
             style={{

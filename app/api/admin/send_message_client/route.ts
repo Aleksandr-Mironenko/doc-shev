@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
         const { message, email } = body
-
+        console.log(JSON.stringify(message))
         if (!message) {
             return NextResponse.json(
                 { success: false, message: 'Нет сообщения' },
