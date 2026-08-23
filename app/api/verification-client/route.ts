@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
         const emailHtml = `
             <h2>Встреча началась и ${safeFio} подключился!</h2>
-            <p>Прямая ссылка ${result.link} </p>       
+            <p>Прямая ссылка "https://doc-shev.relaxdev.ru/room/${roomId} </p>       
         `
 
         await sendEmail(
