@@ -15,12 +15,33 @@ import IHelp from '@/app/components/iHelp/iHelp'
 import ButtonsHeroCopy from '../components/buttonsHeroCopy/buttonsHero'
 import HeroCalend from '../components/HeroCalend/HeroCalend'
 import Footer from '../components/footer/Footer'
+import {
+    dbGetAllServices,
+    dbGetAllSiteContent,
+    getAllArticles,
+} from '../services/adminServices'
+import { dbGetAvailableDates } from '../services/servicesDB'
 
 export const dynamic = 'force-dynamic'
 
 export default async function MakeAnAppointment() {
     const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const services = await dbGetAllServices()
+    const { dates } = await dbGetAvailableDates()
+    const siteContent = await dbGetAllSiteContent() //все значения с сайта
+    const content = siteContent.data
+    const articles = await getAllArticles()
 
+    const articlesData = articles.data.map((el) => ({
+        id: el.id,
+        title: el.title,
+        description: el.description,
+        full_description: el.full_description,
+        preview_image_url: el.preview_image_url,
+        external_link: el.external_link,
+        active: el.active,
+        created_at: el.created_at,
+    }))
     return (
         <>
             {/* Local Business */}
@@ -114,12 +135,15 @@ export default async function MakeAnAppointment() {
                             </p>
                         </section>
                         <Header />
-                        <HeroCalend />
-                        <ButtonsHeroCopy />
-                        <Info />
+                        {/* <HeroCalend /> */}
+                        <ButtonsHeroCopy
+                            services={services.data}
+                            dates={dates}
+                        />
+                        {/* <Info /> */}
                         {/* <Down /> */}
-                        <IHelp />
-                        <PublicsSection />
+                        <IHelp content={content} />
+                        <PublicsSection articlesData={articlesData} />
                         {/* <ServicesSection /> */}
                         <CatchUp />
                         <Footer />

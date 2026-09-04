@@ -21,7 +21,59 @@ export interface Pub {
     data: string
 }
 
-export default function PublicsSection() {
+export interface Article {
+    id: number
+    title: string
+    description: string
+    full_description: string | null
+    preview_image_url: string | null
+    external_link: string
+    active: boolean
+    created_at: Date | string
+}
+
+export default function PublicsSection({
+    articlesData,
+}: {
+    articlesData: Article[]
+}) {
+    // const getSingleItem = (entityName: string): Partial<SiteContentItem> => {
+    //     return (
+    //         content.find((item) => item.entity_name === entityName) || {
+    //             entity_name: entityName,
+    //         }
+    //     )
+    // }
+    // const ihelp = content.filter((el) => el.entity_name === 'ihelp')
+    // const details = ihelp.map((el) => (
+    //     <li
+    //         key={el.id}
+    //         style={{ width: `${100 / ihelp.length}%` }}
+    //         className={styles.public}
+    //     >
+    //         {el.image && (
+    //             <div className={styles.image}>
+    //                 <Image
+    //                     className={styles.image__logo}
+    //                     src={el.image}
+    //                     alt="Логотип компании"
+    //                     priority
+    //                     width={50}
+    //                     height={50}
+    //                     style={{ width: '40px', height: '40x' }}
+    //                 />
+    //             </div>
+    //         )}
+    //         <div className={styles.image__description}>
+    //             <p>{el.title} </p>
+    //         </div>
+    //         <div className={styles.image__fullDescripton}>
+    //             <p>{el.description_1}</p>
+    //         </div>
+    //         {/* <button className={styles.image__details}>Подробнее →</button> */}
+    //     </li>
+    // ))
+
     const [scrollState, setScrollState] = useState({
         left: false,
         right: false,
@@ -36,34 +88,6 @@ export default function PublicsSection() {
     //     const cart: CartItem[] = stored ? JSON.parse(stored) : []
     //     setLs(cart)
     // }
-
-    // useEffect(() => {
-    //     getCard()
-    // }, [])
-
-    // useEffect(() => {
-    //     const sync = () => {
-    //         const stored = localStorage.getItem("cart")
-    //         setLs(stored ? JSON.parse(stored) : [])
-    //     }
-
-    //     // внутри вкладки
-    //     window.addEventListener("cartUpdated", sync)
-
-    //     // между вкладками
-    //     const storageHandler = (e: StorageEvent) => {
-    //         if (e.key === "cart") {
-    //             sync()
-    //         }
-    //     }
-
-    //     window.addEventListener("storage", storageHandler)
-
-    //     return () => {
-    //         window.removeEventListener("cartUpdated", sync)
-    //         window.removeEventListener("storage", storageHandler)
-    //     }
-    // }, [])
 
     const checkScroll = () => {
         const el = scrollRef.current
@@ -224,30 +248,36 @@ export default function PublicsSection() {
         return () => observer.disconnect()
     }, [])
 
-    const publics = pub.map((el: Pub) => (
+    const publics = articlesData.map((el: Article) => (
         <li
             key={el.id}
             style={{ width: `${95 / visibleCount}%`, minWidth: '150px' }}
             className={styles.public}
         >
-            <div className={styles.image}>
-                <Image
-                    className={styles.image__logo}
-                    src={el.logo}
-                    alt="Логотип компании"
-                    priority
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                />
-            </div>
-
+            <a
+                href={el.external_link}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                {el.preview_image_url && (
+                    <div className={styles.image}>
+                        <Image
+                            className={styles.image__logo}
+                            src={el.preview_image_url}
+                            alt="Логотип компании"
+                            priority
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                    </div>
+                )}
+            </a>
             <div className={styles.image__description}>
-                <p>{el.description}</p>
+                <p>{el.title}</p>
             </div>
-
-            <div className={styles.image__data}>
+            {/* <div className={styles.image__data}>
                 <p>{el.data}</p>
-            </div>
+            </div> */}
         </li>
     ))
 

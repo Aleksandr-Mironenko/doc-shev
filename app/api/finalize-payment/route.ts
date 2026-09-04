@@ -7,7 +7,7 @@ import {
 
 import sendEmail from '@/app/services/serviceSendEmail'
 //5
-export async function POST(request: Request) {
+export async function POST(request: Request) { 
     try {
         const body = await request.json()
         const { isPaymentSuccess, orderId, code } = body
@@ -23,6 +23,12 @@ export async function POST(request: Request) {
         if (!orderId) {
             return NextResponse.json(
                 { success: false, message: 'Не указан ID заказа' },
+                { status: 400 },
+            )
+        }
+        if (!code) {
+            return NextResponse.json(
+                { success: false, message: 'Не указан код к встрече' },
                 { status: 400 },
             )
         }

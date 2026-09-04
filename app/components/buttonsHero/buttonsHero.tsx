@@ -5,7 +5,59 @@ import logo from '../../../public/close.svg'
 import zvezda from '../../../public/ggg/zvezda.svg'
 import cserd from '../../../public/ggg/kardioserd.svg'
 import OrderButton from '../orderButton/orderButton'
-export default function ButtonsHero() {
+
+export interface SiteContentItem {
+    id: number
+    entity_name: string
+    title: string | null
+    description_1: string | null
+    description_2: string | null
+    description_3: string | null
+    price: number | null
+    link: string | null
+    image: string | null
+    is_active: boolean
+    created_at?: Date | string
+}
+
+export default function ButtonsHero({
+    content,
+}: {
+    content: SiteContentItem[]
+}) {
+    const getSingleItem = (entityName: string): Partial<SiteContentItem> => {
+        return (
+            content.find((item) => item.entity_name === entityName) || {
+                entity_name: entityName,
+            }
+        )
+    }
+    // ..пример
+    // const details = content
+    //     .filter((el) => el.entity_name === 'details')
+    //     .map((el) => (
+    //         <li key={el.id} className={styles.info__content_item}>
+    //             {el.image && (
+    //                 <Image
+    //                     className={styles.logo__str}
+    //                     src={el.image}
+    //                     alt="Логотип компании"
+    //                     width={20}
+    //                     height={20}
+    //                     priority
+    //                     style={{
+    //                         minWidth: '20px',
+    //                         minHeight: '20px',
+    //                     }}
+    //                 />
+    //             )}
+    //             <p>{el.title}</p>
+    //         </li>
+    //     ))
+    // {
+    //     getSingleItem('nameDoctor').title
+    // }
+
     return (
         <div className={styles.buttonsHero__wrapper}>
             <div className={styles.buttonsHero__orderButton}>
@@ -23,7 +75,9 @@ export default function ButtonsHero() {
                             priority
                             style={{ width: '30px', height: '30px' }}
                         /> */}
-                        <span className={styles.buttonsHero__text}>2+</span>
+                        <span className={styles.buttonsHero__text}>
+                            {getSingleItem('merits').description_1}
+                        </span>
                     </div>
                     <div className={styles.buttonsHero__description}>
                         <p>года опыта </p>
@@ -40,7 +94,9 @@ export default function ButtonsHero() {
                             priority
                             style={{ width: '30px', height: '30px' }}
                         />
-                        <span className={styles.buttonsHero__text}>1500+</span>
+                        <span className={styles.buttonsHero__text}>
+                            {getSingleItem('merits').description_2}
+                        </span>
                     </div>
                     <div className={styles.buttonsHero__description}>
                         <p>довольных клиентов </p>
@@ -57,7 +113,10 @@ export default function ButtonsHero() {
                             priority
                             style={{ width: '30px', height: '30px' }}
                         />
-                        <span className={styles.buttonsHero__text}>98%</span>
+                        <span className={styles.buttonsHero__text}>
+                            {' '}
+                            {getSingleItem('merits').description_3}
+                        </span>
                     </div>
                     <div className={styles.buttonsHero__description}>
                         <p>положительных отзывов </p>

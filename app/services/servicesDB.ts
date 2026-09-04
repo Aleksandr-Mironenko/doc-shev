@@ -89,7 +89,6 @@ export async function dbNullSpecificTime(
                 message: 'Слот не найден или уже свободен',
             }
         }
-
         return { success: true, message: 'Бронь успешно снята' }
     } catch (error) {
         console.error('Ошибка при снятии брони (dbNullSpecificTime):', error)
@@ -125,27 +124,58 @@ export async function dbCreateClient(
     fio: string,
     phone: string,
     email: string,
+    check: boolean,
+    dateConsent_pd: false | string,
+    dateConsent_promo: false | string,
 ) {
+    if (!dateConsent_pd) {
+        throw new Error('Обязательно согласие на обработку персональных данных')
+    }
+    // consent_pd	consent_promo
+    // Превращаем false в null для SQL, чтобы COALESCE работал корректно
+    const promoDateSql = dateConsent_promo ? dateConsent_promo : null
+    const promoDatePdSql = dateConsent_pd ? dateConsent_pd : null
+    const helpFinc = (count: number, date: string | Date | null) => {
+        if (count <= 0 || date === null) {
+            return false
+        }
+        const lastConsultDate = new Date(date)
+        const now = new Date()
+
+        const diffInMs = now.getTime() - lastConsultDate.getTime()
+        const diffInDays = diffInMs / (1000 * 60 * 60 * 24)
+        return diffInDays >= 0 && diffInDays <= 21
+    }
+
     // 1. Ищем клиента по телефону или email
     const clients = await sql`
-        SELECT id, fio, phone, email
+        SELECT id, fio, phone, email, dateConsent_pd, dateConsent_promo, consent_pd, consent_promo
         FROM all_clients
         WHERE email = ${email}
            OR phone = ${phone}
     `
 
+    const consent_pd = clients.some((el) => el.consent_pd) || !!dateConsent_pd
+    const consent_promo =
+        clients.some((el) => el.consent_promo) || !!dateConsent_promo
+
     // 2. Нет ни телефона, ни email
     if (clients.length === 0) {
-        await sql`
-            INSERT INTO all_clients (fio, phone, email, data_last_consult, counter_consult)
-            VALUES (${fio}, ${phone}, ${email}, null, 0) 
+        const result = await sql`
+            INSERT INTO all_clients (fio, phone, email, data_last_consult, counter_consult, dateConsent_pd, dateConsent_promo, consent_promo, consent_pd)
+            VALUES (${fio}, ${phone}, ${email}, null, 0, ${promoDatePdSql}, ${promoDateSql},	${consent_promo}, ${consent_pd}) 
+            RETURNING data_last_consult, counter_consult,id
         `
-
-        return
+        if (check) {
+            return helpFinc(
+                result[0].counter_consult,
+                result[0].data_last_consult,
+            )
+        }
+        return result[0].id
     }
 
     const clientByEmail = clients.find((client) => client.email === email)
-
     const clientByPhone = clients.find((client) => client.phone === phone)
 
     // 3. Есть и email, и телефон у одной записи
@@ -154,42 +184,222 @@ export async function dbCreateClient(
         clientByPhone &&
         clientByEmail.id === clientByPhone.id
     ) {
-        await sql`
+        const result = await sql`
             UPDATE all_clients
-            SET fio = ${fio}
+            SET fio = ${fio},  
+                dateConsent_pd =  COALESCE(dateConsent_pd, ${promoDatePdSql}),
+                dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql}),
+                consent_promo = ${consent_promo} ,
+                consent_pd = ${consent_pd} 	
             WHERE id = ${clientByEmail.id}
+            RETURNING data_last_consult, counter_consult, id
         `
-
-        return
+        // const result = await sql`
+        //     UPDATE all_clients
+        //     SET fio = ${fio},
+        //         dateConsent_pd = ${dateConsent_pd},
+        //         dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql})
+        //         consent_pd},
+        //         ${consent_promo}
+        //     WHERE id = ${clientByEmail.id}
+        //     RETURNING data_last_consult, counter_consult
+        // `
+        if (check) {
+            return helpFinc(
+                result[0].counter_consult,
+                result[0].data_last_consult,
+            )
+        }
+        return result[0].id
     }
 
     // 4. Есть только телефон
     if (clientByPhone && !clientByEmail) {
-        await sql`
+        const result = await sql`
             UPDATE all_clients
             SET fio = ${fio},
-                email = ${email}
+                email = ${email},
+                dateConsent_pd =  COALESCE(dateConsent_pd, ${promoDatePdSql}),
+                dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql}),
+                consent_promo = ${consent_promo} ,
+                consent_pd = ${consent_pd} 	
             WHERE id = ${clientByPhone.id}
+            RETURNING data_last_consult, counter_consult,id
         `
-
-        return
+        //    const result = await sql`
+        //     UPDATE all_clients
+        //     SET fio = ${fio},
+        //         email = ${email},
+        //         dateConsent_pd = ${dateConsent_pd},
+        //         dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql})
+        //     WHERE id = ${clientByPhone.id}
+        //     RETURNING data_last_consult, counter_consult
+        // `
+        if (check) {
+            return helpFinc(
+                result[0].counter_consult,
+                result[0].data_last_consult,
+            )
+        }
+        return result[0].id
     }
 
     // 5. Есть только email
     if (clientByEmail && !clientByPhone) {
-        await sql`
+        // const result = await sql`
+        //     UPDATE all_clients
+        //     SET fio = ${fio},
+        //         phone = ${phone},
+        //         dateConsent_pd = ${dateConsent_pd},
+        //         dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql})
+        //     WHERE id = ${clientByEmail.id}
+        //     RETURNING data_last_consult, counter_consult
+        // `
+        const result = await sql`
             UPDATE all_clients
             SET fio = ${fio},
-                phone = ${phone}
+                phone = ${phone},
+                dateConsent_pd =  COALESCE(dateConsent_pd, ${promoDatePdSql}),
+                dateConsent_promo = COALESCE(dateConsent_promo, ${promoDateSql}),
+                consent_promo = ${consent_promo} ,
+                consent_pd = ${consent_pd} 	
             WHERE id = ${clientByEmail.id}
+            RETURNING data_last_consult, counter_consult,id
         `
 
-        return
+        if (check) {
+            return helpFinc(
+                result[0].counter_consult,
+                result[0].data_last_consult,
+            )
+        }
+
+        return result[0].id
     }
 
-    // 6. Email и телефон существуют,  но принадлежат разным клиентам
+    // 6. Email и телефон существуют, но принадлежат разным клиентам
     throw new Error('Email и телефон принадлежат разным клиентам')
 }
+// export async function dbCreateClient(
+//     fio: string,
+//     phone: string,
+//     email: string,
+//     check: boolean,
+//     dateConsent_pd: false | string,
+//     dateConsent_promo: false | string,
+// ) {
+//     if (dateConsent_pd) {
+//         const helpFinc = (count: number, date: string | Date | null) => {
+//             if (count <= 0 || date === null) {
+//                 return false
+//             }
+//             if (count <= 0 && date === null) {
+//                 return false
+//             }
+//             const lastConsultDate = new Date(date)
+//             const now = new Date()
+
+//             // Получаем разницу в миллисекундах
+//             const diffInMs = now.getTime() - lastConsultDate.getTime()
+
+//             // Переводим миллисекунды в дни (1000 мс * 60 сек * 60 мин * 24 часа)
+//             const diffInDays = diffInMs / (1000 * 60 * 60 * 24)
+//             return diffInDays >= 0 && diffInDays <= 21
+//         }
+
+//         // 1. Ищем клиента по телефону или email
+//         const clients = await sql`
+//         SELECT id, fio, phone, email, dateConsent_pd ,dateConsent_promo
+//         FROM all_clients
+//         WHERE email = ${email}
+//            OR phone = ${phone}
+//     `
+
+//         // 2. Нет ни телефона, ни email
+//         if (clients.length === 0) {
+//             const result = await sql`
+//             INSERT INTO all_clients (fio, phone, email, data_last_consult, counter_consult, dateConsent_pd, dateConsent_promo)
+//             VALUES (${fio}, ${phone}, ${email}, null, 0,${dateConsent_pd}, ${dateConsent_promo})
+//             RETURNING data_last_consult, counter_consult
+//         `
+//             if (check) {
+//                 return helpFinc(
+//                     result[0].counter_consult,
+//                     result[0].data_last_consult,
+//                 )
+//             }
+//             return
+//         }
+
+//         const clientByEmail = clients.find((client) => client.email === email)
+
+//         const clientByPhone = clients.find((client) => client.phone === phone)
+
+//         // 3. Есть и email, и телефон у одной записи
+//         if (
+//             clientByEmail &&
+//             clientByPhone &&
+//             clientByEmail.id === clientByPhone.id
+//         ) {
+//             const result = await sql`
+//             UPDATE all_clients
+//             SET fio = ${fio},
+//                 dateConsent_pd = ${dateConsent_pd},
+//                 dateConsent_promo=${dateConsent_promo}
+//             WHERE id = ${clientByEmail.id}
+//             RETURNING data_last_consult, counter_consult
+//         `
+//             if (check) {
+//                 return helpFinc(
+//                     result[0].counter_consult,
+//                     result[0].data_last_consult,
+//                 )
+//             }
+//             return
+//         }
+
+//         // 4. Есть только телефон
+//         if (clientByPhone && !clientByEmail) {
+//             const result = await sql`
+//             UPDATE all_clients
+//             SET fio = ${fio},
+//                 email = ${email},
+//                 dateConsent_pd = ${dateConsent_pd},
+//                 dateConsent_promo=${dateConsent_promo}
+//             WHERE id = ${clientByPhone.id}
+//             RETURNING data_last_consult, counter_consult
+//         `
+//             if (check) {
+//                 return helpFinc(
+//                     result[0].counter_consult,
+//                     result[0].data_last_consult,
+//                 )
+//             }
+//             return
+//         }
+//         // 5. Есть только email
+//         if (clientByEmail && !clientByPhone) {
+//             const result = await sql`
+//             UPDATE all_clients
+//             SET fio = ${fio},
+//                 phone = ${phone}
+//                 dateConsent_pd = ${dateConsent_pd},
+//                 dateConsent_promo=${dateConsent_promo}
+//             WHERE id = ${clientByEmail.id}
+//             RETURNING data_last_consult, counter_consult
+//         `
+//             if (check) {
+//                 return helpFinc(
+//                     result[0].counter_consult,
+//                     result[0].data_last_consult,
+//                 )
+//             }
+//             return
+//         }
+//     }
+//     // 6. Email и телефон существуют,  но принадлежат разным клиентам
+//     throw new Error('Email и телефон принадлежат разным клиентам')
+// }
 
 export async function dbGenerateEmailCode(email: string) {
     // Передаем 'q', триггер БД сам сгенерирует 5 цифр
@@ -210,6 +420,28 @@ export async function dbVerifyCode(email: string, code: string) {
     return result.length !== 0
 }
 
+export async function dbUpdateListIpClients(
+    idClient: number,
+    clientIp: string,
+) {
+    const result = await sql`
+    INSERT INTO ips_all_clients (id_client, ip)
+    SELECT ${idClient}, ${clientIp}
+    WHERE NOT EXISTS (
+        SELECT 1 
+        FROM ips_all_clients 
+        WHERE id_client = ${idClient} 
+          AND ip = ${clientIp}
+    )RETURNING id
+`
+    // Если запись была добавлена, возвращаем её id
+    if (result.length > 0) {
+        return result[0].id
+    }
+
+    // Если связка клиента и IP уже существует, просто возвращаем null
+    return null
+}
 //выбрать конкретный тип orderData
 interface OrderData {
     fio: string
@@ -221,20 +453,28 @@ interface OrderData {
     consent_promo: boolean
     verification_code: string
     price: string
+    approove_oferta: boolean
+    date_approove_oferta: false | string
+    ip_order: string
 }
 
 export async function dbCreateOrder(orderData: OrderData) {
-    const price = orderData.price === 'consult' ? 1500 : 1000
-
+    // const price = orderData.price === 'consult' ? 1500 : 1000
+    const approoveOferta = orderData.approove_oferta
+        ? orderData.approove_oferta
+        : null
+    const dateApprooveOferta = orderData.date_approove_oferta
+        ? orderData.date_approove_oferta
+        : null
     const result = await sql`
         INSERT INTO orders (
             fio, phone, email, date, time, consent_pd, consent_promo, 
-            verification_code, approve, approve_pr,  price, payment
+            verification_code, approve, approve_pr,  price, payment, approove_oferta, date_approove_oferta,ip_order
         ) VALUES (
             ${orderData.fio}, ${orderData.phone}, ${orderData.email}, 
             ${orderData.date}, ${orderData.time}, ${orderData.consent_pd}, 
             ${orderData.consent_promo}, ${orderData.verification_code},  
-            true, true, ${price}, false
+            true, true, ${orderData.price}, false,${approoveOferta},${dateApprooveOferta},${orderData.ip_order}
         ) RETURNING id
     `
     return result[0].id
@@ -422,3 +662,41 @@ export async function dbUpdateDataLastConsultAndCounterConsult(id: number) {
         }
     }
 }
+export interface SiteContentItem {
+    id: number
+    entity_name: string
+    title: string | null
+    description_1: string | null
+    description_2: string | null
+    description_3: string | null
+    price: number | null
+    link: string | null
+    image: string | null
+    is_active: boolean
+    created_at?: Date | string
+}
+
+// export async function dbGetAllSiteContentClient() {
+//     try {
+//         const result = await sql`
+//       SELECT
+//         id,
+//         entity_name,
+//         title,
+//         description_1,
+//         description_2,
+//         description_3,
+//         price,
+//         link,
+//         image,
+//         is_active,
+//         created_at
+//       FROM site_content
+//       ORDER BY id ASC
+//     `
+//         return { success: true, data: Array.from(result) as SiteContentItem[] }
+//     } catch (error) {
+//         console.error('Ошибка при получении значений контента сайта:', error)
+//         return { success: false, data: [] }
+//     }
+// }

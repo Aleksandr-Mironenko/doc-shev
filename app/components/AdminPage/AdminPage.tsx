@@ -18,6 +18,8 @@ import TimeSlotsTable from '../TimeSlotsTable/TimeSlotsTable'
 import ArticlesTable from '../ArticlesTable/ArticlesTable'
 import ReviewsTable from '../ReviewsTable/ReviewsTable'
 import AdminPlanner from '@/app/components/AdminPlanner/AdminPlanner'
+import SiteContent from '../SiteContent/SiteContent'
+import ServicesTable from '../ServicesTable/ServicesTable'
 
 export interface Article {
     id: number
@@ -76,6 +78,46 @@ export interface Order {
     date_payment: Date | string | null
     comment: string | null
 }
+// Тип данных для одной услуги (основан на структуре таблицы БД)
+export interface SiteContentItem {
+    id: number
+    entity_name: string
+    title: string | null
+    description_1: string | null
+    description_2: string | null
+    description_3: string | null
+    price: number | null
+    link: string | null
+    image: string | null
+    is_active: boolean
+    created_at?: Date | string
+}
+export interface Services {
+    id: number
+    title: string
+    description_1?: string | null
+    description_1_name?: string | null
+    description_2?: string | null
+    description_2_name?: string | null
+    description_3?: string | null
+    description_3_name?: string | null
+    description_4?: string | null
+    description_4_name?: string | null
+    description_5?: string | null
+    description_5_name?: string | null
+    link:
+        | 'consult-video-follow-up'
+        | 'consult-video'
+        | 'consult-doctor'
+        | 'сonsult-audio-follow-up'
+        | 'consult-audio'
+    is_check: boolean
+    is_active?: boolean | null
+    price: number
+    image?: string | null
+    created_at: Date | string
+}
+// Тип для пропсов компонента ServicesTable
 
 const AdminPage = ({
     orders,
@@ -83,12 +125,16 @@ const AdminPage = ({
     timeSlots,
     articles,
     reviews,
+    siteContent,
+    services,
 }: {
     orders: Order[]
     clients: Client[]
     timeSlots: TimeSlot[]
     articles: Article[]
     reviews: Review[]
+    siteContent: SiteContentItem[]
+    services: Services[]
 }) => {
     const [open, setOpen] = useState<
         | 'orders'
@@ -97,6 +143,8 @@ const AdminPage = ({
         | 'articles'
         | 'reviews'
         | 'planner'
+        | 'siteContent'
+        | 'services'
         | null
     >('planner')
     return (
@@ -108,24 +156,19 @@ const AdminPage = ({
                 >
                     План записей
                 </button>
+
                 <button
                     onClick={() => setOpen('orders')}
                     className={styles.createButton}
                 >
                     Все записи
                 </button>
+
                 <button
                     onClick={() => setOpen('clients')}
                     className={styles.createButton}
                 >
                     Все клиенты
-                </button>
-
-                <button
-                    onClick={() => setOpen('reviews')}
-                    className={styles.createButton}
-                >
-                    Все отзывы
                 </button>
 
                 <button
@@ -136,10 +179,31 @@ const AdminPage = ({
                 </button>
 
                 <button
+                    onClick={() => setOpen('services')}
+                    className={styles.createButton}
+                >
+                    Услуги
+                </button>
+
+                <button
+                    onClick={() => setOpen('reviews')}
+                    className={styles.createButton}
+                >
+                    Все отзывы
+                </button>
+
+                <button
                     onClick={() => setOpen('articles')}
                     className={styles.createButton}
                 >
                     Все публикации
+                </button>
+
+                <button
+                    onClick={() => setOpen('siteContent')}
+                    className={styles.createButton}
+                >
+                    Текст сайта
                 </button>
 
                 <div className={styles.logout}>
@@ -153,150 +217,12 @@ const AdminPage = ({
             {open === 'timeSlots' && <TimeSlotsTable timeSlots={timeSlots} />}
             {open === 'articles' && <ArticlesTable articles={articles} />}
             {open === 'reviews' && <ReviewsTable reviews={reviews} />}
+            {open === 'services' && <ServicesTable services={services} />}
+            {open === 'siteContent' && (
+                <SiteContent siteContent={siteContent} />
+            )}
         </>
     )
 }
 
 export default AdminPage
-
-// 'use client'
-// import Image from 'next/image'
-// import pagefood from '../../../public/food-dish-svgrepo-com.svg'
-// import Link from 'next/link'
-
-// import { useRouter } from 'next/navigation'
-// import ReviewPage from '@/app/components/ReviewPage/ReviewPage'
-// // import { useState, useEffect } from 'react'
-// import styles from './page.module.scss'
-// import { useEffect, useState } from 'react'
-// import AdminEditMenu from '@/app/components/AdminEditMenu/AdminEditMenu'
-// import AdminEditServices from '@/app/components/AdminEditServices/AdminEditServices'
-// import AdminEditReviews from '@/app/components/AdminEditReviews/AdminEditReviews'
-// import AdminEditPosts from '../AdminEditPosts/AdminEditPosts'
-// import AdminEditPublicInfo from '../AdminEditPublicInfo/AdminEditPublicInfo'
-// import LogoutButton from '../LogoutButton/LogoutButton'
-// import { AddTimeForm } from '@/app/components/createDataTime/createDataTime'
-
-// interface Menu {
-//     url_name: string
-//     id: string
-//     name: string
-//     description: string | null
-//     image_url: string | null
-//     created_at: string | null
-//     is_available: boolean
-// }
-
-// interface Service {
-//     id: number
-//     name: string
-//     description: string
-//     full_description: string
-//     is_available: boolean
-//     created_at: string | null
-//     url_name: string
-//     images: string[]
-// }
-// interface Review {
-//     id: string
-//     image_url: string
-//     created_at: string
-// }
-// export interface Post {
-//     id: string
-//     name: string
-//     header: string
-//     full_description: string
-//     sort_order: number
-//     is_available: boolean
-//     created_at: string
-//     url_name: string
-// }
-// interface PublicInfo {
-//     id: string
-//     city: string
-//     address_url: string
-//     phone: string
-//     schedule: string
-//     title: string
-//     content: string
-//     image_url: string
-//     url_link: string
-//     updated_at: string
-//     delivery_payment_title: string
-//     delivery_payment_content: string
-// }
-
-// const AdminPage = (
-//     {
-//     menu,
-//     services,
-//     reviews,
-//     posts,
-//     publicInfo,
-// }: {
-//     menu: Menu[]
-//     services: Service[]
-//     reviews: Review[]
-//     posts: Post[]
-//     publicInfo: PublicInfo
-// }
-// ) => {
-//     const [open, setOpen] = useState<
-//         'menu' | 'services' | 'reviews' | 'posts' | 'publicInfo' | null
-//     >('publicInfo')
-//     return (
-//         <>
-//             <div className={styles.wrapper}>
-//                 <AddTimeForm />
-//                 <button
-//                     onClick={() => setOpen('menu')}
-//                     className={styles.createButton}
-//                 >
-//                     Редактировать меню
-//                 </button>
-//                 <button
-//                     onClick={() => setOpen('services')}
-//                     className={styles.createButton}
-//                 >
-//                     Редактировать услуги
-//                 </button>
-
-//                 <button
-//                     onClick={() => setOpen('reviews')}
-//                     className={styles.createButton}
-//                 >
-//                     Редактировать отзывы
-//                 </button>
-
-//                 <button
-//                     onClick={() => setOpen('posts')}
-//                     className={styles.createButton}
-//                 >
-//                     Редактировать статьи
-//                 </button>
-
-//                 <button
-//                     onClick={() => setOpen('publicInfo')}
-//                     className={styles.createButton}
-//                 >
-//                     Редактировать публичную информацию
-//                 </button>
-
-//                 <div className={styles.logout}>
-//                     <LogoutButton />
-//                 </div>
-//             </div>
-
-//             {/* {open === 'menu' && <AdminEditMenu menu={menu} />}
-//             {open === 'services' && <AdminEditServices services={services} />}
-//             {open === 'reviews' && <AdminEditReviews reviews={reviews} />}
-//             {open === 'posts' && <AdminEditPosts posts={posts} />}
-//             {open === 'publicInfo' && (
-//                 <AdminEditPublicInfo publicInfo={publicInfo} />
-//             )} */}
-//         </>
-//     )
-// }
-
-// export default AdminPage

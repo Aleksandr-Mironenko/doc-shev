@@ -91,7 +91,13 @@ import styles from './HeroCalend.module.scss'
 import image from '../../../public/face.png'
 import Image from 'next/image'
 
-export default function HeroCalend() {
+export default function HeroCalend({
+    isSelectProduct,
+    isHi,
+}: {
+    isSelectProduct?: boolean
+    isHi?: boolean
+}) {
     return (
         <div className={styles.heroSection}>
             {/* <div className={styles.heroSection__text_wrapper}>
@@ -103,19 +109,56 @@ export default function HeroCalend() {
                 {/* <button className={styles.heroSection__signUp}>
                     <b>Записаться</b>
                 </button> */}
-                <div className={styles.heroSection__regal}>
-                    <div className={styles.heroSection__name}>
-                        <p className={styles.heroSection__namedoc}>
-                            Добрый день!
-                        </p>
-                        <p className={styles.heroSection__docprof}>
-                            выберите дату для нашей встечи
+                {!isHi && isSelectProduct && (
+                    <div className={styles.heroSection__regal}>
+                        <div className={styles.heroSection__name}>
+                            <p className={styles.heroSection__namedoc}>
+                                Добрый день!
+                            </p>
+                            <p className={styles.heroSection__docprof}>
+                                выберите дату для нашей встечи
+                            </p>
+                        </div>
+                        <p className={styles.heroSection__backstage}>
+                            Просто нажимите на любую доступную дату в календаре
                         </p>
                     </div>
-                    <p className={styles.heroSection__backstage}>
-                        Смелее нажимайте на любую доступную дату в катендаре
-                    </p>
-                </div>
+                )}
+
+                {!isHi && !isSelectProduct && (
+                    <div className={styles.heroSection__regal}>
+                        <div className={styles.heroSection__name}>
+                            <p className={styles.heroSection__namedoc}>
+                                Добрый день!
+                            </p>
+                            <p className={styles.heroSection__docprof}>
+                                выберите формат нашей консультации
+                            </p>
+                        </div>
+                        <p className={styles.heroSection__backstage}>
+                            Смелее выбирайте подходящий вариант для нашей
+                            встречи
+                        </p>
+                    </div>
+                )}
+                {isHi && (
+                    <div className={styles.heroSection__regal}>
+                        <div className={styles.heroSection__name}>
+                            <p className={styles.heroSection__namedoc}>
+                                Добрый день!
+                            </p>
+                            {/* <p className={styles.heroSection__docprof}>
+                                Меня зовут Екатерина Шитова
+                            </p> */}
+                        </div>
+                        <p className={styles.heroSection__backstage}>
+                            Меня зовут Екатерина Шитова, я врач-терапевт
+                        </p>
+                        <p className={styles.heroSection__backstage}>
+                            Здесь вы узнаете немного больше обо мне
+                        </p>
+                    </div>
+                )}
             </div>
             <div className={styles.heroSection__imageContainer}>
                 <div className={styles.heroSection__circleBg_1}></div>

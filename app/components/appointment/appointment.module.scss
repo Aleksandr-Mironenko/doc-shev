@@ -131,3 +131,19 @@
     //     font-size: clamp(6px, 2vw, 12px);
     // }
 }
+// :global(body.modal-open) {
+//     overflow: hidden; /* Запрещаем скролл страницы */
+// }
+
+// :global(body.modal-open::before) {
+//     content: '';
+//     position: fixed;
+//     inset: 0;
+//     background-color: rgba(0, 0, 0, 0.5);
+//     z-index: 9999;
+//     pointer-events: none;
+//     overflow: hidden;
+// }
+:global(body.modal-open) {
+    overflow: hidden;
+}

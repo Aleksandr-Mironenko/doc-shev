@@ -33,7 +33,11 @@ export default function RoomClient({
         return (
             <div
                 className="container"
-                style={{ textAlign: 'center', marginTop: '20vh' }}
+                style={{
+                    textAlign: 'center',
+                    marginTop: '20vh',
+                    minHeight: '400px',
+                }}
             >
                 <h1>Здравствуйте, {fio}! 👋</h1>
                 <p>Ваша консультация еще не началась.</p>
@@ -60,12 +64,13 @@ export default function RoomClient({
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    minHeight: '400px',
                 }}
             >
                 <h1>Время вышло ⏳</h1>
                 <p>
                     Ссылка больше недействительна. Если у вас остались вопросы,
-                    свяжитесь со мной. Контакты новая запись
+                    свяжитесь со мной.
                 </p>
                 <div style={{ textAlign: 'center', marginTop: '20vh' }}>
                     <OrderButton text={'Написать сообщение'} />
@@ -239,8 +244,8 @@ export default function RoomClient({
                 Здравствуйте, <strong>{fio}</strong>!
             </p>
             <p>
-                Введите данные, полученные при бронировании, чтобы войти в
-                комнату.
+                Введите данные из сообщения на электронной почте, полученные при
+                бронировании, чтобы войти в комнату.
             </p>
 
             <form

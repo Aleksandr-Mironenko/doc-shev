@@ -31,6 +31,7 @@ interface AddArticleForm {
     external_link: string
     comment: string
     active: boolean
+    image_url: string
 }
 
 const columns: ColumnDef<Article>[] = [
@@ -67,7 +68,6 @@ const columns: ColumnDef<Article>[] = [
         accessorKey: 'comment',
         header: 'Комментарий',
     },
-
     {
         accessorKey: 'created_at',
         header: 'Создана',
@@ -82,37 +82,49 @@ const initialForm: AddArticleForm = {
     external_link: '',
     comment: '',
     active: false,
+    image_url: '',
 }
 
 export default function ArticlesTable({
     articles: initialArticles,
 }: ArticlesTableProps) {
     const [articles, setArticles] = useState<Article[]>(initialArticles)
-
     const [editingCell, setEditingCell] = useState<EditingCell | null>(null)
-
     const [isAddFormOpen, setIsAddFormOpen] = useState(false)
-
     const [form, setForm] = useState<AddArticleForm>(initialForm)
-
     const [isAdding, setIsAdding] = useState(false)
-
     const [addError, setAddError] = useState<string | null>(null)
+    const [isUploading, setIsUploading] = useState(false)
 
-    const saveCell = async (): Promise<void> => {
-        if (!editingCell) {
-            return
+    // Вспомогательная функция для удаления файла с сервера
+    const deleteStorageFile = async (url: string | null | undefined) => {
+        if (!url) return
+        try {
+            await fetch('/api/admin/storage', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url }),
+            })
+        } catch (error) {
+            console.error('Ошибка при удалении файла с сервера:', error)
         }
+    }
+
+    // Сохранение отредактированной ячейки
+    const saveCell = async (): Promise<void> => {
+        if (!editingCell) return
 
         const { rowId, columnId, value } = editingCell
-
         const parsedValue = columnId === 'active' ? value === 'true' : value
 
+        // Находим прежнее значение из состояния таблицы
+        const previousRow = articles.find((r) => r.id === rowId)
+        const oldValue = previousRow ? previousRow[columnId] : null
+
+        // 1. Обновляем записи в БД
         const response = await fetch('/api/admin/articles', {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: rowId,
                 columnName: columnId,
@@ -120,29 +132,51 @@ export default function ArticlesTable({
             }),
         })
 
-        if (!response.ok) {
-            return
-        }
+        if (!response.ok) return
 
-        const result: {
-            success: boolean
-        } = await response.json()
+        const result = await response.json()
+        if (!result.success) return
 
-        if (!result.success) {
-            return
-        }
-
+        // 2. Обновляем клиентское состояние
         setArticles((current) =>
             current.map((article) =>
                 article.id === rowId
-                    ? {
-                          ...article,
-                          [columnId]: parsedValue,
-                      }
+                    ? { ...article, [columnId]: parsedValue }
                     : article,
             ),
         )
 
+        // 3. Если это была колонка с картинкой и картинку заменили — удаляем старый файл с сервера
+        const isImageColumn =
+            columnId === 'preview_image_url' || columnId === 'image_url'
+
+        if (
+            isImageColumn &&
+            oldValue &&
+            typeof oldValue === 'string' &&
+            oldValue !== parsedValue
+        ) {
+            await deleteStorageFile(oldValue)
+        }
+
+        setEditingCell(null)
+    }
+
+    // Отмена редактирования ячейки
+    const cancelCellEditing = async () => {
+        if (editingCell) {
+            const { rowId, columnId, value } = editingCell
+            const isImageColumn =
+                columnId === 'preview_image_url' || columnId === 'image_url'
+
+            const previousRow = articles.find((r) => r.id === rowId)
+            const oldValue = previousRow ? previousRow[columnId] : null
+
+            // Если в процессе редактирования ячейки загрузили новую картинку, но нажали отмену — удаляем загруженный файл
+            if (isImageColumn && value && value !== oldValue) {
+                await deleteStorageFile(value)
+            }
+        }
         setEditingCell(null)
     }
 
@@ -156,6 +190,7 @@ export default function ArticlesTable({
         }))
     }
 
+    // Добавление новой статьи
     const addArticle = async (): Promise<void> => {
         setAddError(null)
 
@@ -169,6 +204,9 @@ export default function ArticlesTable({
             return
         }
 
+        const imageUrlToSend =
+            form.preview_image_url.trim() || form.image_url.trim() || null
+
         try {
             setIsAdding(true)
 
@@ -181,7 +219,7 @@ export default function ArticlesTable({
                     title: form.title.trim(),
                     description: form.description.trim(),
                     full_description: form.full_description.trim() || null,
-                    preview_image_url: form.preview_image_url.trim() || null,
+                    preview_image_url: imageUrlToSend,
                     external_link: form.external_link.trim() || null,
                     comment: form.comment.trim() || null,
                     active: form.active,
@@ -196,30 +234,55 @@ export default function ArticlesTable({
 
             if (!response.ok || !result.success) {
                 setAddError(result.message || 'Не удалось добавить статью')
-
                 return
             }
 
-            /*
-             * API возвращает только id.
-             *
-             * Поэтому здесь не пытаемся вручную
-             * добавлять полноценную Article в таблицу.
-             *
-             * После успешного POST просто закрываем форму.
-             * Если AdminPage повторно получает articles
-             * с сервера — новая статья появится после
-             * обновления данных.
-             */
             setForm(initialForm)
-
             setIsAddFormOpen(false)
         } catch (error) {
             console.error('Ошибка добавления статьи:', error)
-
             setAddError('Ошибка соединения с сервером')
         } finally {
             setIsAdding(false)
+        }
+    }
+
+    // Отмена добавления статьи (с удалением картинки, если успели загрузить)
+    const handleCancelAdd = async () => {
+        if (isAdding) return
+
+        const uploadedUrl = form.image_url || form.preview_image_url
+        if (uploadedUrl) {
+            await deleteStorageFile(uploadedUrl)
+        }
+
+        setForm(initialForm)
+        setIsAddFormOpen(false)
+        setAddError(null)
+    }
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        try {
+            setIsUploading(true)
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const res = await fetch('/api/admin/storage', {
+                method: 'POST',
+                body: formData,
+            })
+
+            const data = await res.json()
+            if (data.url) {
+                updateForm('image_url', data.url)
+            }
+        } catch (err) {
+            console.error('Ошибка загрузки файла:', err)
+        } finally {
+            setIsUploading(false)
         }
     }
 
@@ -256,14 +319,7 @@ export default function ArticlesTable({
                         <button
                             type="button"
                             className={styles.closeButton}
-                            onClick={() => {
-                                if (isAdding) {
-                                    return
-                                }
-
-                                setIsAddFormOpen(false)
-                                setAddError(null)
-                            }}
+                            onClick={handleCancelAdd}
                         >
                             ✕
                         </button>
@@ -272,7 +328,6 @@ export default function ArticlesTable({
                     <div className={styles.formGrid}>
                         <label className={styles.field}>
                             <span>Название *</span>
-
                             <input
                                 type="text"
                                 value={form.title}
@@ -286,7 +341,6 @@ export default function ArticlesTable({
 
                         <label className={styles.field}>
                             <span>Описание *</span>
-
                             <textarea
                                 value={form.description}
                                 onChange={(event) =>
@@ -302,7 +356,6 @@ export default function ArticlesTable({
 
                         <label className={styles.field}>
                             <span>Полное описание</span>
-
                             <textarea
                                 value={form.full_description}
                                 onChange={(event) =>
@@ -318,24 +371,25 @@ export default function ArticlesTable({
 
                         <label className={styles.field}>
                             <span>Изображение</span>
-
                             <input
-                                type="text"
-                                value={form.preview_image_url}
-                                onChange={(event) =>
-                                    updateForm(
-                                        'preview_image_url',
-                                        event.target.value,
-                                    )
-                                }
-                                placeholder="URL изображения"
-                                disabled={isAdding}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileUpload}
+                                disabled={isAdding || isUploading}
                             />
+
+                            {form.image_url && (
+                                <input
+                                    type="text"
+                                    value={form.image_url}
+                                    readOnly
+                                    placeholder="URL изображения"
+                                />
+                            )}
                         </label>
 
                         <label className={styles.field}>
                             <span>Внешняя ссылка</span>
-
                             <input
                                 type="text"
                                 value={form.external_link}
@@ -352,7 +406,6 @@ export default function ArticlesTable({
 
                         <label className={styles.field}>
                             <span>Комментарий</span>
-
                             <textarea
                                 value={form.comment}
                                 onChange={(event) =>
@@ -372,7 +425,6 @@ export default function ArticlesTable({
                                 }
                                 disabled={isAdding}
                             />
-
                             <span>Статья активна</span>
                         </label>
                     </div>
@@ -383,14 +435,7 @@ export default function ArticlesTable({
                         <button
                             type="button"
                             className={styles.cancelButton}
-                            onClick={() => {
-                                if (isAdding) {
-                                    return
-                                }
-
-                                setIsAddFormOpen(false)
-                                setAddError(null)
-                            }}
+                            onClick={handleCancelAdd}
                             disabled={isAdding}
                         >
                             Отмена
@@ -450,14 +495,11 @@ export default function ArticlesTable({
                                                     : undefined
                                             }
                                             onDoubleClick={() => {
-                                                if (!editable) {
-                                                    return
-                                                }
+                                                if (!editable) return
 
                                                 const raw = cell.getValue<
                                                     string | boolean | null
                                                 >()
-
                                                 const value =
                                                     typeof raw === 'boolean'
                                                         ? String(raw)
@@ -497,11 +539,140 @@ export default function ArticlesTable({
                                                             <option value="true">
                                                                 Да
                                                             </option>
-
                                                             <option value="false">
                                                                 Нет
                                                             </option>
                                                         </select>
+                                                    ) : columnId ===
+                                                          'image_url' ||
+                                                      columnId ===
+                                                          'preview_image_url' ? (
+                                                        <div
+                                                            className={
+                                                                styles.imageEditor
+                                                            }
+                                                        >
+                                                            <input
+                                                                type="text"
+                                                                value={
+                                                                    editingCell.value
+                                                                }
+                                                                onChange={(e) =>
+                                                                    setEditingCell(
+                                                                        (
+                                                                            current,
+                                                                        ) =>
+                                                                            current
+                                                                                ? {
+                                                                                      ...current,
+                                                                                      value: e
+                                                                                          .target
+                                                                                          .value,
+                                                                                  }
+                                                                                : null,
+                                                                    )
+                                                                }
+                                                                placeholder="URL или выберите файл"
+                                                            />
+
+                                                            <label
+                                                                className={
+                                                                    styles.fileUploadBtn
+                                                                }
+                                                            >
+                                                                📁
+                                                                <input
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    style={{
+                                                                        display:
+                                                                            'none',
+                                                                    }}
+                                                                    onChange={async (
+                                                                        e,
+                                                                    ) => {
+                                                                        const file =
+                                                                            e
+                                                                                .target
+                                                                                .files?.[0]
+                                                                        if (
+                                                                            !file
+                                                                        )
+                                                                            return
+
+                                                                        try {
+                                                                            const formData =
+                                                                                new FormData()
+                                                                            formData.append(
+                                                                                'file',
+                                                                                file,
+                                                                            )
+
+                                                                            const res =
+                                                                                await fetch(
+                                                                                    '/api/admin/storage',
+                                                                                    {
+                                                                                        method: 'POST',
+                                                                                        body: formData,
+                                                                                    },
+                                                                                )
+
+                                                                            if (
+                                                                                !res.ok
+                                                                            )
+                                                                                throw new Error(
+                                                                                    'Загрузка не удалась',
+                                                                                )
+                                                                            const data =
+                                                                                await res.json()
+
+                                                                            if (
+                                                                                data.url
+                                                                            ) {
+                                                                                setEditingCell(
+                                                                                    (
+                                                                                        current,
+                                                                                    ) =>
+                                                                                        current
+                                                                                            ? {
+                                                                                                  ...current,
+                                                                                                  value: data.url,
+                                                                                              }
+                                                                                            : null,
+                                                                                )
+                                                                            }
+                                                                        } catch (err) {
+                                                                            console.error(
+                                                                                'Ошибка загрузки:',
+                                                                                err,
+                                                                            )
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            </label>
+
+                                                            {editingCell.value && (
+                                                                <button
+                                                                    type="button"
+                                                                    title="Удалить картинку"
+                                                                    onClick={() =>
+                                                                        setEditingCell(
+                                                                            (
+                                                                                current,
+                                                                            ) =>
+                                                                                current
+                                                                                    ? {
+                                                                                          ...current,
+                                                                                          value: '',
+                                                                                      }
+                                                                                    : null,
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    🗑
+                                                                </button>
+                                                            )}
+                                                        </div>
                                                     ) : (
                                                         <textarea
                                                             autoFocus
@@ -535,8 +706,8 @@ export default function ArticlesTable({
 
                                                     <button
                                                         type="button"
-                                                        onClick={() =>
-                                                            setEditingCell(null)
+                                                        onClick={
+                                                            cancelCellEditing
                                                         }
                                                     >
                                                         ✕

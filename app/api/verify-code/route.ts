@@ -10,15 +10,30 @@ export async function POST(request: Request) {
     try {
         const body = await request.json()
         const { email, code, orderDetails } = body
-        const { price } = orderDetails //date, time,
-    
-        if (!email || !code || !orderDetails) {
+        const { price, approoveOferta, dateApprooveOferta } = orderDetails //date, time,
+
+        //узнаем ip
+        const forwardedFor = request.headers.get('x-forwarded-for')
+        const clientIp = forwardedFor
+            ? forwardedFor.split(',')[0].trim()
+            : request.headers.get('x-real-ip') //|| '127.0.0.1';// с фига ли именно этот ip
+
+        // Далее сохраняем clientIp вместе с заказом и датами согласий в PostgreSQL
+        // console.log('IP клиента:', clientIp)
+
+        if (
+            !email ||
+            !code ||
+            !orderDetails ||
+            !approoveOferta ||
+            !dateApprooveOferta
+        ) {
             return NextResponse.json(
                 { success: false, message: 'Недостаточно данных' },
                 { status: 400 },
             )
         }
-    
+
         // Проверяем пару email + код
         const isValid = await dbVerifyCode(email, code)
 
@@ -28,15 +43,16 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-       
 
         // Создаем заказ
         const orderId = await dbCreateOrder({
             ...orderDetails,
             email,
             verification_code: code,
+            ip_order: clientIp,
+            date_approove_oferta: dateApprooveOferta,
+            approove_oferta: approoveOferta,
         })
- 
 
         // const merchantLogin = process.env.ROBOKASSA_LOGIN || 'ВАШ_ЛОГИН'
         // const password1 = process.env.ROBOKASSA_PASSWORD_1 || 'ВАШ_ПАРОЛЬ_1'
@@ -91,8 +107,7 @@ export async function POST(request: Request) {
 
         // 4. Валидный URL к скрипту /Merchant/Index.aspx
         const paymentUrl = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${mrh_login}&OutSum=${out_summ}&InvId=${inv_id}&Description=${encodedDesc}&SignatureValue=${signatureValue}&IsTest=${isTest}&Iframe=1`
-   
-    
+
         return NextResponse.json({ success: true, orderId, paymentUrl })
     } catch (error) {
         console.error('Ошибка проверки кода:', error)
@@ -102,4 +117,3 @@ export async function POST(request: Request) {
         )
     }
 }
- 

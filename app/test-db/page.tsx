@@ -361,6 +361,185 @@ export default async function TestDBPage() {
         //   ADD COLUMN IF NOT EXISTS data_last_consult DATE,
         //   ADD COLUMN IF NOT EXISTS counter_consult INTEGER DEFAULT 0;
         // `
+
+        //         await sql`
+        //         CREATE TABLE site_content (
+        //     id SERIAL PRIMARY KEY,
+        //     entity_name VARCHAR(50) NOT NULL, -- 'nameDoctor', 'education', 'services' и т.д.
+        //     title VARCHAR(255),
+        //     description_1 TEXT,
+        //     description_2 TEXT,
+        //     description_3 TEXT,
+        //     link VARCHAR(500),
+        //     order_index INT DEFAULT 0,
+        //     is_active BOOLEAN DEFAULT true,
+        //     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        // );
+        //  `
+        //         await sql`CREATE TABLE site_content (
+        // CREATE INDEX idx_site_content_entity ON site_content(entity_name);
+        // `
+
+        // await sql`
+        // ALTER TABLE site_content
+
+        // ADD COLUMN price INTEGER DEFAULT 0,
+
+        // DROP COLUMN order_index,
+
+        // ALTER COLUMN description_1 SET DEFAULT NULL,
+
+        // ALTER COLUMN description_2 SET DEFAULT NULL,
+
+        // ALTER COLUMN description_3 SET DEFAULT NULL;
+        // `
+        //         await sql`
+        // ALTER TABLE site_content
+        //   ADD COLUMN IF NOT EXISTS image TEXT DEFAULT NULL;
+        // `
+        // await sql`
+        // CREATE TABLE your_table_name (
+        //     id SERIAL PRIMARY KEY,
+        //     title VARCHAR(255) NOT NULL,
+        //     description_1 TEXT DEFAULT NULL,
+        //     description_1_name VARCHAR(255) DEFAULT NULL,
+        //     description_2 TEXT DEFAULT NULL,
+        //     description_2_name VARCHAR(255) DEFAULT NULL,
+        //     description_3 TEXT DEFAULT NULL,
+        //     description_3_name VARCHAR(255) DEFAULT NULL,
+        //     description_4 TEXT DEFAULT NULL,
+        //     description_4_name VARCHAR(255) DEFAULT NULL,
+        //     description_5 TEXT DEFAULT NULL,
+        //     description_5_name VARCHAR(255) DEFAULT NULL,
+        //     link TEXT DEFAULT NULL,
+        //     is_check BOOLEAN NOT NULL,
+        //     is_active BOOLEAN DEFAULT NULL,
+        //     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        //     price NUMERIC(10, 2) NOT NULL,
+        //     image TEXT DEFAULT NULL
+        // );
+        //  `
+        // await sql`
+        // DROP TABLE your_table_name;`
+
+        //       await sql`
+        // CREATE TABLE public.all_clients (
+        //     id integer NOT NULL,
+        //     fio text,
+        //     phone text,
+        //     email text,
+        //     comment text,
+        //     data_last_consult date,
+        //     counter_consult integer DEFAULT 0
+        // );
+        // `
+        //   await sql`
+        // -- Последовательность для автоинкремента
+        // CREATE SEQUENCE public.all_clients_id_seq
+        //     AS integer
+        //     START WITH 1
+        //     INCREMENT BY 1
+        //     NO MINVALUE
+        //     NO MAXVALUE
+        //     CACHE 1;`
+
+        //   await sql`
+        // ALTER SEQUENCE public.all_clients_id_seq
+        //     OWNED BY public.all_clients.id;
+        //   `
+
+        //   await sql`
+        // ALTER TABLE ONLY public.all_clients
+        //     ALTER COLUMN id SET DEFAULT nextval('public.all_clients_id_seq'::regclass);
+        // `
+
+        //   await sql`
+        // ALTER TABLE ONLY public.all_clients
+        //     ADD CONSTRAINT all_clients_pkey PRIMARY KEY (id);`
+
+        //         await sql`
+        // -- 1. Создаем последовательность, если она еще не создана
+        // CREATE SEQUENCE IF NOT EXISTS public.all_clients_id_seq;`
+        //         await sql`
+        // -- 2. Привязываем генерацию значений по умолчанию к колонке
+        // ALTER TABLE public.all_clients
+        //   ALTER COLUMN id SET DEFAULT nextval('public.all_clients_id_seq');`
+        //         await sql`
+        // -- 3. Привязываем последовательность к колонке (уборка при DROP TABLE)
+        // ALTER SEQUENCE public.all_clients_id_seq
+        //   OWNED BY public.all_clients.id;`
+        //         await sql`
+        // -- 4. Синхронизируем счетчик с максимальным существенным ID в таблице
+        // SELECT setval(
+        //   'public.all_clients_id_seq',
+        //   COALESCE((SELECT MAX(id) FROM public.all_clients), 1)
+        // );
+        // `
+        //         await sql`
+        // CREATE TABLE services (
+        //     id SERIAL PRIMARY KEY,
+        //     title VARCHAR(255) NOT NULL,
+        //     description_1 TEXT DEFAULT NULL,
+        //     description_1_name VARCHAR(255) DEFAULT NULL,
+        //     description_2 TEXT DEFAULT NULL,
+        //     description_2_name VARCHAR(255) DEFAULT NULL,
+        //     description_3 TEXT DEFAULT NULL,
+        //     description_3_name VARCHAR(255) DEFAULT NULL,
+        //     description_4 TEXT DEFAULT NULL,
+        //     description_4_name VARCHAR(255) DEFAULT NULL,
+        //     description_5 TEXT DEFAULT NULL,
+        //     description_5_name VARCHAR(255) DEFAULT NULL,
+        //     link TEXT DEFAULT NULL,
+        //     is_check BOOLEAN NOT NULL,
+        //     is_active BOOLEAN DEFAULT NULL,
+        //     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        //     price NUMERIC(10, 2) NOT NULL,
+        //     image TEXT DEFAULT NULL
+        // );`
+
+        //        await sql`ALTER TABLE all_clients
+        // ADD COLUMN IF NOT EXISTS dateConsent_pd TIMESTAMPTZ,
+        // ADD COLUMN IF NOT EXISTS dateConsent_promo TIMESTAMPTZ;`
+
+        // await sql.end()
+        //         await sql`
+
+        // ALTER TABLE all_clients
+        // ADD COLUMN consent_pd VARCHAR(45),
+        // ADD COLUMN consent_promo VARCHAR(45);
+
+        // `
+
+        //  await sql`
+        //     DROP TABLE IF EXISTS technical_recording;
+        // `
+
+        // await sql`
+        //     DROP TABLE IF EXISTS variable;
+        // `
+        //         await sql`CREATE OR REPLACE FUNCTION set_ips_create_at()RETURNS TRIGGER AS $$BEGIN
+        //     NEW.create_at = NOW();
+        //     RETURN NEW;END;
+        // $$ LANGUAGE plpgsql;`
+
+        //         await sql`CREATE TABLE ips_all_clients (
+        //     id SERIAL PRIMARY KEY,
+        //     id_client INTEGER NOT NULL,
+        //     ip VARCHAR(45) NOT NULL,
+        //     create_at TIMESTAMP WITH TIME ZONE
+        // );`
+
+        //         await sql`CREATE TRIGGER trg_ips_all_clients_create_at
+        // BEFORE INSERT ON ips_all_clientsFOR EACH ROWEXECUTE FUNCTION set_ips_create_at();`
+        //         await sql`
+        //   CREATE TRIGGER trg_ips_all_clients_create_at
+        //   BEFORE INSERT ON ips_all_clients
+        //   FOR EACH ROW
+        //   EXECUTE FUNCTION set_ips_create_at();
+        // `
+        //         await sql`
+
+        // ALTER TABLE orders ALTER COLUMN price TYPE NUMERIC(10, 2) USING price::numeric`
         isSuccess = true
     } catch (error) {
         // Если что-то пошло не так (например, неверный пароль в .env.local)

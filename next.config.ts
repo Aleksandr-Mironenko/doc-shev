@@ -7,10 +7,14 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'i.pinimg.com',
             },
+            {
+                protocol: 'https',
+                hostname: 'cdn.relaxdev.ru',
+            },
         ],
     },
+    devIndicators: false,
 
-    // 👇 Добавляем разрешённый origin
     allowedDevOrigins: ['172.18.0.1'],
 }
 

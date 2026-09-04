@@ -40,12 +40,12 @@
 // }
 'use client' // Обязательно для Next.js (App Router), так как используем useState
 
-import { useState } from 'react'
 import styles from './orderButton.module.scss'
 import Image from 'next/image'
 import calend from '../../../public/ggg/cal.png'
 import Link from 'next/link'
-
+import { createPortal } from 'react-dom'
+import { useEffect, useState } from 'react'
 interface OrderButtonProps {
     linka?: string
     text?: string
@@ -55,6 +55,7 @@ export default function OrderButton({
     text = 'Написать сообщение', // Изменил текст по умолчанию для наглядности
 }: OrderButtonProps) {
     // Состояния для модального окна
+    const [isMounted, setIsMounted] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalStep, setModalStep] = useState(1) // 1 - ввод данных, 2 - ввод кода
     const [isActionLoading, setIsActionLoading] = useState(false)
@@ -74,6 +75,18 @@ export default function OrderButton({
         setModalStep(1)
         setFormData({ name: '', email: '', message: '', code: '', phone: '' })
     }
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    useEffect(() => {
+        // ОШИБКА: modalStep изначально равен 0, поэтому класс 'modal-open' вешается сразу при загрузке страницы
+        document.body.classList.toggle('modal-open', isModalOpen) //
+
+        return () => {
+            document.body.classList.remove('modal-open') //[cite: 1]
+        }
+    }, [isModalOpen])
 
     // Шаг 1: Отправка данных и запрос кода на email клиента
     const handleFormSubmit = async () => {
@@ -109,9 +122,13 @@ export default function OrderButton({
             }
 
             setModalStep(2) // Переходим к вводу кода
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : 'Произошла ошибка при отправке кода'
             console.error('Ошибка отправки кода', error)
-            alert(error.message || 'Произошла ошибка при отправке кода')
+            alert(errorMessage)
         } finally {
             setIsActionLoading(false)
         }
@@ -149,9 +166,13 @@ export default function OrderButton({
 
             alert('Ваше сообщение успешно отправлено!')
             handleCloseModal() // Закрываем окно после успеха
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : 'Неверный код подтверждения'
             console.error('Неверный код или ошибка сервера', error)
-            alert(error.message || 'Неверный код подтверждения')
+            alert(errorMessage)
         } finally {
             setIsActionLoading(false)
         }
@@ -164,7 +185,10 @@ export default function OrderButton({
                     href="/timetable"
                     className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.blue}`}
                 >
-                    <span>Записаться на консультацию</span>
+                    <span className={styles.text__min}>Записаться</span>
+                    <span className={styles.text__max}>
+                        Записаться на консультацию
+                    </span>
                     <Image
                         className={styles.buttonsHero__calendarLogo}
                         src={calend}
@@ -185,7 +209,7 @@ export default function OrderButton({
                 )}
                 {text === 'Обо мне' && (
                     <Link
-                        href="/timetable" //поменять на страницу обо мне
+                        href="/about-me" //поменять на страницу обо мне
                         className={`${styles.buttonsHero__button} ${styles.buttonsHero__info} ${styles.buttonsHero__info_second}`}
                     >
                         <p>{text}</p>
@@ -194,233 +218,247 @@ export default function OrderButton({
             </div>
 
             {/* Модальное окно */}
-            {isModalOpen && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        zIndex: 1000,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
+
+            {isModalOpen &&
+                isMounted &&
+                createPortal(
                     <div
                         style={{
-                            background: 'white',
-                            padding: '30px',
-                            borderRadius: '16px',
-                            width: '100%',
-                            maxWidth: '400px',
+                            color: '#333030',
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            zIndex: 100011,
                             display: 'flex',
-                            flexDirection: 'column',
-                            gap: '15px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}
                     >
-                        {/* ШАГ 1: Ввод ФИО, Почты и Сообщения */}
-                        {modalStep === 1 && (
-                            <>
-                                <h3
-                                    style={{
-                                        margin: 0,
-                                        fontSize: 20,
-                                        textAlign: 'center',
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    Написать сообщение
-                                </h3>
+                        <div
+                            style={{
+                                color: '#333030',
+                                background: 'white',
+                                padding: '30px',
+                                borderRadius: '16px',
+                                width: '100%',
+                                maxWidth: '400px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '15px',
+                            }}
+                        >
+                            {/* ШАГ 1: Ввод ФИО, Почты и Сообщения */}
+                            {modalStep === 1 && (
+                                <>
+                                    <h3
+                                        style={{
+                                            color: '#333030',
+                                            margin: 0,
+                                            fontSize: 20,
+                                            textAlign: 'center',
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Написать сообщение
+                                    </h3>
 
-                                <input
-                                    placeholder="ФИО"
-                                    value={formData.name}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            name: e.target.value,
-                                        })
-                                    }
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: 12,
-                                        border: '1px solid #ddd',
-                                        fontSize: 16,
-                                    }}
-                                />
-                                <input
-                                    placeholder="Email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            email: e.target.value,
-                                        })
-                                    }
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: 12,
-                                        border: '1px solid #ddd',
-                                        fontSize: 16,
-                                    }}
-                                />
+                                    <input
+                                        placeholder="ФИО"
+                                        value={formData.name}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                name: e.target.value,
+                                            })
+                                        }
+                                        style={{
+                                            color: '#333030',
+                                            padding: '12px 16px',
+                                            borderRadius: 12,
+                                            border: '1px solid #ddd',
+                                            fontSize: 16,
+                                        }}
+                                    />
+                                    <input
+                                        placeholder="Email"
+                                        type="email"
+                                        value={formData.email}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                email: e.target.value,
+                                            })
+                                        }
+                                        style={{
+                                            color: '#333030',
+                                            padding: '12px 16px',
+                                            borderRadius: 12,
+                                            border: '1px solid #ddd',
+                                            fontSize: 16,
+                                        }}
+                                    />
 
-                                <input
-                                    placeholder="Телефон"
-                                    type="tel"
-                                    value={formData.phone}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            phone: e.target.value,
-                                        })
-                                    }
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: 12,
-                                        border: '1px solid #ddd',
-                                        fontSize: 16,
-                                    }}
-                                />
-                                <textarea
-                                    placeholder="Текст сообщения..."
-                                    rows={4}
-                                    value={formData.message}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            message: e.target.value,
-                                        })
-                                    }
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: 12,
-                                        border: '1px solid #ddd',
-                                        fontSize: 16,
-                                        resize: 'none',
-                                    }}
-                                />
+                                    <input
+                                        placeholder="Телефон"
+                                        type="tel"
+                                        value={formData.phone}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                phone: e.target.value,
+                                            })
+                                        }
+                                        style={{
+                                            color: '#333030',
+                                            padding: '12px 16px',
+                                            borderRadius: 12,
+                                            border: '1px solid #ddd',
+                                            fontSize: 16,
+                                        }}
+                                    />
+                                    <textarea
+                                        placeholder="Текст сообщения..."
+                                        rows={4}
+                                        value={formData.message}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                message: e.target.value,
+                                            })
+                                        }
+                                        style={{
+                                            color: '#333030',
+                                            padding: '12px 16px',
+                                            borderRadius: 12,
+                                            border: '1px solid #ddd',
+                                            fontSize: 16,
+                                            resize: 'none',
+                                        }}
+                                    />
 
-                                <button
-                                    onClick={handleFormSubmit}
-                                    disabled={isActionLoading}
-                                    style={{
-                                        padding: '14px',
-                                        borderRadius: 12,
-                                        backgroundColor: '#59B86A',
-                                        color: '#fff',
-                                        border: 'none',
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        cursor: isActionLoading
-                                            ? 'wait'
-                                            : 'pointer',
-                                        marginTop: 10,
-                                    }}
-                                >
-                                    {isActionLoading
-                                        ? 'Отправка...'
-                                        : 'Продолжить'}
-                                </button>
-                                <button
-                                    onClick={handleCloseModal}
-                                    style={{
-                                        background: 'transparent',
-                                        border: 'none',
-                                        color: '#999',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    Отмена
-                                </button>
-                            </>
-                        )}
+                                    <button
+                                        onClick={handleFormSubmit}
+                                        disabled={isActionLoading}
+                                        style={{
+                                            padding: '14px',
+                                            borderRadius: 12,
+                                            backgroundColor: '#59B86A',
+                                            color: '#fff',
+                                            border: 'none',
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            cursor: isActionLoading
+                                                ? 'wait'
+                                                : 'pointer',
+                                            marginTop: 10,
+                                        }}
+                                    >
+                                        {isActionLoading
+                                            ? 'Отправка...'
+                                            : 'Продолжить'}
+                                    </button>
+                                    <button
+                                        onClick={handleCloseModal}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: '#333',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        Отмена
+                                    </button>
+                                </>
+                            )}
 
-                        {/* ШАГ 2: Подтверждение кода */}
-                        {modalStep === 2 && (
-                            <>
-                                <h3
-                                    style={{
-                                        margin: 0,
-                                        fontSize: 20,
-                                        textAlign: 'center',
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    Подтверждение почты
-                                </h3>
-                                <p
-                                    style={{
-                                        margin: 0,
-                                        textAlign: 'center',
-                                        opacity: 0.6,
-                                        fontSize: 14,
-                                    }}
-                                >
-                                    Мы отправили код подтверждения на{' '}
-                                    <b>{formData.email}</b>
-                                </p>
+                            {/* ШАГ 2: Подтверждение кода */}
+                            {modalStep === 2 && (
+                                <>
+                                    <h3
+                                        style={{
+                                            color: '#333030',
+                                            margin: 0,
+                                            fontSize: 20,
+                                            textAlign: 'center',
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Подтверждение почты
+                                    </h3>
+                                    <p
+                                        style={{
+                                            color: '#333030',
+                                            margin: 0,
+                                            textAlign: 'center',
+                                            opacity: 0.6,
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        Мы отправили код подтверждения на{' '}
+                                        <b>{formData.email}</b>
+                                    </p>
 
-                                <input
-                                    placeholder="Введите код из письма"
-                                    value={formData.code}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            code: e.target.value,
-                                        })
-                                    }
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: 12,
-                                        border: '1px solid #ddd',
-                                        fontSize: 16,
-                                        textAlign: 'center',
-                                        letterSpacing: 2,
-                                    }}
-                                />
+                                    <input
+                                        placeholder="Введите код из письма"
+                                        value={formData.code}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                code: e.target.value,
+                                            })
+                                        }
+                                        style={{
+                                            color: '#333030',
+                                            padding: '12px 16px',
+                                            borderRadius: 12,
+                                            border: '1px solid #ddd',
+                                            fontSize: 16,
+                                            textAlign: 'center',
+                                            letterSpacing: 2,
+                                        }}
+                                    />
 
-                                <button
-                                    onClick={handleCodeSubmit}
-                                    disabled={isActionLoading}
-                                    style={{
-                                        padding: '14px',
-                                        borderRadius: 12,
-                                        backgroundColor: '#59B86A',
-                                        color: '#fff',
-                                        border: 'none',
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        cursor: isActionLoading
-                                            ? 'wait'
-                                            : 'pointer',
-                                        marginTop: 10,
-                                    }}
-                                >
-                                    {isActionLoading
-                                        ? 'Проверка...'
-                                        : 'Отправить сообщение'}
-                                </button>
-                                <button
-                                    onClick={() => setModalStep(1)}
-                                    style={{
-                                        background: 'transparent',
-                                        border: 'none',
-                                        color: '#999',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    Вернуться назад
-                                </button>
-                            </>
-                        )}
-                    </div>
-                </div>
-            )}
+                                    <button
+                                        onClick={handleCodeSubmit}
+                                        disabled={isActionLoading}
+                                        style={{
+                                            padding: '14px',
+                                            borderRadius: 12,
+                                            backgroundColor: '#59B86A',
+                                            color: '#fff',
+                                            border: 'none',
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            cursor: isActionLoading
+                                                ? 'wait'
+                                                : 'pointer',
+                                            marginTop: 10,
+                                        }}
+                                    >
+                                        {isActionLoading
+                                            ? 'Проверка...'
+                                            : 'Отправить сообщение'}
+                                    </button>
+                                    <button
+                                        onClick={() => setModalStep(1)}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: '#333',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        Вернуться назад
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>,
+                    document.body,
+                )}
         </>
     )
 }

@@ -1,0 +1,125 @@
+.card {
+    background-color: white; //#c2cbdb;
+    height: 100%;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 14px rgba(16, 24, 40, 0.05); /* Мягкая тень как на референсе */
+    border: 1px solid #f1f5f9;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 260px; /* Можно убрать, если карточка тянется по сетке grid */
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.iconWrapper {
+    background-color: #eff4ff; /* Светло-голубой фон иконки */
+    color: #5c83b8; /* Цвет самой иконки */
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.badge {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1; /* Чтобы кнопки всегда прижимались к низу, если высота карточек разная */
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.duration {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 4px 0 0 0;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.btnSelect {
+    background-color: #3b76c8; /* Синий цвет как на макете */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #2f60a6;
+    }
+}
+
+.btnDetails {
+    background: none;
+    border: none;
+    color: #3b76c8; /* Цвет текста совпадает с кнопкой */
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    svg {
+        color: #94a3b8; /* Сероватая иконка info */
+    }
+}

@@ -1,19 +1,30 @@
 // import postgres from 'postgres'
-
-const sql = postgres(process.env.DATABASE_URL as string)
+// const sql = postgres(process.env.DATABASE_URL as string)
 
 // export default sql
 
+//////////////////////////////////////////////////////////////////
+// import postgres from 'postgres'
+
+// const sql = postgres(process.env.DATABASE_URL as string, {
+//     max: 5,
+//     idle_timeout: 20,
+//     connect_timeout: 10,
+// })
+
+// export default sql
+/////////////////////////////////////
+// с кэшем
 import postgres from 'postgres'
 
-// ВРЕМЕННО вставляем строку напрямую.
-// Обязательно в кавычках!
+declare global {
+    // eslint-disable-next-line no-var
+    var __postgresSqlClient__: ReturnType<typeof postgres> | undefined
+}
 
-// const connectionString =
-//     'postgresql://u_cmsasza180:5R6Jn5gUttXG4FoDr5vG9LEnsGuTB@45.15.253.109:54328/db_doc_shev'
-// const connectionString =
-//     'postgresql://u_cmsasza180:5R6Jn5gUttXG4FoDr5vG9LEnsGuTB@db-team-cmsafbpei002jrw01oh3npkek:5432/db_doc_shev'
+const sql =
+    global.__postgresSqlClient__ ?? postgres(process.env.DATABASE_URL as string)
 
-// const sql = postgres(connectionString)
+if (process.env.NODE_ENV !== 'production') global.__postgresSqlClient__ = sql
 
 export default sql

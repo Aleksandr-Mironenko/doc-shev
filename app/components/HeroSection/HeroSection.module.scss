@@ -94,10 +94,11 @@
     color: black;
     padding: 20px 10px;
     &__orderButton {
+        
         position: relative;
         top: 45px;
-        right: 15px;
-        @media (min-width: 1084px) {
+        // right: 15px;
+        @media (min-width: 1099px) {
             display: none;
         }
     }

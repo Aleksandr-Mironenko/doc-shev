@@ -27,14 +27,24 @@ export default async function RoomPage({ params }: PageProps) {
         <main className={styles.main}>
             <div className={styles.wrapper}>
                 <Header />
-                <RoomClient
-                    hasAuthCookie={hasAuthCookie}
-                    roomId={roomId}
-                    fio={fio}
-                    initialStatus={status}
-                    startTime={startTime}
-                />
-                <div style={{ flex: 1 }}></div>
+
+                {/* Даем центральному блоку flex: 1, чтобы он выталкивал футер вниз */}
+                <div
+                    style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <RoomClient
+                        hasAuthCookie={hasAuthCookie}
+                        roomId={roomId}
+                        fio={fio}
+                        initialStatus={status}
+                        startTime={startTime}
+                    />
+                </div>
+
                 <Footer />
             </div>
         </main>
