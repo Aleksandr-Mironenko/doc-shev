@@ -1,4 +1,4 @@
-import styles from './aboutMe.module.scss'
+import styles from './AboutMe.module.scss'
 
 export default function AboutMe() {
     return (
