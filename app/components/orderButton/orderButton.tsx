@@ -612,7 +612,7 @@ export default function OrderButton({
                                             : 'Отправить'}
                                     </button>
                                     <button
-                                        onClick={() => setModalStep(1)}
+                                        onClick={() => handleCloseModal()}
                                         style={{
                                             background: 'transparent',
                                             border: 'none',
@@ -733,7 +733,7 @@ export default function OrderButton({
                                             : 'Записаться'}
                                     </button>
                                     <button
-                                        onClick={() => setModalStep(1)}
+                                        onClick={() => handleCloseModal()}
                                         style={{
                                             background: 'transparent',
                                             border: 'none',
