@@ -24,7 +24,7 @@ export default async function Admin() {
     // const services = siteContent.data.filter(
     //     (el) => el.entity_name === 'services',
     // )
-    console.log(services)
+    // console.log(services)
     return (
         <main className={styles.main}>
             <div className={styles.wrapper}>
