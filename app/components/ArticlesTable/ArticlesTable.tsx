@@ -544,7 +544,7 @@ export default function ArticlesTable({
                                                             </option>
                                                         </select>
                                                     ) : columnId ===
-                                                          'image_url' ||
+                                                          'id' ||
                                                       columnId ===
                                                           'preview_image_url' ? (
                                                         <div
