@@ -148,7 +148,7 @@ export default function ArticlesTable({
 
         // 3. Если это была колонка с картинкой и картинку заменили — удаляем старый файл с сервера
         const isImageColumn =
-            columnId === 'preview_image_url' || columnId === 'image_url'
+            columnId === 'preview_image_url' || columnId === 'id'
 
         if (
             isImageColumn &&
@@ -167,7 +167,7 @@ export default function ArticlesTable({
         if (editingCell) {
             const { rowId, columnId, value } = editingCell
             const isImageColumn =
-                columnId === 'preview_image_url' || columnId === 'image_url'
+                columnId === 'preview_image_url' || columnId === 'id'
 
             const previousRow = articles.find((r) => r.id === rowId)
             const oldValue = previousRow ? previousRow[columnId] : null
