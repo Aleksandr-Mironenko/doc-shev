@@ -5,7 +5,8 @@ import sendEmail from '@/app/services/serviceSendEmail' // Путь скорре
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const { fio, phone, email } = body
+        const { fio, phone, email, check, dateConsent_pd, dateConsent_promo } =
+            body
 
         if (!fio || !phone || !email) {
             return NextResponse.json(
@@ -15,7 +16,21 @@ export async function POST(request: Request) {
         }
 
         // Записываем клиента в базу
-        await dbCreateClient(fio, phone, email)
+        // fio,
+        //     phone,
+        //     email,
+        //     check,
+        //     dateConsent_pd,
+        //     dateConsent_promo,
+
+        await dbCreateClient(
+            fio,
+            phone,
+            email,
+            check,
+            dateConsent_pd,
+            dateConsent_promo,
+        )
 
         // Генерируем код
         const code = await dbGenerateEmailCode(email)
@@ -35,7 +50,7 @@ export async function POST(request: Request) {
         const results = await Promise.allSettled(tasks)
         results.forEach((result, index) => {
             if (result.status === 'rejected') {
-              //  console.log('Ошибка в send-code:', index, result.reason)
+                //  console.log('Ошибка в send-code:', index, result.reason)
             }
         })
 

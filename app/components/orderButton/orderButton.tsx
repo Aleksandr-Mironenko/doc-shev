@@ -55,11 +55,18 @@ export default function OrderButton({
     text = 'Написать сообщение', // Изменил текст по умолчанию для наглядности
 }: OrderButtonProps) {
     // Состояния для модального окна
+    const [dateConsent_pd, setDateConsent_pd] = useState<false | string>(false)
+
+    const [dateConsent_promo, setDateConsent_promo] = useState<false | string>(
+        false,
+    )
+
     const [isMounted, setIsMounted] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalStep, setModalStep] = useState(1) // 1 - ввод данных, 2 - ввод кода
     const [isActionLoading, setIsActionLoading] = useState(false)
-
+    const [consent_promo, setConsent_promo] = useState<boolean>(false)
+    const [consent_pd, setConsent_pd] = useState<boolean>(false)
     // Состояние формы
     const [formData, setFormData] = useState({
         name: '',
@@ -112,6 +119,10 @@ export default function OrderButton({
                     fio: formData.name, // передаем name как fio
                     phone: formData.phone,
                     email: formData.email,
+
+                    dateConsent_pd: dateConsent_pd,
+                    dateConsent_promo: dateConsent_promo,
+                    check: false,
                 }),
             })
 
@@ -339,29 +350,269 @@ export default function OrderButton({
                                         }}
                                     />
 
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 12,
+                                            marginTop: 4,
+                                        }}
+                                    >
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: 10,
+                                                cursor: 'pointer',
+                                                fontSize: 13,
+                                                lineHeight: 1.4,
+                                                color: '#555',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={consent_promo}
+                                                // onChange={(e) => {
+                                                //     handleConsentClick(
+                                                //         setDateConsent_promo,
+                                                //         consent_promo,
+                                                //     )
+                                                //     setConsent_promo(
+                                                //         e.target
+                                                //             .checked,
+                                                //     )
+                                                // }}
+
+                                                // onChange={(e) => {
+                                                //     const isChecked =
+                                                //         e.target
+                                                //             .checked
+                                                //     setConsent_promo(
+                                                //         isChecked,
+                                                //     )
+
+                                                //     if (isChecked) {
+                                                //         const date =
+                                                //             new Date()
+                                                //         date.setUTCHours(
+                                                //             date.getUTCHours() +
+                                                //                 3,
+                                                //         )
+                                                //         setDateConsent_promo(
+                                                //             date
+                                                //                 .toISOString()
+                                                //                 .replace(
+                                                //                     'Z',
+                                                //                     '+03:00',
+                                                //                 ),
+                                                //         )
+                                                //     } else {
+                                                //         setDateConsent_promo(
+                                                //             false,
+                                                //         )
+                                                //     }
+                                                // }}
+                                                onChange={(e) => {
+                                                    const isChecked =
+                                                        e.target.checked
+
+                                                    setConsent_promo(isChecked)
+
+                                                    if (isChecked) {
+                                                        // toISOString() автоматически выдает строку в UTC
+                                                        // Пример: "2026-09-03T20:21:56.123Z"
+                                                        setDateConsent_promo(
+                                                            new Date().toISOString(),
+                                                        )
+                                                    } else {
+                                                        setDateConsent_promo(
+                                                            false,
+                                                        ) // (или null, если позволяет типизация)
+                                                    }
+                                                }}
+                                                style={{
+                                                    color: '#333030',
+                                                    width: 18,
+                                                    height: 18,
+                                                    marginTop: 1,
+                                                    flexShrink: 0,
+                                                    cursor: 'pointer',
+                                                }}
+                                            />
+
+                                            <span>
+                                                {`Согласен(на) на `}
+                                                <a
+                                                    style={{
+                                                        textDecoration:
+                                                            'underline',
+                                                        color: 'black',
+                                                        fontWeight: 700,
+                                                    }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href="/advertising-consent"
+                                                >
+                                                    <b>
+                                                        получение информационных
+                                                        рассылок
+                                                    </b>
+                                                </a>
+                                            </span>
+                                        </label>
+
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: 10,
+                                                cursor: 'pointer',
+                                                fontSize: 13,
+                                                lineHeight: 1.4,
+                                                color: '#555',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={consent_pd}
+                                                // onChange={(e) => {
+                                                //     handleConsentClick(
+                                                //         setDateConsent_pd,
+                                                //         consent_pd,
+                                                //     )
+                                                //     setConsent_pd(
+                                                //         e.target
+                                                //             .checked,
+                                                //     )
+                                                // }}
+
+                                                // onChange={(e) => {
+                                                //     const isChecked =
+                                                //         e.target
+                                                //             .checked
+                                                //     setConsent_pd(
+                                                //         isChecked,
+                                                //     )
+
+                                                //     if (isChecked) {
+                                                //         const date =
+                                                //             new Date()
+                                                //         date.setUTCHours(
+                                                //             date.getUTCHours() +
+                                                //                 3,
+                                                //         )
+                                                //         setDateConsent_pd(
+                                                //             date
+                                                //                 .toISOString()
+                                                //                 .replace(
+                                                //                     'Z',
+                                                //                     '+03:00',
+                                                //                 ),
+                                                //         )
+                                                //     } else {
+                                                //         setDateConsent_pd(
+                                                //             false,
+                                                //         )
+                                                //     }
+                                                // }}
+                                                onChange={(e) => {
+                                                    const isChecked =
+                                                        e.target.checked
+
+                                                    setConsent_pd(isChecked)
+
+                                                    if (isChecked) {
+                                                        setDateConsent_pd(
+                                                            new Date().toISOString(),
+                                                        )
+                                                    } else {
+                                                        setDateConsent_pd(false)
+                                                    }
+                                                }}
+                                                style={{
+                                                    width: 18,
+                                                    height: 18,
+                                                    marginTop: 1,
+                                                    flexShrink: 0,
+                                                    color: '#333030',
+                                                    cursor: 'pointer',
+                                                }}
+                                            />
+
+                                            <span>
+                                                {`Согласен(на) на `}
+                                                <a
+                                                    style={{
+                                                        textDecoration:
+                                                            'underline',
+                                                        color: 'black',
+                                                        fontWeight: 700,
+                                                    }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href="/policy"
+                                                >
+                                                    <b>
+                                                        обработку персональных
+                                                        данных
+                                                    </b>
+                                                </a>
+                                            </span>
+                                        </label>
+                                    </div>
                                     <button
                                         onClick={handleFormSubmit}
-                                        disabled={isActionLoading}
+                                        disabled={
+                                            !formData.name.trim() ||
+                                            !formData.email.trim() ||
+                                            !formData.phone.trim() ||
+                                            !formData.message.trim() ||
+                                            !consent_pd ||
+                                            isActionLoading
+                                        }
                                         style={{
                                             padding: '14px',
                                             borderRadius: 12,
-                                            backgroundColor: '#59B86A',
-                                            color: '#fff',
+                                            backgroundColor:
+                                                !formData.name.trim() ||
+                                                !formData.email.trim() ||
+                                                !formData.phone.trim() ||
+                                                !formData.message.trim() ||
+                                                !consent_pd ||
+                                                isActionLoading
+                                                    ? '#999'
+                                                    : '#59B86A',
+                                            color:
+                                                !formData.name.trim() ||
+                                                !formData.email.trim() ||
+                                                !formData.phone.trim() ||
+                                                !formData.message.trim() ||
+                                                !consent_pd ||
+                                                isActionLoading
+                                                    ? 'black'
+                                                    : '#fff',
+                                            cursor:
+                                                !formData.name.trim() ||
+                                                !formData.email.trim() ||
+                                                !formData.phone.trim() ||
+                                                !formData.message.trim() ||
+                                                !consent_pd ||
+                                                isActionLoading
+                                                    ? 'wait'
+                                                    : 'pointer',
                                             border: 'none',
                                             fontSize: 16,
                                             fontWeight: 600,
-                                            cursor: isActionLoading
-                                                ? 'wait'
-                                                : 'pointer',
+
                                             marginTop: 10,
                                         }}
                                     >
                                         {isActionLoading
                                             ? 'Отправка...'
-                                            : 'Продолжить'}
+                                            : 'Отправить'}
                                     </button>
                                     <button
-                                        onClick={handleCloseModal}
+                                        onClick={() => setModalStep(1)}
                                         style={{
                                             background: 'transparent',
                                             border: 'none',
@@ -421,7 +672,7 @@ export default function OrderButton({
                                         }}
                                     />
 
-                                    <button
+                                    {/* <button
                                         onClick={handleCodeSubmit}
                                         disabled={isActionLoading}
                                         style={{
@@ -441,6 +692,45 @@ export default function OrderButton({
                                         {isActionLoading
                                             ? 'Проверка...'
                                             : 'Отправить сообщение'}
+                                    </button> */}
+                                    {/* <button
+                                        onClick={() => setModalStep(1)}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: '#333',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        Вернуться назад
+                                    </button> */}
+
+                                    <button
+                                        onClick={handleCodeSubmit}
+                                        disabled={!formData.code.trim()}
+                                        style={{
+                                            padding: '14px',
+                                            borderRadius: 12,
+                                            backgroundColor:
+                                                !formData.code.trim()
+                                                    ? '#999'
+                                                    : '#59B86A',
+                                            color: !formData.code.trim()
+                                                ? 'black'
+                                                : '#fff',
+                                            cursor: !formData.code.trim()
+                                                ? 'wait'
+                                                : 'pointer',
+                                            border: 'none',
+                                            fontSize: 16,
+                                            fontWeight: 600,
+
+                                            marginTop: 10,
+                                        }}
+                                    >
+                                        {isActionLoading
+                                            ? 'Отправка...'
+                                            : 'Записаться'}
                                     </button>
                                     <button
                                         onClick={() => setModalStep(1)}
@@ -451,7 +741,7 @@ export default function OrderButton({
                                             cursor: 'pointer',
                                         }}
                                     >
-                                        Вернуться назад
+                                        Отмена
                                     </button>
                                 </>
                             )}

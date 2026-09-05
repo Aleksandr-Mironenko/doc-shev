@@ -32,7 +32,7 @@ export async function POST(request: Request) {
                 <p>Телефон клиента: <b>${phone}</b></p>
                 <p>Email клиента: <b>${email}</b></p>
                 <p>Сообщение от клиента: <b>${message}</b></p>`,
-                '22 Сообщение от клиента',
+                'Сообщение от клиента',
             ),
         ]
 
