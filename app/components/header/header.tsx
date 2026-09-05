@@ -2,7 +2,7 @@
 import styles from './header.module.scss'
 
 import Logo from '../Logo/Logo'
-import AboutMe from '../AboutMe/AboutMe'
+import AboutMe from '@/app/components/AboutMe/AboutMe'
 import Publics from '../publics/publics'
 import Services from '../services/services'
 import FreeMaterial from '../freeMaterial/freeMaterial'

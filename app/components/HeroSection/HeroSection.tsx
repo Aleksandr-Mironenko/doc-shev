@@ -2,7 +2,7 @@ import styles from './HeroSection.module.scss'
 import image from '../../../public/face.png'
 import Image from 'next/image'
 import OrderButton from '../orderButton/orderButton'
-import logo from '@/public/str.png'
+// import logo from '@/public/str.png'
 
 export interface SiteContentItem {
     id: number

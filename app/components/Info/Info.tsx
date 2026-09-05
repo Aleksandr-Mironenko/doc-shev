@@ -1,14 +1,14 @@
 import styles from './Info.module.scss'
 import Image from 'next/image'
-import logo from '@/public/str.png'
-import books from '@/public/ggg/books.svg'
-import peaple from '@/public/ggg/peaple.svg'
-import hand from '@/public/ggg/hand.svg'
-import head from '@/public/ggg/head.svg'
-import diplom from '@/public/ggg/diplom.svg'
-import newspaper from '@/public/ggg/newspaper.svg'
+// import logo from '@/public/str.png'
+// import books from '@/public/ggg/books.svg'
+// import peaple from '@/public/ggg/peaple.svg'
+// import hand from '@/public/ggg/hand.svg'
+// import head from '@/public/ggg/head.svg'
+// import diplom from '@/public/ggg/diplom.svg'
+// import newspaper from '@/public/ggg/newspaper.svg'
 import ok from '@/public/ok.png'
-import head2 from '@/public/ggg/head2.svg'
+// import head2 from '@/public/ggg/head2.svg'
 export interface SiteContentItem {
     id: number
     entity_name: string
@@ -23,13 +23,13 @@ export interface SiteContentItem {
     created_at?: Date | string
 }
 export default function Info({ content }: { content: SiteContentItem[] }) {
-    const getSingleItem = (entityName: string): Partial<SiteContentItem> => {
-        return (
-            content.find((item) => item.entity_name === entityName) || {
-                entity_name: entityName,
-            }
-        )
-    }
+    // const getSingleItem = (entityName: string): Partial<SiteContentItem> => {
+    //     return (
+    //         content.find((item) => item.entity_name === entityName) || {
+    //             entity_name: entityName,
+    //         }
+    //     )
+    // }
 
     const details1 = content
         .filter((el) => el.entity_name === 'aboutMe')
