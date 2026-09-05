@@ -56,15 +56,17 @@ export default function Info({ content }: { content: SiteContentItem[] }) {
         .filter((el) => el.entity_name === 'education')
         .map((el) => (
             <li key={el.id} className={styles.info__content_item}>
-                <Image
-                    className={styles.logo__str}
-                    src={el.image}
-                    alt=""
-                    width={40}
-                    height={40}
-                    priority
-                    style={{ width: '30px', height: '30px' }}
-                />
+                {el.image && (
+                    <Image
+                        className={styles.logo__str}
+                        src={el.image}
+                        alt=""
+                        width={40}
+                        height={40}
+                        priority
+                        style={{ width: '30px', height: '30px' }}
+                    />
+                )}
                 <p>{el.title}</p>
             </li>
         ))
