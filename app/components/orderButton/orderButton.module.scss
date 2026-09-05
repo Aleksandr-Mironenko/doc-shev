@@ -134,9 +134,9 @@
     border: 1px solid transparent;
     min-width: 108px;
 }
-:global(body.modal-open) {
-    overflow: hidden;
-}
+// :global(body.modal-open) {
+//     overflow: hidden;
+// }
 
 // <div className={`${styles.buttonsHero} ${styles.first} `}>
 // s.buttonsHero__button} ${styles.buttonsHero__info} ${styles.blue}`}

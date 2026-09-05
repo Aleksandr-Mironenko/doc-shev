@@ -514,60 +514,60 @@
     }
 }
 
-.swiper :global(.swiper-pagination) {
-    bottom: 10px !important;
-    z-index: 10 !important;
-}
+// .swiper :global(.swiper-pagination) {
+//     bottom: 10px !important;
+//     z-index: 10 !important;
+// }
 
-.swiper :global(.swiper-pagination-bullet) {
-    width: 12px !important;
-    height: 12px !important;
-    background-color: rgb (238, 225, 206) !important;
-    border-radius: 50% !important;
-    margin: 0 4px !important;
-    transition:
-        background-color 0.3s ease,
-        transform 0.3s ease !important;
-}
+// .swiper :global(.swiper-pagination-bullet) {
+//     width: 12px !important;
+//     height: 12px !important;
+//     background-color: rgb (238, 225, 206) !important;
+//     border-radius: 50% !important;
+//     margin: 0 4px !important;
+//     transition:
+//         background-color 0.3s ease,
+//         transform 0.3s ease !important;
+// }
 
-.swiper :global(.swiper-pagination-bullet-active) {
-    background-color: #c15639 !important; // цвет активного пагинационного круга
-    transform: scale(1.4) !important;
-}
+// .swiper :global(.swiper-pagination-bullet-active) {
+//     background-color: #c15639 !important; // цвет активного пагинационного круга
+//     transform: scale(1.4) !important;
+// }
 
-.swiper :global(.swiper-pagination-bullet:hover) {
-    background-color: #c15639 !important;
-    transform: scale(1.5) !important;
-    opacity: 0.8 !important;
-}
+// .swiper :global(.swiper-pagination-bullet:hover) {
+//     background-color: #c15639 !important;
+//     transform: scale(1.5) !important;
+//     opacity: 0.8 !important;
+// }
 
-.swiper :global(.swiper-button-prev),
-.swiper :global(.swiper-button-next) {
-    color: #c15639 !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.25s ease;
-}
+// .swiper :global(.swiper-button-prev),
+// .swiper :global(.swiper-button-next) {
+//     color: #c15639 !important;
+//     width: 50px !important;
+//     height: 50px !important;
+//     border-radius: 50%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     transition: all 0.25s ease;
+// }
 
-.swiper :global(.swiper-button-prev::after),
-.swiper :global(.swiper-button-next::after) {
-    font-size: 22px !important;
-    color: #c15639 !important;
-}
+// .swiper :global(.swiper-button-prev::after),
+// .swiper :global(.swiper-button-next::after) {
+//     font-size: 22px !important;
+//     color: #c15639 !important;
+// }
 
-/* 🔥 Красивый hover-эффект */
-.swiper :global(.swiper-button-prev:hover),
-.swiper :global(.swiper-button-next:hover) {
-    background: rgba(193, 86, 57, 0.12);
-    box-shadow:
-        0 4px 10px rgba(0, 0, 0, 0.15),
-        0 0 8px rgba(193, 86, 57, 0.4);
-    transform: scale(1.08);
-}
+// /* 🔥 Красивый hover-эффект */
+// .swiper :global(.swiper-button-prev:hover),
+// .swiper :global(.swiper-button-next:hover) {
+//     background: rgba(193, 86, 57, 0.12);
+//     box-shadow:
+//         0 4px 10px rgba(0, 0, 0, 0.15),
+//         0 0 8px rgba(193, 86, 57, 0.4);
+//     transform: scale(1.08);
+// }
 
 .basket_Aside {
     min-width: 300px;
