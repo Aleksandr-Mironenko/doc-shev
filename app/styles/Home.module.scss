@@ -31,13 +31,15 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    overflow-x: none;
 }
-.swiper-pagination  {
+
+.swiper-pagination {
     bottom: 10px !important;
     z-index: 10 !important;
 }
 
-.swiper  .swiper-pagination-bullet  {
+.swiper .swiper-pagination-bullet {
     width: 12px !important;
     height: 12px !important;
     background-color: rgb (238, 225, 206) !important;
@@ -48,19 +50,19 @@ body {
         transform 0.3s ease !important;
 }
 
-.swiper  .swiper-pagination-bullet-active {
+.swiper .swiper-pagination-bullet-active {
     background-color: #c15639 !important; // цвет активного пагинационного круга
     transform: scale(1.4) !important;
 }
 
-.swiper  .swiper-pagination-bullet:hover  {
+.swiper .swiper-pagination-bullet:hover {
     background-color: #c15639 !important;
     transform: scale(1.5) !important;
     opacity: 0.8 !important;
 }
 
-.swiper  .swiper-button-prev ,
-.swiper .swiper-button-next  {
+.swiper .swiper-button-prev,
+.swiper .swiper-button-next {
     color: #c15639 !important;
     width: 50px !important;
     height: 50px !important;
@@ -71,15 +73,15 @@ body {
     transition: all 0.25s ease;
 }
 
-.swiper   .swiper-button-prev::after ,
-.swiper  .swiper-button-next::after  {
+.swiper .swiper-button-prev::after,
+.swiper .swiper-button-next::after {
     font-size: 22px !important;
     color: #c15639 !important;
 }
 
 /* 🔥 Красивый hover-эффект */
-.swiper  .swiper-button-prev:hover ,
-.swiper  .swiper-button-next:hover {
+.swiper .swiper-button-prev:hover,
+.swiper .swiper-button-next:hover {
     background: rgba(193, 86, 57, 0.12);
     box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.15),
