@@ -1,7 +1,8 @@
 .rewiewsW {
+    padding: 15px 0;
     border-radius: 20px;
-    color: white;
-    background-color: rgba(41, 62, 97, 0.9);
+    color: rgba(41, 62, 97, 0.9);
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +22,19 @@
     &__h2 {
         font-size: clamp(8px, 2vw, 25px);
         margin: 20px 30px 0;
-        align-self: start;
+        align-self: center;
+        font-weight: 700;
+    }
+    &__h2 {
+        font-size: clamp(8px, 2vw, 25px);
+        margin: 20px 30px 0;
+        align-self: center;
+        font-weight: 700;
+    }
+    &__h3 {
+        font-size: clamp(8px, 2vw, 25px);
+        margin: 20px 10px 0;
+        font-weight: 700;
     }
     &__list {
         margin: 0 20px 20px;
@@ -38,12 +51,17 @@
     }
 }
 .rewiew {
-    width: 100%;
+    background-color: rgba(41, 62, 97, 0.9);
+    margin: 15px auto;
+    width: 90%;
+    border-radius: 20px;
     display: flex;
     flex-direction: row;
     gap: 7px;
+    color: white;
     justify-content: center;
     align-items: flex-start;
+    padding: 20px;
 
     &__deccorimage {
         margin-right: 7px;

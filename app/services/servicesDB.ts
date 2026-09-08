@@ -280,6 +280,34 @@ export async function dbCreateClient(
     // 6. Email и телефон существуют, но принадлежат разным клиентам
     throw new Error('Email и телефон принадлежат разным клиентам')
 }
+
+export async function updateClientReviewsConsent(
+    email: string,
+    consent_rewiews: boolean,
+    consent_data_rewiews: string | null, // или Date, в зависимости от типа в БД
+): Promise<boolean> {
+    // Пытаемся обновить запись по email и сразу просим вернуть id (RETURNING id)
+    const result = await sql`
+        UPDATE all_clients
+        SET consent_rewiews = ${consent_rewiews},
+            consent_data_rewiews = ${consent_data_rewiews}
+        WHERE email = ${email}
+        RETURNING id, data_last_consult
+    `
+
+    // Если массив result не пустой, значит клиент с таким email был найден и успешно обновлен
+    if (
+        result.length > 0 &&
+        result[0].data_last_consult !== null &&
+        result[0].data_last_consult !== false &&
+        result[0].data_last_consult !== ''
+    ) {
+        return true
+    }
+
+    // Если база ничего не вернула (длина 0), значит такого email нет в таблице
+    return false
+}
 // export async function dbCreateClient(
 //     fio: string,
 //     phone: string,

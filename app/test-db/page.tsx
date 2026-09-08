@@ -540,6 +540,12 @@ export default async function TestDBPage() {
         //         await sql`
 
         // ALTER TABLE orders ALTER COLUMN price TYPE NUMERIC(10, 2) USING price::numeric`
+
+        //         await sql`
+        // ALTER TABLE all_clients
+        // ADD COLUMN consent_rewiews VARCHAR(45),
+        // ADD COLUMN consent_data_rewiews VARCHAR(45);
+        // `
         isSuccess = true
     } catch (error) {
         // Если что-то пошло не так (например, неверный пароль в .env.local)

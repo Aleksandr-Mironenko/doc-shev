@@ -19,6 +19,7 @@ import {
     dbGetAllServices,
     dbGetAllSiteContent,
     getAllArticles,
+    getAllReviews,
 } from '../services/adminServices'
 import { dbGetAvailableDates } from '../services/servicesDB'
 import AboutMeContent from '../components/AboutMeContent/AboutMeContent'
@@ -27,27 +28,23 @@ import PublicPolicyAbvertising from '../components/PublicPolicyAbvertising/Publi
 import PublicPolicyRewiew from '../components/PublicPolicyReview/PublicPolicyReview'
 import Oferta from '../components/Oferta/Oferta'
 import Disclaimer from '../components/Disclaimer/Disclaimer'
+import ComponentReviews from '../components/ComponentReviews/ComponentReviews'
 
 export const dynamic = 'force-dynamic'
 
 export default async function MakeAnAppointment() {
     const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const services = await dbGetAllServices()
-    const { dates } = await dbGetAvailableDates()
-    const siteContent = await dbGetAllSiteContent() //все значения с сайта
-    const content = siteContent.data
-    const articles = await getAllArticles()
 
-    const articlesData = articles.data.map((el) => ({
-        id: el.id,
-        title: el.title,
-        description: el.description,
-        full_description: el.full_description,
-        preview_image_url: el.preview_image_url,
-        external_link: el.external_link,
+    const reviews = await getAllReviews() //все публичные поля которые потом можно легко поменять
+
+    const reviewsData = reviews.data.map((el) => ({
         active: el.active,
         created_at: el.created_at,
+        external_link: el.external_link,
+        id: el.id,
+        text: el.text,
     }))
+
     return (
         <>
             {/* Local Business */}
@@ -141,23 +138,9 @@ export default async function MakeAnAppointment() {
                         </p>
                     </section>
                     <Header />
-                    {/* <HeroCalend /> */}
-                    {/* <HeroCalend isHi={true} /> */}
-                    {/* <ButtonsHeroCopy
-                            services={services.data}
-                            dates={dates}
-                        /> */}
-                    {/* <AboutMeContent content={content} /> */}
-
-                    {/* <Info /> */}
-                    {/* <Down /> */}
-                    {/* <IHelp content={content} /> */}
-                    {/* <PublicsSection articlesData={articlesData} /> */}
-                    {/* <ServicesSection /> */}
-                    {/* <CatchUp /> */}
 
                     <div className={styles.content}>
-                        <Disclaimer />
+                        <ComponentReviews reviewsData={reviewsData} />
                     </div>
 
                     <Footer />
