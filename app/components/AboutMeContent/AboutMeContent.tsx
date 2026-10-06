@@ -70,7 +70,7 @@ export default function AboutMeContent({
     const details3Name = detailst3[0]?.title
     const detailst3Content = detailst3.map((el) => (
         <li key={el.id} className={styles.aboutMeContent__item}>
-            <h3 s>
+            <h3 >
                 <b>{el.title}</b>
             </h3>
             {el.description_1 && <p>{el.description_1}</p>}
