@@ -10,6 +10,7 @@ import Documents from '../documents/documents'
 
 import Publics from '../publics/publics'
 import Link from 'next/link'
+import router from 'next/router'
 
 export default function BurgerMenu({
     isOpen,
@@ -18,6 +19,19 @@ export default function BurgerMenu({
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }) {
+    const handleScroll = () => {
+        const targetId = 'publics'
+
+        if (window.location.pathname === '/') {
+            document.getElementById(targetId)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+            return
+        }
+
+        router.push(`/#${targetId}`)
+    }
     return (
         <div className={styles.burgerMenu}>
             <button
@@ -39,16 +53,23 @@ export default function BurgerMenu({
             </button>
             <div className={styles.burgerMenu__menu}>
                 {/* {adaptiveFontSize && ( */}
-                <Link
+                {/* <Link
                     href="/publics"
                     className={`{styles.burgerMenu__nav_link} ${styles.publics}`}
                 >
                     <Publics />
-                </Link>
+                </Link> */}
+                <button
+                    className={`{styles.header__nav_link} ${styles.publics}`}
+                    onClick={handleScroll}
+                >
+                    {' '}
+                    <Publics />
+                </button>
                 {/* )} */}
                 {/* {adaptiveFontSizeContacts && ( */}
                 <Link
-                    href="/publics"
+                    href="/contacts"
                     className={`{styles.burgerMenu__nav_link} ${styles.contacts}`}
                 >
                     <Contacts />
@@ -71,7 +92,7 @@ export default function BurgerMenu({
 
                 {/* {adaptiveFontSizeReviews && ( */}
                 <Link
-                    href="/publics"
+                    href="/reviews"
                     className={`{styles.burgerMenu__nav_link} ${styles.review}`}
                 >
                     <Review />
@@ -79,7 +100,7 @@ export default function BurgerMenu({
                 {/* )} */}
                 {/* {adaptiveFontSizeInfoDocuments && ( */}
                 <Link
-                    href="/publics"
+                    href="/documents"
                     className={`{styles.burgerMenu__nav_link} ${styles.documents}`}
                 >
                     <Documents />
