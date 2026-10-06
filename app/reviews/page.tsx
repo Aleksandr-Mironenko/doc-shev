@@ -20,8 +20,8 @@ import {
     dbGetAllSiteContent,
     getAllArticles,
     getAllReviews,
-} from '../services/adminServices'
-import { dbGetAvailableDates } from '../services/servicesDB'
+} from '../service/adminServices'
+import { dbGetAvailableDates } from '../service/servicesDB'
 import AboutMeContent from '../components/AboutMeContent/AboutMeContent'
 import PolicyiPolitic from '../components/PoliciPolitic/PolicyiPolitic'
 import PublicPolicyAbvertising from '../components/PublicPolicyAbvertising/PublicPolicyAbvertising'

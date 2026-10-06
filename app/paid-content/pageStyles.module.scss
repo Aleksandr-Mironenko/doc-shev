@@ -1,0 +1,130 @@
+// body {
+//     overflow-x: none;
+// }
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.main {
+    background-color: rgba(194, 203, 219, 1);
+    min-height: 100vh;
+    padding: 30px 30px 30px 40px;
+    color: black;
+    min-width: 420px;
+    box-sizing: border-box;
+
+    @media (max-width: 400px) {
+        padding: calc((100vw - 340px) / 1.5);
+    }
+
+    @media (max-width: 360px) {
+        padding: 10px;
+    }
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 1800px;
+    min-height: calc(100vh - 60px);
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 20px;
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+
+    padding: 20px;
+}
+.content1 {
+    padding: 20px;
+}
+.contacts {
+    &__button {
+        display: inline-block;
+        padding: 10px 10px 10px 0;
+        margin-right: 15px;
+        font-weight: 700;
+        color: black;
+        transition: 0.3s;
+        font-size: 20px;
+
+        &:hover {
+            transform: scale(1.04);
+            color: rgba(0, 0, 0, 0.8);
+        }
+    }
+}
+.info {
+    border-top: 1px solid black;
+    display: inline-block;
+}
+///////////////////////////
+///
+/* Добавляем обертку для контента контактов */
+.contactsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем всё содержимое */
+    padding: 40px 20px;
+    flex: 1;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 30px; /* Отступ до кнопок */
+    font-weight: 500;
+}
+
+/* Контейнер для кнопки и почты */
+.actions {
+    display: flex;
+    flex-direction: column; /* Располагаем друг под другом */
+    align-items: center;
+    gap: 20px; /* Расстояние между кнопкой и почтой */
+}
+
+/* Стили для ссылки-почты (вместо .contacts__button) */
+.emailLink {
+    display: inline-block;
+    font-weight: 500; /* Можно сделать чуть менее жирным, чем 700, чтобы не спорило с кнопкой */
+    color: black;
+    font-size: 18px;
+    text-decoration: underline; /* Подчеркивание дает понять, что это ссылка */
+    text-underline-offset: 4px;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+    padding: 20px;
+}
+
+.info {
+    border-top: 1px solid rgba(0, 0, 0, 0.2); /* Делаем линию чуть менее контрастной */
+    display: block; /* Лучше block для линии на всю ширину */
+    padding-top: 20px;
+    text-align: center; /* Центрируем текст ИНН */
+    font-size: 14px;
+    color: #333;
+}

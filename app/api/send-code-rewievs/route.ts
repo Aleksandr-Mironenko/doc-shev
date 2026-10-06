@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 import {
     dbGenerateEmailCode,
     updateClientReviewsConsent,
-} from '@/app/services/servicesDB'
-import sendEmail from '@/app/services/serviceSendEmail' // Путь скорректируйте под ваш проект
+} from '@/app/service/servicesDB'
+import sendEmail from '@/app/service/serviceSendEmail' // Путь скорректируйте под ваш проект
 //3
 export async function POST(request: Request) {
     try {
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
-      
+
         const clientExists = await updateClientReviewsConsent(
             email,
             consent_rewiews,

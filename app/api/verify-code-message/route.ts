@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-import { dbVerifyCode } from '@/app/services/servicesDB'
-import sendEmail from '@/app/services/serviceSendEmail'
+import { dbVerifyCode } from '@/app/service/servicesDB'
+import sendEmail from '@/app/service/serviceSendEmail'
 //4
 export async function POST(request: Request) {
     try {

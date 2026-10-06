@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { getAllOrders, updateOrderField } from '@/app/services/adminServices'
+import { getAllOrders, updateOrderField } from '@/app/service/adminServices'
 
 interface UpdateOrderBody {
     id: number

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { dbGetLinkByRoomId } from '@/app/services/servicesDB'
+import { dbGetLinkByRoomId } from '@/app/service/servicesDB'
 import RoomClient from '@/app/components/RoomClient/RoomClient'
 import styles from './styles.module.scss'
 import Header from '@/app/components/header/header'

@@ -52,7 +52,9 @@ export default function AboutMeContent({
     const detailst2 = content //обо мне
         .filter((el) => el.entity_name === 'aboutMeExperience')
 
-    const detailst2Name = detailst2[0].title
+    const detailst2Name = (
+        <p style={{ margin: '10px 20px 0' }}>{detailst2[0].title}</p>
+    )
 
     const detailst2Content = detailst2.map((el) => (
         <li key={el.id} className={styles.aboutMeContent__item}>
@@ -68,7 +70,7 @@ export default function AboutMeContent({
     const details3Name = detailst3[0]?.title
     const detailst3Content = detailst3.map((el) => (
         <li key={el.id} className={styles.aboutMeContent__item}>
-            <h3>
+            <h3 s>
                 <b>{el.title}</b>
             </h3>
             {el.description_1 && <p>{el.description_1}</p>}
@@ -108,12 +110,18 @@ export default function AboutMeContent({
     // ))
     return (
         <div className={styles.aboutMeContent__text_wrapper}>
-            <ul>{details1}</ul>
+            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
+                {details1}
+            </ul>
             <h3>
                 <b>{detailst2Name}</b>
             </h3>
-            <ul>{detailst2Content}</ul>
-            <ul>{detailst3Content}</ul>
+            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
+                {detailst2Content}
+            </ul>
+            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
+                {detailst3Content}
+            </ul>
         </div>
     )
 }

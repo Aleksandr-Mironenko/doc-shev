@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './buttonsHeroCopy.module.scss'
 // Adjust the logo import path if your asset is located elsewhere
 export interface Services {
@@ -15,12 +15,7 @@ export interface Services {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null
     is_check: boolean
     is_active?: boolean | null
     price: number
@@ -33,9 +28,11 @@ import HeroCalend from '../HeroCalend/HeroCalend'
 export default function ButtonsHeroCopy({
     services,
     dates,
+    service,
 }: {
     services: Services[]
     dates: string[]
+    service?: string
 }) {
     const [isMountedCalendar, setIsMountedCalendar] = useState<boolean>(false)
     const [isSelectProduct, setIsSelectProduct] = useState<boolean>(false)
@@ -60,10 +57,16 @@ export default function ButtonsHeroCopy({
         image: null,
         created_at: '',
     })
-
+    useEffect(() => {
+        if (service) {
+            setIsSelectProduct(true)
+            const selectedService = services.find((el) => el.link === service)
+            if (selectedService) setProduct(selectedService)
+        }
+    }, [service])
     return (
         <>
-            <HeroCalend isSelectProduct={isSelectProduct}/>
+            <HeroCalend isSelectProduct={isSelectProduct} />
             <div className={styles.buttonsHero__wrapper}>
                 <div className={`${styles.buttonsHero} ${styles.second} `}>
                     <div

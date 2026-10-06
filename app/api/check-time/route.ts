@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { dbCheckSpecificTime } from '@/app/services/servicesDB'
+import { dbCheckSpecificTime } from '@/app/service/servicesDB'
 //2
 export async function POST(request: Request) {
     try {

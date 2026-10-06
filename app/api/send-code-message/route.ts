@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { dbCreateClient, dbGenerateEmailCode } from '@/app/services/servicesDB'
-import sendEmail from '@/app/services/serviceSendEmail' // Путь скорректируйте под ваш проект
+import { dbCreateClient, dbGenerateEmailCode } from '@/app/service/servicesDB'
+import sendEmail from '@/app/service/serviceSendEmail' // Путь скорректируйте под ваш проект
 //3
 export async function POST(request: Request) {
     try {

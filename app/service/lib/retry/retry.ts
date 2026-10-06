@@ -1,4 +1,4 @@
-import sendEmail from '@/app/services/serviceSendEmail'
+import sendEmail from '@/app/service/serviceSendEmail'
 
 export default async function retry<T>(
     fn: () => Promise<T>,

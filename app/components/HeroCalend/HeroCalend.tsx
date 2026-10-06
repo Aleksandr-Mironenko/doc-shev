@@ -152,7 +152,10 @@ export default function HeroCalend({
                             </p> */}
                         </div>
                         <p className={styles.heroSection__backstage}>
-                            Меня зовут Екатерина Шитова, я врач-терапевт
+                            Меня зовут Екатерина Шитова,
+                        </p>
+                        <p className={styles.heroSection__backstage}>
+                            я врач-терапевт
                         </p>
                         <p className={styles.heroSection__backstage}>
                             Здесь вы узнаете немного больше обо мне

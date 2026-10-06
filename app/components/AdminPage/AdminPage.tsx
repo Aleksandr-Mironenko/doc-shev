@@ -20,6 +20,8 @@ import ReviewsTable from '../ReviewsTable/ReviewsTable'
 import AdminPlanner from '@/app/components/AdminPlanner/AdminPlanner'
 import SiteContent from '../SiteContent/SiteContent'
 import ServicesTable from '../ServicesTable/ServicesTable'
+import ServicesTablePaidContent from '../ServicesTablePaidContent/ServicesTablePaidContent'
+import ServicesTableFreeContent from '../ServicesTableFreeContent/ServicesTableFreeContent'
 
 export interface Article {
     id: number
@@ -105,17 +107,56 @@ export interface Services {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null
     is_check: boolean
     is_active?: boolean | null
     price: number
     image?: string | null
     created_at: Date | string
+    entity: string
+}
+
+export interface PaidContent {
+    id: number
+    title: string
+    description_1?: string | null
+    description_1_name?: string | null
+    description_2?: string | null
+    description_2_name?: string | null
+    description_3?: string | null
+    description_3_name?: string | null
+    description_4?: string | null
+    description_4_name?: string | null
+    description_5?: string | null
+    description_5_name?: string | null
+    link?: string | null
+    is_check: boolean
+    is_active?: boolean | null
+    price: number
+    image?: string | null
+    created_at: Date | string
+    entity: string
+}
+export interface FreeContent {
+    id: number
+    title: string
+    description_1?: string | null
+    description_1_name?: string | null
+    description_2?: string | null
+    description_2_name?: string | null
+    description_3?: string | null
+    description_3_name?: string | null
+    description_4?: string | null
+    description_4_name?: string | null
+    description_5?: string | null
+    description_5_name?: string | null
+    link?: string | null
+    is_check: boolean
+    is_active?: boolean | null
+    price: number
+    image?: string | null
+    created_at: Date | string
+    entity: string
 }
 // Тип для пропсов компонента ServicesTable
 
@@ -127,6 +168,8 @@ const AdminPage = ({
     reviews,
     siteContent,
     services,
+    paidContent, //ДОБАВИТЬ ОТФИЛЬТРОВАННЫЙ ДЛЯ ПЛАТНЫХ И БЕСПЛАТНЫХ
+    freeContent,
 }: {
     orders: Order[]
     clients: Client[]
@@ -135,6 +178,8 @@ const AdminPage = ({
     reviews: Review[]
     siteContent: SiteContentItem[]
     services: Services[]
+    paidContent: PaidContent[]
+    freeContent: FreeContent[] // Добавлено для бесплатных материалов
 }) => {
     const [open, setOpen] = useState<
         | 'orders'
@@ -145,6 +190,8 @@ const AdminPage = ({
         | 'planner'
         | 'siteContent'
         | 'services'
+        | 'free_content'
+        | 'paid_content'
         | null
     >('planner')
     return (
@@ -186,6 +233,20 @@ const AdminPage = ({
                 </button>
 
                 <button
+                    onClick={() => setOpen('paid_content')}
+                    className={styles.createButton}
+                >
+                    Платные материалы
+                </button>
+
+                <button
+                    onClick={() => setOpen('free_content')}
+                    className={styles.createButton}
+                >
+                    Бесплатные материвлы
+                </button>
+
+                <button
                     onClick={() => setOpen('reviews')}
                     className={styles.createButton}
                 >
@@ -218,6 +279,16 @@ const AdminPage = ({
             {open === 'articles' && <ArticlesTable articles={articles} />}
             {open === 'reviews' && <ReviewsTable reviews={reviews} />}
             {open === 'services' && <ServicesTable services={services} />}
+            {open === 'paid_content' && (
+                <ServicesTablePaidContent paidContent={paidContent} />
+            )}
+            {open === 'free_content' && (
+                <ServicesTableFreeContent freeContent={freeContent} />
+            )}
+
+            {/* {open === 'free_content' && (
+                <ServicesTableFreeeContent services={services} />
+            )} */}
             {open === 'siteContent' && (
                 <SiteContent siteContent={siteContent} />
             )}

@@ -4,7 +4,7 @@ import {
     dbCreateSiteContentItems,
     dbDeleteSiteContentItems,
     dbUpdateSiteContentItems,
-} from '@/app/services/adminServices'
+} from '@/app/service/adminServices'
 
 // Создание или обновление (UPSERT)
 export async function POST(req: Request) {

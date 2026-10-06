@@ -15,7 +15,7 @@ import {
     dbGetAllSiteContent,
     getAllArticles,
     getAllReviews,
-} from '@/app/services/adminServices'
+} from '@/app/service/adminServices'
 
 export default async function Wrapper() {
     const articles = await getAllArticles() // получу все посты и передам на отображение
@@ -29,7 +29,6 @@ export default async function Wrapper() {
         id: el.id,
         text: el.text,
     }))
- 
 
     const articlesData = articles.data.map((el) => ({
         id: el.id,
@@ -52,7 +51,7 @@ export default async function Wrapper() {
             <Info content={content} />
             {/* <Down /> */}
             <IHelp content={content} />
-            <PublicsSection articlesData={articlesData} />
+            <div id="publics"><PublicsSection articlesData={articlesData} /></div>
             {/* <ServicesSection /> */}
             <Reviews reviewsData={reviewsData} />
             <CatchUp />

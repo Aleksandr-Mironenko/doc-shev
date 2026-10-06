@@ -18,9 +18,25 @@ import { useState } from 'react'
 // const width = useWindowWidth()
 //     const adaptiveFontSizePublics = width < 430
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
+    const router = useRouter()
+
+    const handleScroll = () => {
+        const targetId = 'publics'
+
+        if (window.location.pathname === '/') {
+            document.getElementById(targetId)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+            return
+        }
+
+        router.push(`/#${targetId}`)
+    }
 
     return (
         <div className={styles.header}>
@@ -40,12 +56,20 @@ export default function Header() {
                         <AboutMe />
                     </Link>
 
-                    <Link
+                    {/* <Link
                         href="/publics"
                         className={`{styles.header__nav_link} ${styles.publics}`}
                     >
                         <Publics />
-                    </Link>
+                    </Link> */}
+
+                    <button
+                        className={`{styles.header__nav_link} ${styles.publics}`}
+                        onClick={handleScroll}
+                    >
+                        {' '}
+                        <Publics />
+                    </button>
 
                     <Link
                         href="/services"
@@ -62,14 +86,14 @@ export default function Header() {
                     </Link>
 
                     <Link
-                        href="/free"
+                        href="/free-content"
                         className={`{styles.header__nav_link} ${styles.freeMaterial}`}
                     >
                         <FreeMaterial />
                     </Link>
 
                     <Link
-                        href="/info-products"
+                        href="/paid-content"
                         className={`{styles.header__nav_link} ${styles.infoProducts}`}
                     >
                         <InfoProducts />

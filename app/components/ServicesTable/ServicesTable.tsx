@@ -783,17 +783,13 @@ export interface Services {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null
     is_check: boolean
     is_active?: boolean | null
     price: number
     image?: string | null
     created_at: Date | string
+    entity: string
 }
 interface ServicesTableProps {
     services: Services[]
@@ -817,16 +813,12 @@ interface AddServiceForm {
     description_4_name: string
     description_5: string
     description_5_name: string
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null
     price: string
     is_active: boolean
     is_check: boolean
     image: string
+    entity: string
 }
 
 const columns: ColumnDef<Services>[] = [
@@ -891,6 +883,7 @@ const initialForm: AddServiceForm = {
     is_active: true,
     is_check: false,
     image: '',
+    entity: 'service',
 }
 
 export default function ServicesTable({
@@ -1051,7 +1044,7 @@ export default function ServicesTable({
                     description_5: form.description_5.trim() || null,
                     description_5_name: form.description_5_name.trim() || null,
                     image: form.image.trim() || null,
-                    link: form.link.trim() || null,
+                    link: form.link?.trim() || null,
                     price: form.price ? Number(form.price) : null,
                     is_active: form.is_active,
                     is_check: form.is_check,
@@ -1314,7 +1307,7 @@ export default function ServicesTable({
                             <span>Ссылка</span>
                             <input
                                 type="text"
-                                value={form.link}
+                                value={form.link ?? ''}
                                 onChange={(e) =>
                                     updateForm('link', e.target.value)
                                 }

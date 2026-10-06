@@ -5,7 +5,7 @@ import {
     getAllReviews,
     updateReviewField,
     type AddReviewPayload,
-} from '@/app/services/adminServices'
+} from '@/app/service/adminServices'
 
 interface UpdateReviewBody {
     id: number

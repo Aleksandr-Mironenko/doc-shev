@@ -78,11 +78,11 @@ export default function Footer() {
                     </div>
 
                     <nav className={styles.footer__right}>
-                        <a target="_blank" href="/offer">
+                        <a target="_blank" href="/public-offer">
                             Публичная оферта
                         </a>
                         {/* Объединили два ваших пункта в один правильный: */}
-                        <a target="_blank" href="/privacy">
+                        <a target="_blank" href="/policy">
                             Политика конфиденциальности
                         </a>
                         <a target="_blank" href="/refund">

@@ -306,7 +306,7 @@ export default function PublicsSection({
             <div className={styles.publics__head}>
                 <h2 className={styles.publics__h2}>Мои публикации в СМИ</h2>
 
-                <p className={styles.publics__button}>Подробнее</p>
+                {/* <p className={styles.publics__button}>Подробнее</p> */}
             </div>
 
             <div className={styles.carousel}>

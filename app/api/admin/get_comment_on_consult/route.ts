@@ -1,6 +1,6 @@
 // Импортируйте вашу базу данных, например:
 // import prisma from '@/lib/prisma';
-import { dbGetСommentInClient } from '@/app/services/adminServices'
+import { dbGetСommentInClient } from '@/app/service/adminServices'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {

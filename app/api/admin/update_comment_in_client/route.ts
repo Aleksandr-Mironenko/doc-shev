@@ -1,4 +1,4 @@
-import { dbUpdateСommentInClient } from '@/app/services/adminServices'
+import { dbUpdateСommentInClient } from '@/app/service/adminServices'
 import { NextRequest, NextResponse } from 'next/server'
 // import prisma from '@/lib/prisma';
 

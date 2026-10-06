@@ -17,12 +17,7 @@ export interface Services {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null
     is_check: boolean
     is_active?: boolean | null
     price: number

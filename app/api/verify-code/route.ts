@@ -4,7 +4,7 @@ import {
     dbVerifyCode,
     dbCreateOrder,
     // dbDeleteTimeSlot,
-} from '@/app/services/servicesDB'
+} from '@/app/service/servicesDB'
 //4
 export async function POST(request: Request) {
     try {
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         const isTest = (process.env.ROBOKASSA_TEST || '1').trim()
 
         const inv_id = Number(orderId)
-        const inv_desc = 'Консультационные услуги'
+        const inv_desc = 'Консультационные услуги' //возможно добавить методический материал
         const out_summ = Number(price).toFixed(2)
 
         // Oo5qkAK6Q0fL1dTXjUB7

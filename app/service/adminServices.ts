@@ -1,4 +1,4 @@
-import sql from '@/app/services/lib/db'
+import sql from '@/app/service/lib/db'
 
 interface AddSlotResult {
     success: boolean
@@ -631,7 +631,206 @@ export async function dbDeleteSiteContentItems(
     }
 }
 
+// export interface ServiceItem {
+//     entity: string
+//     id: number
+//     title: string
+//     description_1?: string | null
+//     description_1_name?: string | null
+//     description_2?: string | null
+//     description_2_name?: string | null
+//     description_3?: string | null
+//     description_3_name?: string | null
+//     description_4?: string | null
+//     description_4_name?: string | null
+//     description_5?: string | null
+//     description_5_name?: string | null
+//     link: string | null
+//     is_check: boolean
+//     is_active: boolean | null
+//     price: number
+//     image: string | null
+//     created_at: Date | string
+// }
+// export interface ServiceItemUpdate {
+//     entity: string
+//     title: string
+//     description_1?: string | null
+//     description_1_name?: string | null
+//     description_2?: string | null
+//     description_2_name?: string | null
+//     description_3?: string | null
+//     description_3_name?: string | null
+//     description_4?: string | null
+//     description_4_name?: string | null
+//     description_5?: string | null
+//     description_5_name?: string | null
+//     link: string | null
+//     is_check: boolean
+//     is_active?: boolean | null
+//     price: number
+//     image?: string | null
+// }
+
+// export async function dbGetAllServices() {
+//     try {
+//         const result = await sql`
+//             SELECT
+//                 id, title,
+//                 description_1, description_1_name,
+//                 description_2, description_2_name,
+//                 description_3, description_3_name,
+//                 description_4, description_4_name,
+//                 description_5, description_5_name,
+//                 link, is_check, is_active, created_at, price, image,entity
+//             FROM services
+//             ORDER BY id ASC
+//         `
+//         return { success: true, data: Array.from(result) as ServiceItem[] }
+//     } catch (error) {
+//         console.error('Ошибка при получении списка услуг:', error)
+//         return { success: false, data: [] }
+//     }
+// }
+
+// export async function dbCreateService(body: ServiceItemUpdate) {
+//     const {
+//         title,
+//         description_1 = null,
+//         description_1_name = null,
+//         description_2 = null,
+//         description_2_name = null,
+//         description_3 = null,
+//         description_3_name = null,
+//         description_4 = null,
+//         description_4_name = null,
+//         description_5 = null,
+//         description_5_name = null,
+//         link = null,
+//         is_check = false,
+//         is_active = true,
+//         price,
+//         image = null,
+//         entity = 'services',
+//     } = body
+
+//     if (!title || price === undefined || is_check === undefined) {
+//         console.error('Не переданы обязательные поля (title, price, is_check)')
+//         return {
+//             success: false,
+//             error: 'Title, price, and is_check are required',
+//         }
+//     }
+
+//     try {
+//         const result = await sql`
+//             INSERT INTO services (
+//                 title,
+//                 description_1, description_1_name,
+//                 description_2, description_2_name,
+//                 description_3, description_3_name,
+//                 description_4, description_4_name,
+//                 description_5, description_5_name,
+//                 link, is_check, is_active, price, image,entity
+//             ) VALUES (
+//                 ${title},
+//                 ${description_1}, ${description_1_name},
+//                 ${description_2}, ${description_2_name},
+//                 ${description_3}, ${description_3_name},
+//                 ${description_4}, ${description_4_name},
+//                 ${description_5}, ${description_5_name},
+//                 ${link}, ${is_check}, ${is_active}, ${price}, ${image},${entity}
+//             )
+//             RETURNING id
+//         `
+//         return { success: result.length > 0, id: result[0]?.id }
+//     } catch (error) {
+//         console.error('Ошибка создания услуги:', error)
+//         return { success: false }
+//     }
+// }
+
+// export async function dbUpdateService(body: ServiceItem) {
+//     const {
+//         id,
+//         title,
+//         description_1 = null,
+//         description_1_name = null,
+//         description_2 = null,
+//         description_2_name = null,
+//         description_3 = null,
+//         description_3_name = null,
+//         description_4 = null,
+//         description_4_name = null,
+//         description_5 = null,
+//         description_5_name = null,
+//         link = null,
+//         is_check = false,
+//         is_active = true,
+//         price,
+//         image = null,
+//         entity = 'service',
+//     } = body
+
+//     if (!id) {
+//         console.error('Не передан id для обновления услуги')
+//         return { success: false }
+//     }
+
+//     try {
+//         const result = await sql`
+//             UPDATE services
+//             SET
+//                 title = ${title},
+//                 description_1 = ${description_1},
+//                 description_1_name = ${description_1_name},
+//                 description_2 = ${description_2},
+//                 description_2_name = ${description_2_name},
+//                 description_3 = ${description_3},
+//                 description_3_name = ${description_3_name},
+//                 description_4 = ${description_4},
+//                 description_4_name = ${description_4_name},
+//                 description_5 = ${description_5},
+//                 description_5_name = ${description_5_name},
+//                 link = ${link},
+//                 is_check = ${is_check},
+//                 is_active = ${is_active},
+//                 price = ${price},
+//                 image = ${image},
+//                 entity =${entity}
+//             WHERE id = ${id}
+//             RETURNING id
+//         `
+//         return { success: result.length > 0 }
+//     } catch (error) {
+//         console.error(`Не удалось обновить услугу с ID ${id}:`, error)
+//         return { success: false }
+//     }
+// }
+
+// export async function dbDeleteService(
+//     id: number,
+// ): Promise<{ success: boolean; image?: string | null }> {
+//     if (!id) {
+//         console.error('Не передан id для удаления записи')
+//         return { success: false }
+//     }
+
+//     try {
+//         const result = await sql`
+//             DELETE FROM services
+//             WHERE id = ${id}
+//             RETURNING id, image
+//         `
+//         return { success: result.length > 0, image: result[0]?.image }
+//     } catch (error) {
+//         console.error(`Не удалось удалить услугу с ID ${id}:`, error)
+//         return { success: false }
+//     }
+// }
+
 export interface ServiceItem {
+    entity: string
     id: number
     title: string
     description_1?: string | null
@@ -644,19 +843,16 @@ export interface ServiceItem {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null // Исправлено: string | null вместо ''
     is_check: boolean
     is_active: boolean | null
     price: number
-    image: string | null
+    image?: string | null
     created_at: Date | string
 }
+
 export interface ServiceItemUpdate {
+    entity?: string
     title: string
     description_1?: string | null
     description_1_name?: string | null
@@ -668,12 +864,7 @@ export interface ServiceItemUpdate {
     description_4_name?: string | null
     description_5?: string | null
     description_5_name?: string | null
-    link:
-        | 'consult-video-follow-up'
-        | 'consult-video'
-        | 'consult-doctor'
-        | 'сonsult-audio-follow-up'
-        | 'consult-audio'
+    link?: string | null // Исправлено: string | null вместо ''
     is_check: boolean
     is_active?: boolean | null
     price: number
@@ -690,7 +881,7 @@ export async function dbGetAllServices() {
                 description_3, description_3_name, 
                 description_4, description_4_name, 
                 description_5, description_5_name, 
-                link, is_check, is_active, created_at, price, image
+                link, is_check, is_active, created_at, price, image, entity 
             FROM services
             ORDER BY id ASC
         `
@@ -719,6 +910,7 @@ export async function dbCreateService(body: ServiceItemUpdate) {
         is_active = true,
         price,
         image = null,
+        entity = 'services', // Исправлено: 'paid_content' вместо 'sevices'
     } = body
 
     if (!title || price === undefined || is_check === undefined) {
@@ -738,7 +930,7 @@ export async function dbCreateService(body: ServiceItemUpdate) {
                 description_3, description_3_name,
                 description_4, description_4_name,
                 description_5, description_5_name,
-                link, is_check, is_active, price, image
+                link, is_check, is_active, price, image, entity
             ) VALUES (
                 ${title},
                 ${description_1}, ${description_1_name},
@@ -746,7 +938,7 @@ export async function dbCreateService(body: ServiceItemUpdate) {
                 ${description_3}, ${description_3_name},
                 ${description_4}, ${description_4_name},
                 ${description_5}, ${description_5_name},
-                ${link}, ${is_check}, ${is_active}, ${price}, ${image}
+                ${link}, ${is_check}, ${is_active}, ${price}, ${image}, ${entity}
             )
             RETURNING id
         `
@@ -776,6 +968,7 @@ export async function dbUpdateService(body: ServiceItem) {
         is_active = true,
         price,
         image = null,
+        entity = 'services', // Исправлена опечатка
     } = body
 
     if (!id) {
@@ -802,7 +995,8 @@ export async function dbUpdateService(body: ServiceItem) {
                 is_check = ${is_check},
                 is_active = ${is_active},
                 price = ${price},
-                image = ${image}
+                image = ${image},
+                entity = ${entity}
             WHERE id = ${id}
             RETURNING id
         `
@@ -815,7 +1009,7 @@ export async function dbUpdateService(body: ServiceItem) {
 
 export async function dbDeleteService(
     id: number,
-): Promise<{ success: boolean; image?: string | null }> {
+): Promise<{ success: boolean }> {
     if (!id) {
         console.error('Не передан id для удаления записи')
         return { success: false }
@@ -825,9 +1019,11 @@ export async function dbDeleteService(
         const result = await sql`
             DELETE FROM services 
             WHERE id = ${id} 
-            RETURNING id, image
+            RETURNING id
         `
-        return { success: result.length > 0, image: result[0]?.image }
+        return {
+            success: result.length > 0,
+        }
     } catch (error) {
         console.error(`Не удалось удалить услугу с ID ${id}:`, error)
         return { success: false }

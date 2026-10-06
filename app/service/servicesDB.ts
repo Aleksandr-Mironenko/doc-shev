@@ -1,5 +1,5 @@
 // services.ts
-import sql from '@/app/services/lib/db' // Подключение к вашей БД
+import sql from '@/app/service/lib/db' // Подключение к вашей БД
 
 // --- РАБОТА С БД ---
 interface FetchDatesResult {
@@ -93,6 +93,45 @@ export async function dbNullSpecificTime(
     } catch (error) {
         console.error('Ошибка при снятии брони (dbNullSpecificTime):', error)
         return { success: false, message: 'Внутренняя ошибка сервера' }
+    }
+}
+export async function dbDownloadFineMaterial(id: number) {
+    try {
+        const result = await sql`
+            SELECT link
+            FROM services
+            WHERE id = ${id}
+            LIMIT 1
+        `
+
+        if (result.length === 0 || !result[0].link) {
+            return { ok: false, message: 'Ссылка на файл не найдена в БД' }
+        }
+
+        const fileUrl = result[0].link
+        const fileResponse = await fetch(fileUrl)
+
+        if (!fileResponse.ok) {
+            return { ok: false, message: 'Не удалось скачать файл по ссылке' }
+        }
+
+        const arrayBuffer = await fileResponse.arrayBuffer()
+        const contentType =
+            fileResponse.headers.get('content-type') ||
+            'application/octet-stream'
+
+        const url = new URL(fileUrl)
+        const filename = url.pathname.split('/').pop() || 'material'
+
+        return {
+            ok: true,
+            buffer: arrayBuffer,
+            contentType,
+            filename,
+        }
+    } catch (error) {
+        console.error('Ошибка получения файла:', error)
+        return { ok: false, message: 'Внутренняя ошибка сервиса БД' }
     }
 }
 

@@ -282,6 +282,7 @@
     &__name {
         display: flex;
         flex-direction: column;
+        margin: 0 5%;
     }
     &__regal {
         // font-size: 10px;
@@ -311,7 +312,7 @@
     &__backstage {
         font-size: clamp(10px, 2vw, 25px);
         max-width: 80%;
-        margin: 1% 0;
+        margin: 2% 5%;
         // font-size: clamp(10px, 3vw, 20px);
         // @media (max-width: 970px) {
         //     font-size: clamp(10px, 2vw, 20px);

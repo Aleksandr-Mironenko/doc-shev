@@ -1,0 +1,126 @@
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #f5f5f5;
+
+    /* Если используете Next.js Image, это поможет картинке не вылезать за края */
+    img {
+        object-fit: cover;
+    }
+}
+
+.content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333030;
+    line-height: 1.3;
+}
+
+.entityBadge {
+    align-self: flex-start;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: rgba(89, 184, 106, 0.1); // Прозрачный зеленый
+    color: #59b86a;
+}
+
+.descriptionList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1; // Толкает футер вниз
+}
+
+.descriptionItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+
+    .checkIcon {
+        width: 18px;
+        height: 18px;
+        color: #59b86a;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+}
+
+.descName {
+    font-weight: 600;
+    color: #333030;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    z-index: 15165161;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333030;
+}
+
+.actionButton {
+    padding: 10px 20px;
+    border-radius: 12px;
+    background-color: #59b86a;
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #55b166;
+    }
+}

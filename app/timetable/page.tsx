@@ -19,14 +19,17 @@ import {
     dbGetAllServices,
     dbGetAllSiteContent,
     getAllArticles,
-} from '../services/adminServices'
-import { dbGetAvailableDates } from '../services/servicesDB'
+} from '../service/adminServices'
+import { dbGetAvailableDates } from '../service/servicesDB'
 
 export const dynamic = 'force-dynamic'
 
 export default async function MakeAnAppointment() {
     const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const services = await dbGetAllServices()
+    const serviceAll = await dbGetAllServices()
+
+    const services = serviceAll.data.filter((el) => el.entity === 'service')
+
     const { dates } = await dbGetAvailableDates()
     const siteContent = await dbGetAllSiteContent() //все значения с сайта
     const content = siteContent.data
@@ -136,10 +139,7 @@ export default async function MakeAnAppointment() {
                         </section>
                         <Header />
                         {/* <HeroCalend /> */}
-                        <ButtonsHeroCopy
-                            services={services.data}
-                            dates={dates}
-                        />
+                        <ButtonsHeroCopy services={services} dates={dates} />
                         {/* <Info /> */}
                         {/* <Down /> */}
                         <IHelp content={content} />

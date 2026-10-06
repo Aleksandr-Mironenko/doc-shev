@@ -56,14 +56,14 @@ export default function BurgerMenu({
                 {/* )} */}
 
                 <Link
-                    href="/publics"
+                    href="/free-content"
                     className={`{styles.burgerMenu__nav_link} ${styles.freeMaterial}`}
                 >
                     <FreeMaterial />
                 </Link>
 
                 <Link
-                    href="/publics"
+                    href="/paid-content"
                     className={`{styles.burgerMenu__nav_link} ${styles.infoProducts}`}
                 >
                     <InfoProducts />

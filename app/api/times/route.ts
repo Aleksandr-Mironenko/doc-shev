@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { dbGetAvailableTimes } from '@/app/services/servicesDB'
+import { dbGetAvailableTimes } from '@/app/service/servicesDB'
 
 // 1
 export async function POST(request: Request) {

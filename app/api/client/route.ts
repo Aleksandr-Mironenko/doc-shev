@@ -3,8 +3,8 @@ import {
     dbCreateClient,
     dbGenerateEmailCode,
     dbUpdateListIpClients,
-} from '@/app/services/servicesDB'
-import sendEmail from '@/app/services/serviceSendEmail' // Путь скорректируйте под ваш проект
+} from '@/app/service/servicesDB'
+import sendEmail from '@/app/service/serviceSendEmail' // Путь скорректируйте под ваш проект
 //3
 export async function POST(request: Request) {
     try {

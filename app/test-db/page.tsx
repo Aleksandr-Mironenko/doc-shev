@@ -1,4 +1,4 @@
-import sql from '@/app/services/lib/db' // Путь до твоего файла инициализации из предыдущего шага
+import sql from '@/app/service/lib/db' // Путь до твоего файла инициализации из предыдущего шага
 
 export default async function TestDBPage() {
     let isSuccess = false
@@ -546,6 +546,18 @@ export default async function TestDBPage() {
         // ADD COLUMN consent_rewiews VARCHAR(45),
         // ADD COLUMN consent_data_rewiews VARCHAR(45);
         // `
+        //     await sql`
+        //     ALTER TABLE services
+        //     ADD COLUMN IF NOT EXISTS entity VARCHAR(50) NOT NULL DEFAULT 'service'
+        // `;
+
+        // // 2. Затем обновляем существующие записи (если нужно точечно изменить то, что уже было)
+        // await sql`
+        //     UPDATE services
+        //     SET entity = 'service'
+        //     WHERE entity IS NULL
+        // `;
+
         isSuccess = true
     } catch (error) {
         // Если что-то пошло не так (например, неверный пароль в .env.local)
