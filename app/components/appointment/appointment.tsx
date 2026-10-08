@@ -1545,8 +1545,8 @@ export default function Appointment({
                                                     />
 
                                                     <span>
-                                                        Я ознакомлен(а) и
-                                                        принимаю условия
+                                                        {`Я ознакомлен(а) и
+                                                        принимаю условия `}
                                                         <a
                                                             style={{
                                                                 textDecoration:

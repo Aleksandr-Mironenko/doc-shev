@@ -191,7 +191,7 @@ export default function ButtonsHeroCopy({ content }: { content: Services[] }) {
     }
 
     const cards = content.map((el) => (
-        <li key={el.id}>
+        <li key={el.id} style={{ marginBottom: '10px' }}>
             <MaterialCard
                 productCard={productCard}
                 clickChangeStep={clickChangeStep}
@@ -348,7 +348,7 @@ export default function ButtonsHeroCopy({ content }: { content: Services[] }) {
     }, [productCard, setModalStep])
 
     return (
-        <div>
+        <div style={{ width: '90%', margin: '0 auto' }}>
             <ul style={{ listStyleType: 'none' }}>{cards}</ul>
             {/* //когда не null вызываю модалку и провожу по всем шагам */}
             {modalStep > 0 &&

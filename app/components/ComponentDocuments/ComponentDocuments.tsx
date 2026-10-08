@@ -18,7 +18,8 @@ export default function ComponentDocuments() {
                 href="/confirmation-of-consent"
                 className={`{styles.header__nav_link} ${styles.documents}`}
             >
-                Согласие на обработку персональных данных
+                <p>Согласие на обработку</p>
+                <p>персональных данных</p>
             </Link>
 
             <Link

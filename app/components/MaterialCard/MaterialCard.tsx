@@ -66,33 +66,16 @@ export default function MaterialCard({
                 {product.image && (
                     <div className={styles.imageWrapper}>
                         <Image
-                            src="https://cdn.relaxdev.ru/users/sanek.miron2@gmail.com/doc-shev/1788120497079-kozha.webp"
+                            src={product.image}
                             alt={product.title}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            style={{ objectFit: 'cover' }}
-                        />{' '}
+                        />
                     </div>
                 )}
                 <div className={styles.footer}>
                     <div className={styles.price}>{formattedPrice}</div>
-                    {product.entity === 'service' ? (
-                        <>
-                            {' '}
-                            <Link
-                                href={`/timetable/${product.link}`}
-                                className={styles.actionButton}
-                            >
-                                <p>выбрать</p>
-                            </Link>
-                            <Link
-                                href={`/service/${product.title}`}
-                                className={styles.actionButton}
-                            >
-                                <p>Подробнее</p>
-                            </Link>
-                        </>
-                    ) : (
+                    {product.entity === 'service' ? null : ( // ) //     </> //         </Link> //             <p>ВЫБРАТЬ</p> //         > //             className={styles.actionButton} //             href={`/timetable/${product.link}`} //         <Link //         {' '} //     <> //  (
                         <button
                             onClick={() => {
                                 clickChangeStep(product)
@@ -100,7 +83,7 @@ export default function MaterialCard({
                             className={styles.actionButton}
                             // onClick={() => onOpenModal(product)}
                         >
-                            {isFree ? 'Получить' : 'Купить'}
+                            {isFree ? 'ПОЛУЧИТЬ' : 'КУПИТЬ'}
                         </button>
                     )}
                 </div>{' '}
@@ -109,6 +92,7 @@ export default function MaterialCard({
                 {/* Заголовок и бейдж типа продукта */}
                 <div className={styles.header}>
                     <h3 className={styles.title}>{product.title}</h3>
+
                     <span className={styles.entityBadge}>
                         {product.entity === 'service' ? 'Услуга' : 'Материал'}
                     </span>
@@ -149,6 +133,15 @@ export default function MaterialCard({
                         ))}
                     </ul>
                 )}
+
+                {product.entity === 'service' ? (
+                    <Link
+                        href={`/timetable/${product.link}`}
+                        className={styles.actionButton}
+                    >
+                        <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
+                    </Link>
+                ) : null}
 
                 {/* Подвал карточки с ценой и кнопкой */}
             </div>

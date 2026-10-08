@@ -85,9 +85,9 @@
 }
 
 .title {
-    font-size: 24px;
     margin-bottom: 30px; /* Отступ до кнопок */
     font-weight: 500;
+    font-size: clamp(20px, 4vw, 40px);
 }
 
 /* Контейнер для кнопки и почты */
@@ -96,8 +96,6 @@
     flex-direction: column; /* Располагаем друг под другом */
     align-items: center;
     gap: 20px; /* Расстояние между кнопкой и почтой */
-   
-   
 }
 
 /* Стили для ссылки-почты (вместо .contacts__button) */

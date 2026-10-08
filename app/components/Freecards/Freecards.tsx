@@ -292,7 +292,7 @@ export default function Freecards({ content }: { content: Services[] }) {
     }, [isDownload])
 
     return (
-        <div>
+        <div style={{ width: '90%', margin: '0 auto' }}>
             <ul style={{ listStyleType: 'none' }}>{cards}</ul>
 
             {/* //когда не null вызываю модалку и провожу по всем шагам */}
