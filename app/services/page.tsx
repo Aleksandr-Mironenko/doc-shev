@@ -20,8 +20,8 @@ import {
     dbGetAllSiteContent,
     getAllArticles,
     getAllReviews,
-} from '../service/adminServices'
-import { dbGetAvailableDates } from '../service/servicesDB'
+} from '../serv/adminServices'
+import { dbGetAvailableDates } from '../serv/servicesDB'
 import AboutMeContent from '../components/AboutMeContent/AboutMeContent'
 import PolicyiPolitic from '../components/PoliciPolitic/PolicyiPolitic'
 import PublicPolicyAbvertising from '../components/PublicPolicyAbvertising/PublicPolicyAbvertising'
@@ -51,67 +51,55 @@ export default async function MakeAnAppointment() {
     const services = serviceAll.data.filter((el) => el.entity === 'service')
     return (
         <>
-            {/* Local Business */}
+            {/* 1. Микроразметка Schema.org: Physician (Показывает поисковикам медицинский статус, но описание подчеркивает консультационный характер) */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         '@context': 'https://schema.org',
-                        '@type': 'FoodEstablishment',
-                        name: 'Кафе и услуги питания в Бору',
-                        url: BASE_URL,
-                        areaServed: 'Бор, Нижегородская область',
-                        address: {
-                            '@type': 'PostalAddress',
-                            streetAddress: 'ул. Неклюдово, 1',
-                            addressLocality: 'Бор',
-                            addressRegion: 'Нижегородская область',
-                            addressCountry: 'RU',
-                        },
-                        geo: {
-                            '@type': 'GeoCoordinates',
-                            latitude: 56.404115,
-                            longitude: 44.006722,
-                        },
-                        servesCuisine: 'Русская кухня',
-                        openingHours: 'Mo-Su 09:00-20:00',
-                        priceRange: '₽₽',
+                        '@type': 'Physician',
+                        name: 'Екатерина Шитова',
+                        givenName: 'Екатерина',
+                        familyName: 'Шитова',
+                        jobTitle: 'Врач-терапевт, нутрициолог',
                         description:
-                            'Кафе, кейтеринг и организация питания в городе Бор: банкеты, поминки, корпоративное питание',
-                        telephone: '+7-961-638-50-60',
-                        email: 'n.tranceva@mail.ru',
+                            'Официальный сайт врача-терапевта Екатерины Шитовой. Информационно-консультационные услуги по терапевтическим вопросам, изучение анализов, консультация по индивидуальному плану питания и принципах доказательной медицины.',
+                        url: BASE_URL,
+                        image: `${BASE_URL}/images/ekaterina-shitova.jpg`,
+                        priceRange: '₽₽',
+                        alumniOf: {
+                            '@type': 'EducationalOrganization',
+                            name: 'Приволжский исследовательский медицинский университет',
+                        },
+                        memberOf: {
+                            '@type': 'Organization',
+                            name: 'Российское Кардиологическое Общество',
+                        },
+                        knowsAbout: [
+                            'Терапия',
+                            'Клиническая нутрициология',
+                            'Изучение анализов',
+                            'Доказательная медицина',
+                            'Врач общей практики',
+                        ],
                     }),
                 }}
             />
-            {/* Legal Organization */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'Organization',
-                        name: 'ИП Транцева Наталья Алексеевна',
-                    }),
-                }}
-            />
-            {/* WebSite + SearchAction */}
+
+            {/* 2. Микроразметка Schema.org: WebSite */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         '@context': 'https://schema.org',
                         '@type': 'WebSite',
+                        name: 'Doctor Shev — Врач-терапевт Екатерина Шитова',
                         url: BASE_URL,
-                        potentialAction: {
-                            '@type': 'SearchAction',
-                            target: `${BASE_URL}/search?q={search_term_string}`,
-                            'query-input': 'required name=search_term_string',
-                        },
                     }),
                 }}
             />
 
-            {/* Breadcrumbs */}
+            {/* 3. Микроразметка Schema.org: Хлебные крошки (Breadcrumbs) */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -121,8 +109,8 @@ export default async function MakeAnAppointment() {
                         itemListElement: [
                             {
                                 '@type': 'ListItem',
-                                position: 1,
-                                name: 'Главная',
+                                position: 2,
+                                name: `Услуги`,
                                 item: `${BASE_URL}/`,
                             },
                         ],
@@ -145,7 +133,7 @@ export default async function MakeAnAppointment() {
 
                     <div className={styles.content}>
                         {/* <ComponentServices services={services} /> */}
-                         <Paycards content={services} />
+                        <Paycards isService content={services} />
                     </div>
 
                     <Footer />

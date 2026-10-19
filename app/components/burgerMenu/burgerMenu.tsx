@@ -10,7 +10,7 @@ import Documents from '../documents/documents'
 
 import Publics from '../publics/publics'
 import Link from 'next/link'
-import router from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function BurgerMenu({
     isOpen,
@@ -19,6 +19,7 @@ export default function BurgerMenu({
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }) {
+    const router = useRouter()
     const handleScroll = () => {
         const targetId = 'publics'
 

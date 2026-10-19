@@ -7,7 +7,7 @@ import {
     getAllReviews,
     dbGetAllSiteContent,
     dbGetAllServices,
-} from '@/app/service/adminServices'
+} from '@/app/serv/adminServices'
 import styles from './styles.module.scss'
 import Header from '@/app/components/header/header'
 import Footer from '@/app/components/footer/Footer'

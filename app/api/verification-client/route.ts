@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 import {
     dbGeSucsessbyPassworsEmail,
     dbUpdateDataLastConsultAndCounterConsult,
-} from '@/app/service/servicesDB' // Укажите правильный путь
-import { dbGetSucsessbyRoomId } from '@/app/service/adminServices'
-import sendEmail from '@/app/service/serviceSendEmail'
+} from '@/app/serv/servicesDB' // Укажите правильный путь
+import { dbGetSucsessbyRoomId } from '@/app/serv/adminServices'
+import sendEmail from '@/app/serv/serviceSendEmail'
 
 export async function POST(request: Request) {
     try {

@@ -15,7 +15,7 @@ import {
     dbGetAllSiteContent,
     getAllArticles,
     getAllReviews,
-} from '@/app/service/adminServices'
+} from '@/app/serv/adminServices'
 
 export default async function PolicyiPolitic() {
     const text = (

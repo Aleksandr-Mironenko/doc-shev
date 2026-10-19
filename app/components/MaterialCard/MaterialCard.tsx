@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from './MaterialCard.module.scss'
 import { useState } from 'react'
 import Link from 'next/link'
+import { createSlug } from '@/app/serv/lib/dinamicTranslate/dinamicTranslate'
 
 export interface Services {
     id: number
@@ -29,12 +30,16 @@ interface ServiceCardProps {
     product: Services
     clickChangeStep: (product: Services) => void
     productCard: Services | null
+    firstSegment?: string
+    isService?: boolean
 }
 
 export default function MaterialCard({
     product,
     clickChangeStep,
     productCard,
+    firstSegment,
+    isService,
 }: ServiceCardProps) {
     // 1. Динамически собираем все непустые описания из БД
     const descriptions = [
@@ -42,7 +47,13 @@ export default function MaterialCard({
         { name: product.description_2_name, text: product.description_2 },
         { name: product.description_3_name, text: product.description_3 },
         { name: product.description_4_name, text: product.description_4 },
-        { name: product.description_5_name, text: product.description_5 },
+    ].filter((item) => item.name || item.text) // Отсекаем все NULL и пустые строки
+
+    const fifthDescription = [
+        {
+            name: product.description_5_name,
+            text: product.description_5,
+        },
     ].filter((item) => item.name || item.text) // Отсекаем все NULL и пустые строки
 
     // 2. Форматируем цену (numeric из БД может приходить как строка)
@@ -59,8 +70,20 @@ export default function MaterialCard({
                     maximumFractionDigits: 0,
                 }).format(priceValue)
 
+    console.log(product.title)
+    const slug = createSlug(product.title)
+    console.log(slug)
+
     return (
         <div className={styles.card}>
+            {!isService && (
+                <Link
+                    href={`/${firstSegment}/${slug}`}
+                    className={`${styles.actionButton} ${styles.actionButtonPosition}`}
+                >
+                    <p>ПОДРОБНЕЕ</p>
+                </Link>
+            )}
             <div>
                 {/* Обложка материала */}
                 {product.image && (
@@ -131,16 +154,58 @@ export default function MaterialCard({
                                 </span>
                             </li>
                         ))}
+                        {isService && fifthDescription[0] && (
+                            <li className={styles.descriptionItem}>
+                                {/* Рендерим галочку через SVG */}
+                                {/* <svg
+                                    className={styles.checkIcon}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <polyline
+                                        points="20 6 9 17 4 12"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg> */}
+                                <div>
+                                    {fifthDescription[0].name && (
+                                        <h3
+                                            className={`${styles.descName} ${styles.descTextFormatted}`}
+                                        >
+                                            {fifthDescription[0].name}:{' '}
+                                        </h3>
+                                    )}
+                                    {fifthDescription[0].text && (
+                                        <p
+                                            className={`${styles.descText} ${styles.descTextFormatted}`}
+                                        >
+                                            {fifthDescription[0].text}
+                                        </p>
+                                    )}
+                                </div>
+                            </li>
+                        )}
                     </ul>
                 )}
 
                 {product.entity === 'service' ? (
-                    <Link
-                        href={`/timetable/${product.link}`}
-                        className={styles.actionButton}
-                    >
-                        <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
-                    </Link>
+                    <>
+                        <Link
+                            href={`/timetable/${product.link}`}
+                            className={styles.actionButton}
+                        >
+                            <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
+                        </Link>
+                        <Link
+                            href={`/services/${product.link}`}
+                            className={styles.actionButton}
+                        >
+                            <p>ПОДРОБНЕЕ</p>
+                        </Link>
+                    </>
                 ) : null}
 
                 {/* Подвал карточки с ценой и кнопкой */}

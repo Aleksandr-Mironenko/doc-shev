@@ -1,4 +1,5 @@
 .card {
+    position: relative;
     background-color: #ffffff;
     border-radius: 20px;
     overflow: hidden;
@@ -90,6 +91,12 @@
     font-weight: 600;
     color: #333030;
 }
+.descTextFormatted {
+    /* Сохраняет все переносы строк и отступы */
+    white-space: pre-wrap;
+    /* Гарантирует перенос слишком длинных слов */
+    word-break: break-word;
+}
 
 .footer {
     display: flex;
@@ -109,9 +116,32 @@
 }
 
 .actionButton {
+    margin-top: 10px;
     padding: 10px 20px;
     border-radius: 12px;
     background-color: #59b86a;
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    width: fit-content;
+    align-self: flex-end;
+
+    &:hover {
+        background-color: #55b166;
+    }
+}
+.actionButtonPosition {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background-color: #aec9b3;
     color: #ffffff;
     border: none;
     font-size: 15px;

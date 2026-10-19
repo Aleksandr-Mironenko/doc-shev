@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from './burger.module.scss'
 // Adjust the logo import path if your asset is located elsewhere
 import logo from '../../../public/burger-icon.svg'
+import router from 'next/router'
 
 export default function Burger({
     isOpen,
@@ -11,6 +12,19 @@ export default function Burger({
     isOpen: boolean
     setIsOpen: (e: boolean) => void
 }) {
+     const vb      = () => {
+        const targetId = 'publics'
+
+        if (window.location.pathname === '/') {
+            document.getElementById(targetId)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+            return
+        }
+
+        router.push(`/#${targetId}`)
+    }
     return (
         <button
             onClick={() => {

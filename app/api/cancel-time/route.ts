@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 // Укажите правильный путь к файлу, где лежит ваша функция dbNullSpecificTime
-import { dbNullSpecificTime } from '@/app/service/servicesDB'
+import { dbNullSpecificTime } from '@/app/serv/servicesDB'
 
 export async function POST(request: Request) {
     try {

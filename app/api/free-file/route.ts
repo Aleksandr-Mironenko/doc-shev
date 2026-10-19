@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { dbDownloadFineMaterial } from '@/app/service/servicesDB'
+import { dbDownloadFineMaterial } from '@/app/serv/servicesDB'
 
 export async function POST(request: Request) {
     try {

@@ -1,4 +1,5 @@
-import sql from '@/app/service/lib/db'
+import sql from '@/app/serv/lib/db'
+import { createSlug } from './lib/dinamicTranslate/dinamicTranslate'
 
 interface AddSlotResult {
     success: boolean
@@ -888,6 +889,110 @@ export async function dbGetAllServices() {
         return { success: true, data: Array.from(result) as ServiceItem[] }
     } catch (error) {
         console.error('Ошибка при получении списка услуг:', error)
+        return { success: false, data: [] }
+    }
+}
+
+export async function dbGetOneService(service: string) {
+    try {
+        const result = await sql`
+            SELECT 
+                id, title, 
+                description_1, description_1_name, 
+                description_2, description_2_name, 
+                description_3, description_3_name, 
+                description_4, description_4_name, 
+                description_5, description_5_name, 
+                link, is_check, is_active, created_at, price, image, entity 
+            FROM services
+            WHERE link = ${service}
+            LIMIT 1
+        `
+
+        const item = result.length > 0 ? (result[0] as ServiceItem) : null
+
+        return { success: true, data: item }
+    } catch (error) {
+        console.error('Ошибка при получении услуги:', error)
+        return { success: false, data: null }
+    }
+}
+
+export async function dbGetOneContent(service: string) {
+    try {
+        const result = await sql`
+            SELECT 
+                id, title, 
+                description_1, description_1_name, 
+                description_2, description_2_name, 
+                description_3, description_3_name, 
+                description_4, description_4_name, 
+                description_5, description_5_name, 
+                link, is_check, is_active, created_at, price, image, entity 
+            FROM services
+            WHERE title = ${service}
+            LIMIT 1
+        `
+
+        const item = result.length > 0 ? (result[0] as ServiceItem) : null
+
+        return { success: true, data: item }
+    } catch (error) {
+        console.error('Ошибка при получении услуги:', error)
+        return { success: false, data: null }
+    }
+}
+
+export async function dbGetPaidContentLinks() {
+    try {
+        const result = await sql`
+            SELECT title 
+            FROM services 
+            WHERE is_active = true 
+              AND entity = 'paid_content'
+            ORDER BY id ASC
+        `
+
+        const links = Array.from(result).map((row) => createSlug(row.title))
+        return { success: true, data: links }
+    } catch (error) {
+        console.error('Ошибка при получении ссылок платных материалов:', error)
+        return { success: false, data: [] }
+    }
+}
+
+export async function dbGetFreeContentLinks() {
+    try {
+        const result = await sql`
+            SELECT title 
+            FROM services 
+            WHERE is_active = true 
+              AND entity = 'free_content'
+            ORDER BY id ASC
+        `
+
+        const links = Array.from(result).map((row) => createSlug(row.title))
+        return { success: true, data: links }
+    } catch (error) {
+        console.error('Ошибка при получении ссылок платных материалов:', error)
+        return { success: false, data: [] }
+    }
+}
+
+export async function dbGetServicesLinks() {
+    try {
+        const result = await sql`
+            SELECT link 
+            FROM services 
+            WHERE is_active = true 
+              AND entity = 'service'
+            ORDER BY id ASC
+        `
+
+        const links = Array.from(result).map((row) => row.link)
+        return { success: true, data: links }
+    } catch (error) {
+        console.error('Ошибка при получении ссылок услуг:', error)
         return { success: false, data: [] }
     }
 }

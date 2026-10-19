@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import MaterialCard from '../MaterialCard/MaterialCard'
 import { createPortal } from 'react-dom'
+import Service from '../../components/Service/Service'
 
 export interface Services {
     id: number
@@ -25,7 +26,18 @@ export interface Services {
     entity: string
 }
 
-export default function ButtonsHeroCopy({ content }: { content: Services[] }) {
+export default function ButtonsHeroCopy({
+    content,
+    service,
+    firstSegment,
+    isService,
+}: {
+    content: Services[]
+    service?: string
+    firstSegment?: string
+    isService?: boolean
+}) {
+    const card = content.find((el) => el.link === service)
     const [orderId, setOrderId] = useState<number | null>(null)
     const [paymentUrl, setPaymentUrl] = useState<string | null>(null)
     const [modalStep, setModalStep] = useState<number>(0)
@@ -196,9 +208,17 @@ export default function ButtonsHeroCopy({ content }: { content: Services[] }) {
                 productCard={productCard}
                 clickChangeStep={clickChangeStep}
                 product={el}
+                firstSegment={firstSegment}
+                isService={isService}
             />
         </li>
     ))
+    const oneCard = card && service && (
+        <li key={card.id} style={{ marginBottom: '10px' }}>
+            <Service product={card} />
+        </li>
+    )
+
     const handleFormSubmit = async () => {
         // Проверка заполненности полей
         if (!formData.name || !formData.email || !formData.phone) {
@@ -349,7 +369,9 @@ export default function ButtonsHeroCopy({ content }: { content: Services[] }) {
 
     return (
         <div style={{ width: '90%', margin: '0 auto' }}>
-            <ul style={{ listStyleType: 'none' }}>{cards}</ul>
+            <ul style={{ listStyleType: 'none' }}>
+                {service ? oneCard : cards}
+            </ul>
             {/* //когда не null вызываю модалку и провожу по всем шагам */}
             {modalStep > 0 &&
                 productCard !== null &&

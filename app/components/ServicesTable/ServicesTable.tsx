@@ -305,7 +305,7 @@
 //     return (
 //         <div className={styles.wrapper}>
 //             <div className={styles.header}>
-//                 <h2 className={styles.title}>Услуги (Services)</h2>
+//                 <h2 className={styles.title}>c</h2>
 
 //                 <button
 //                     type="button"
@@ -856,8 +856,11 @@ const columns: ColumnDef<Services>[] = [
     { accessorKey: 'description_3', header: 'Описание 3' },
     { accessorKey: 'description_4_name', header: 'Название описания 4' },
     { accessorKey: 'description_4', header: 'Описание 4' },
-    { accessorKey: 'description_5_name', header: 'Название описания 5' },
-    { accessorKey: 'description_5', header: 'Описание 5' },
+    {
+        accessorKey: 'description_5_name',
+        header: 'Заголовок подробного описания',
+    },
+    { accessorKey: 'description_5', header: 'Подробное описания' },
     { accessorKey: 'link', header: 'Ссылка' },
     { accessorKey: 'price', header: 'Цена' },
     {
@@ -1279,7 +1282,7 @@ export default function ServicesTable({
                             />
                         </label>
                         <label className={styles.field}>
-                            <span>Название описания 5</span>
+                            <span>Заголовок подробного описания</span>
                             <textarea
                                 value={form.description_5_name}
                                 onChange={(e) =>
@@ -1293,7 +1296,7 @@ export default function ServicesTable({
                             />
                         </label>
                         <label className={styles.field}>
-                            <span>Описание 5</span>
+                            <span>Подробное описания</span>
                             <textarea
                                 value={form.description_5}
                                 onChange={(e) =>

@@ -58,9 +58,9 @@ export default function AboutMeContent({
 
     const detailst2Content = detailst2.map((el) => (
         <li key={el.id} className={styles.aboutMeContent__item}>
-            {el.description_1 && <p>{el.description_1}</p>}
-            {el.description_2 && <p>{el.description_2}</p>}
-            {el.description_3 && <p>{el.description_3}</p>}
+            {el.description_1 && <p> - {el.description_1} </p>}
+            {el.description_2 && <p> - {el.description_2}</p>}
+            {el.description_3 && <p> - {el.description_3}</p>}
         </li>
     ))
 
@@ -70,7 +70,7 @@ export default function AboutMeContent({
     const details3Name = detailst3[0]?.title
     const detailst3Content = detailst3.map((el) => (
         <li key={el.id} className={styles.aboutMeContent__item}>
-            <h3 >
+            <h3>
                 <b>{el.title}</b>
             </h3>
             {el.description_1 && <p>{el.description_1}</p>}
@@ -110,18 +110,27 @@ export default function AboutMeContent({
     // ))
     return (
         <div className={styles.aboutMeContent__text_wrapper}>
-            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
+            <ul style={{ padding: 0, margin: '10px' }}>
+                {/* listStyle: 'none' */}
                 {details1}
             </ul>
             <h3>
                 <b>{detailst2Name}</b>
             </h3>
-            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
+            {/* listStyle: 'none' */}
+            <ul style={{ padding: 0, margin: '10px' }}>
                 {detailst2Content}
+                <li
+                    key={detailst2Content.length + 1}
+                    className={styles.aboutMeContent__item}
+                >
+                    <p>
+                        <b> - И многое другое</b>
+                    </p>
+                </li>
             </ul>
-            <ul style={{ padding: 0, margin: '10px', listStyle: 'none' }}>
-                {detailst3Content}
-            </ul>
+            {/* listStyle: 'none' */}
+            <ul style={{ padding: 0, margin: '10px' }}>{detailst3Content}</ul>
         </div>
     )
 }

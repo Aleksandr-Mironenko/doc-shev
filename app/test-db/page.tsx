@@ -1,4 +1,4 @@
-import sql from '@/app/service/lib/db' // Путь до твоего файла инициализации из предыдущего шага
+import sql from '@/app/serv/lib/db' // Путь до твоего файла инициализации из предыдущего шага
 
 export default async function TestDBPage() {
     let isSuccess = false

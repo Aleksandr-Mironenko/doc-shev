@@ -105,8 +105,8 @@ import {
     dbDownloadFineMaterial,
     dbGetOrderById,
     dbUpdatePaymentAndLink,
-} from '@/app/service/servicesDB'
-import sendEmail from '@/app/service/serviceSendEmail'
+} from '@/app/serv/servicesDB'
+import sendEmail from '@/app/serv/serviceSendEmail'
 
 export async function POST(request: Request) {
     try {

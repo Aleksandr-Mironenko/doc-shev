@@ -146,7 +146,11 @@ async function verify(token: string) {
 }
 
 export async function proxy(req: NextRequest) {
-    const { pathname } = req.nextUrl
+    const { pathname, origin } = req.nextUrl
+
+    const requestHeaders = new Headers(req.headers)
+    requestHeaders.set('x-current-path', pathname)
+    requestHeaders.set('x-site-url', origin)
 
     if (pathname.startsWith('/admin')) {
         const cookie = req.cookies.get('auth')?.value
@@ -166,9 +170,28 @@ export async function proxy(req: NextRequest) {
         }
     }
 
-    return NextResponse.next()
+    // if (
+    //     pathname.startsWith('/services') ||
+    //     pathname.startsWith('/timetables') ||
+    //     pathname.startsWith('/free-content') ||
+    //     pathname.startsWith('/paid-content')
+    // ) {
+    //     return  //то что требуется сделать
+    // }
+
+    return NextResponse.next({
+        request: {
+            headers: requestHeaders,
+        },
+    })
 }
 
 export const config = {
-    matcher: ['/admin/:path*'],
+    matcher: [
+        '/admin/:path*',
+        '/services/:path*',
+        '/timetables/:path*',
+        '/free-content/:path*',
+        '/paid-content/:path*',
+    ],
 }

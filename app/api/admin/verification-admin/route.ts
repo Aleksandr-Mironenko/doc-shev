@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { dbGetSucsessbyRoomId } from '@/app/service/adminServices'
+import { dbGetSucsessbyRoomId } from '@/app/serv/adminServices'
 
 export async function POST(request: Request) {
     try {

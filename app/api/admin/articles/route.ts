@@ -5,7 +5,7 @@ import {
     getAllArticles,
     updateArticleField,
     type AddArticlePayload,
-} from '@/app/service/adminServices'
+} from '@/app/serv/adminServices'
 
 interface UpdateArticleBody {
     id: number

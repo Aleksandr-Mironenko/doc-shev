@@ -1,5 +1,5 @@
 // services.ts
-import sql from '@/app/service/lib/db' // Подключение к вашей БД
+import sql from '@/app/serv/lib/db' // Подключение к вашей БД
 
 // --- РАБОТА С БД ---
 interface FetchDatesResult {

@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 import {
     dbGenerateEmailCode,
     updateClientReviewsConsent,
-} from '@/app/service/servicesDB'
-import sendEmail from '@/app/service/serviceSendEmail' // Путь скорректируйте под ваш проект
+} from '@/app/serv/servicesDB'
+import sendEmail from '@/app/serv/serviceSendEmail' // Путь скорректируйте под ваш проект
 //3
 export async function POST(request: Request) {
     try {

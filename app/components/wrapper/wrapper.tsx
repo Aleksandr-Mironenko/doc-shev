@@ -15,7 +15,7 @@ import {
     dbGetAllSiteContent,
     getAllArticles,
     getAllReviews,
-} from '@/app/service/adminServices'
+} from '@/app/serv/adminServices'
 
 export default async function Wrapper() {
     const articles = await getAllArticles() // получу все посты и передам на отображение

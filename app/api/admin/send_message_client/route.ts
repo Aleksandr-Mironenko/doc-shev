@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import sendEmail from '@/app/service/serviceSendEmail'
+import sendEmail from '@/app/serv/serviceSendEmail'
 //5
 export async function POST(request: Request) {
     try {

@@ -26,7 +26,13 @@ export interface Services {
     entity: string
 }
 
-export default function Freecards({ content }: { content: Services[] }) {
+export default function Freecards({
+    content,
+    firstSegment,
+}: {
+    content: Services[]
+    firstSegment: string
+}) {
     const [orderId, setOrderId] = useState<number | null>(null)
     const [isDownload, setIsDownload] = useState<boolean>(false)
     const [modalStep, setModalStep] = useState<number>(0)
@@ -197,6 +203,7 @@ export default function Freecards({ content }: { content: Services[] }) {
                 productCard={productCard}
                 clickChangeStep={clickChangeStep}
                 product={el}
+                firstSegment={firstSegment}
             />
         </li>
     ))

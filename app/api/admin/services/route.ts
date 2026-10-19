@@ -4,7 +4,7 @@ import {
     dbCreateService,
     dbUpdateService,
     dbDeleteService,
-} from '@/app/service/adminServices'
+} from '@/app/serv/adminServices'
 
 // Получение списка всех услуг
 export async function GET() {
