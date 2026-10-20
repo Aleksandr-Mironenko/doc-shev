@@ -15,6 +15,16 @@
         transform: translateY(-5px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
     }
+    @media (max-width: 650px) {
+        flex-direction: column;
+    }
+}
+.leftcard {
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 650px) {
+        flex-direction: row;
+    }
 }
 
 .imageWrapper {
@@ -107,6 +117,10 @@
     padding-top: 20px;
     border-top: 1px solid #f0f0f0;
     z-index: 15165161;
+    position: relative;
+      @media (max-width: 650px) {
+        margin-left: 20px;
+    }
 }
 
 .price {

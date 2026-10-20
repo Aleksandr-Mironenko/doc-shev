@@ -84,7 +84,7 @@ export default function MaterialCard({
                     <p>ПОДРОБНЕЕ</p>
                 </Link>
             )}
-            <div>
+            <div className={styles.leftcard}>
                 {/* Обложка материала */}
                 {product.image && (
                     <div className={styles.imageWrapper}>

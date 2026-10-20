@@ -892,7 +892,7 @@ export default function ButtonsHeroCopy({
                                                             href="/public-offer"
                                                         >
                                                             <b>
-                                                                {`Публичной
+                                                                {` Публичной
                                                                 оферты на
                                                                 оказание услуг `}
                                                             </b>

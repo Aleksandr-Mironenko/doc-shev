@@ -114,8 +114,8 @@ export default function AboutMeContent({
                 {/* listStyle: 'none' */}
                 {details1}
             </ul>
-            <h3>
-                <b>{detailst2Name}</b>
+            <h3 style={{ padding: 0, margin: 0 }}>
+                <b className={styles.aboutMeContent__itemh3}>{detailst2Name}</b>
             </h3>
             {/* listStyle: 'none' */}
             <ul style={{ padding: 0, margin: '10px' }}>

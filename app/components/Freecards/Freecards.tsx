@@ -822,7 +822,7 @@ export default function Freecards({
                                                             href="/public-offer"
                                                         >
                                                             <b>
-                                                                {`Публичной
+                                                                {` Публичной
                                                                 оферты на
                                                                 оказание услуг `}
                                                             </b>

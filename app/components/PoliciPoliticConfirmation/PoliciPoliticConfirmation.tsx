@@ -55,6 +55,9 @@ export default async function PoliciPoliticConfirmation() {
                     рекомендаций;
                 </li>
                 <li style={{ marginLeft: '30px' }}>
+                    Направление платных и бесплатных материалов(файлов);
+                </li>
+                <li style={{ marginLeft: '30px' }}>
                     Направление кассовых чеков в соответствии с ФЗ № 422-ФЗ;
                 </li>
                 <li style={{ marginLeft: '30px' }}>
