@@ -300,7 +300,16 @@ export default function Freecards({
 
     return (
         <div style={{ width: '90%', margin: '0 auto' }}>
-            <ul style={{ listStyleType: 'none' }}>{cards}</ul>
+            <ul
+                style={{
+                    listStyleType: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                }}
+            >
+                {cards}
+            </ul>
 
             {/* //когда не null вызываю модалку и провожу по всем шагам */}
             {modalStep > 0 &&

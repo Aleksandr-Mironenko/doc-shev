@@ -307,7 +307,7 @@ export default function ServicesTableFreeContent({
         setAddError(null)
 
         if (!form.title.trim()) {
-            setAddError('Введите название платного контента')
+            setAddError('Введите название бесплатного контента')
             return
         }
 

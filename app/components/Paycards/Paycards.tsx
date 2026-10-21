@@ -214,7 +214,7 @@ export default function ButtonsHeroCopy({
         </li>
     ))
     const oneCard = card && service && (
-        <li key={card.id} style={{ marginBottom: '10px' }}>
+        <li key={card.id}>
             <Service product={card} />
         </li>
     )
@@ -369,7 +369,14 @@ export default function ButtonsHeroCopy({
 
     return (
         <div style={{ width: '90%', margin: '0 auto' }}>
-            <ul style={{ listStyleType: 'none' }}>
+            <ul
+                style={{
+                    listStyleType: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '10px',
+                }}
+            >
                 {service ? oneCard : cards}
             </ul>
             {/* //когда не null вызываю модалку и провожу по всем шагам */}
