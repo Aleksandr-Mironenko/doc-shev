@@ -39,6 +39,8 @@ export default async function Disclaimer() {
     return (
         <div
             style={{
+                wordBreak: 'normal',
+                overflowWrap: 'break-word',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

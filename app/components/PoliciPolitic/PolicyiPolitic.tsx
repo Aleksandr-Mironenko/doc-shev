@@ -273,6 +273,8 @@ export default async function PolicyiPolitic() {
     return (
         <div
             style={{
+                wordBreak: 'normal',
+                overflowWrap: 'break-word',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

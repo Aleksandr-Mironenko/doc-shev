@@ -13,6 +13,8 @@ export default async function Oferta() {
 
             <h2
                 style={{
+                    wordBreak: 'normal',
+                    overflowWrap: 'break-word',
                     fontSize: '20px',
                     textAlign: 'center',
                     fontWeight: 700,
@@ -828,6 +830,8 @@ export default async function Oferta() {
     return (
         <div
             style={{
+                wordBreak: 'normal',
+                overflowWrap: 'break-word',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',
