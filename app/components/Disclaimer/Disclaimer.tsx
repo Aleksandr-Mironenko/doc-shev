@@ -4,8 +4,8 @@ export default async function Disclaimer() {
             <p style={{ fontSize: '20px', marginTop: '15px' }}>
                 Вся информация, материалы и рекомендации, представленные на
                 данном сайте и в ходе оказания услуг Шитовой Екатериной
-                Вадимовной, носят исключительно информационно-просветительский
-                характер.{' '}
+                Вадимовной, носят исключительно информационно-просветительский,
+                образовательныный характер.{' '}
             </p>
             <p style={{ fontSize: '20px', marginTop: '15px' }}>
                 Услуги Исполнителя не являются медицинской деятельностью, не
@@ -40,7 +40,8 @@ export default async function Disclaimer() {
         <div
             style={{
                 wordBreak: 'normal',
-                overflowWrap: 'break-word',
+                overflowWrap: 'normal',
+                hyphens: 'auto',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

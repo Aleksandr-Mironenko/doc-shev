@@ -94,7 +94,7 @@ export default async function MakeAnAppointment({ params }: PageProps) {
                     __html: JSON.stringify({
                         '@context': 'https://schema.org',
                         '@type': 'WebSite',
-                        name: 'Doctor Shev — Врач-терапевт Екатерина Шитова',
+                        name: 'Doctor Shev - Врач-терапевт Екатерина Шитова',
                         url: BASE_URL,
                     }),
                 }}
@@ -175,7 +175,7 @@ export default async function MakeAnAppointment({ params }: PageProps) {
 
 // На главной странице должно быть:
 
-// <title>Bor Food — доставка еды</title>
+// <title>Bor Food - доставка еды</title>
 // 🔹 5. Добавить упоминания
 
 // Минимум:

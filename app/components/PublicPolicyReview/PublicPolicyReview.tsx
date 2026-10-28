@@ -3,7 +3,7 @@ export default async function PublicPolicyRewiew() {
         <>
             <p style={{ fontSize: '20px' }}>
                 Предоставляя свой отзыв (в текстовом, аудио- или видеоформате)
-                об услугах Шитовой Екатерины Вадимовны (далее — «Исполнитель»),
+                об услугах Шитовой Екатерины Вадимовны (далее - «Исполнитель»),
                 я подтверждаю, что:
             </p>
 
@@ -81,7 +81,8 @@ export default async function PublicPolicyRewiew() {
         <div
             style={{
                 wordBreak: 'normal',
-                overflowWrap: 'break-word',
+                overflowWrap: 'normal',
+                hyphens: 'auto',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

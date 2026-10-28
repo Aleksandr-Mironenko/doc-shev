@@ -4,10 +4,10 @@ export default async function PoliciPoliticConfirmation() {
             <p style={{ fontSize: '20px' }}>
                 Нажимая кнопку «Оплатить» (или «Забронировать») и проставляя
                 отметку в соответствующем поле на сайте doctor-shev.ru, я (далее
-                — «Заказчик»), действуя своей волей и в своем интересе, даю свое
+                - «Заказчик»), действуя своей волей и в своем интересе, даю свое
                 согласие Шитовой Екатерине Вадимовне (ИНН: 524610588725),
                 применяющему(ей) специальный налоговый режим «Налог на
-                профессиональный доход» (далее — «Оператор»), на обработку моих
+                профессиональный доход» (далее - «Оператор»), на обработку моих
                 персональных данных на следующих условиях:
             </p>
 
@@ -23,11 +23,13 @@ export default async function PoliciPoliticConfirmation() {
                 согласие
             </h2>
             <ul>
-                <li style={{ marginLeft: '30px' }}>Фамилия, Имя, Отчество;</li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
+                    Фамилия, Имя, Отчество;
+                </li>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Номер контактного телефона;
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Адрес электронной почты (e-mail)
                 </li>
             </ul>
@@ -43,24 +45,24 @@ export default async function PoliciPoliticConfirmation() {
                 Цели обработки персональных данных
             </h2>
             <ul>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Заключение и исполнение Договора публичной оферты на
                     оказание информационно-консультационных услуг;
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Бронирование даты и времени проведения консультации;
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Направление ссылок доступа к платформам связи и письменных
                     рекомендаций;
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Направление платных и бесплатных материалов(файлов);
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Направление кассовых чеков в соответствии с ФЗ № 422-ФЗ;
                 </li>
-                <li style={{ marginLeft: '30px' }}>
+                <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                     Связь по вопросам оказания услуг.
                 </li>
             </ul>
@@ -124,7 +126,8 @@ export default async function PoliciPoliticConfirmation() {
         <div
             style={{
                 wordBreak: 'normal',
-                overflowWrap: 'break-word',
+                overflowWrap: 'normal',
+                hyphens: 'auto',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

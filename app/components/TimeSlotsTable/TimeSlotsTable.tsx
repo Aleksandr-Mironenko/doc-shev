@@ -57,7 +57,7 @@ const columns: ColumnDef<TimeSlot>[] = [
             const value = info.getValue<Date | string>()
 
             if (!value) {
-                return '—'
+                return '-'
             }
 
             return new Date(value).toLocaleString('ru-RU')
@@ -67,7 +67,7 @@ const columns: ColumnDef<TimeSlot>[] = [
         accessorKey: 'comment',
         header: 'Комментарий',
         cell: (info) => {
-            return info.getValue<string | null>() ?? '—'
+            return info.getValue<string | null>() ?? '-'
         },
     },
 ]

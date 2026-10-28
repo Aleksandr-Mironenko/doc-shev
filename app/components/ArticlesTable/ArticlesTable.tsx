@@ -146,7 +146,7 @@ export default function ArticlesTable({
             ),
         )
 
-        // 3. Если это была колонка с картинкой и картинку заменили — удаляем старый файл с сервера
+        // 3. Если это была колонка с картинкой и картинку заменили - удаляем старый файл с сервера
         const isImageColumn =
             columnId === 'preview_image_url' || columnId === 'id'
 
@@ -172,7 +172,7 @@ export default function ArticlesTable({
             const previousRow = articles.find((r) => r.id === rowId)
             const oldValue = previousRow ? previousRow[columnId] : null
 
-            // Если в процессе редактирования ячейки загрузили новую картинку, но нажали отмену — удаляем загруженный файл
+            // Если в процессе редактирования ячейки загрузили новую картинку, но нажали отмену - удаляем загруженный файл
             if (isImageColumn && value && value !== oldValue) {
                 await deleteStorageFile(value)
             }

@@ -3,10 +3,10 @@ export default async function PublicPolicyAbvertising() {
         <>
             <p style={{ fontSize: '20px' }}>
                 1. Нажимая соответствующую кнопку (чек-бокс) на сайте
-                doctor-shev.ru, я (далее — «Пользователь»), действуя своей волей
+                doctor-shev.ru, я (далее - «Пользователь»), действуя своей волей
                 и в своем интересе, даю согласие Шитовой Екатерине Вадимовне
                 (ИНН: 524610588725), применяющему(ей) специальный налоговый
-                режим «Налог на профессиональный доход» (далее — «Исполнитель»),
+                режим «Налог на профессиональный доход» (далее - «Исполнитель»),
                 на получение информационной и рекламной рассылки.
             </p>
 
@@ -72,7 +72,8 @@ export default async function PublicPolicyAbvertising() {
         <div
             style={{
                 wordBreak: 'normal',
-                overflowWrap: 'break-word',
+                overflowWrap: 'normal',
+                hyphens: 'auto',
                 backgroundColor: 'white',
                 margin: '23px',
                 padding: '30px',

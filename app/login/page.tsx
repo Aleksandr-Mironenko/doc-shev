@@ -36,7 +36,7 @@ export default async function MenuPagesClient() {
                     <Header />
 
                     <h1 aria-hidden="false" className={styles.visuallyHidden}>
-                        Кафе и услуги питания в Бору — кейтеринг, банкеты,
+                        Кафе и услуги питания в Бору - кейтеринг, банкеты,
                         корпоративное питание
                     </h1>
 
@@ -74,7 +74,7 @@ export default async function MenuPagesClient() {
 
 // На главной странице должно быть:
 
-// <title>Bor Food — доставка еды</title>
+// <title>Bor Food - доставка еды</title>
 // 🔹 5. Добавить упоминания
 
 // Минимум:

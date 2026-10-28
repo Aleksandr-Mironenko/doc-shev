@@ -155,7 +155,7 @@ export default function RoomClient({
         }
     }
 
-    // Если данные подтверждены и ссылка получена — показываем iframe
+    // Если данные подтверждены и ссылка получена - показываем iframe
     if (isConfirmed && videoLink) {
         return (
             <div

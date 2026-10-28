@@ -66,7 +66,7 @@
 //                     Смотреть
 //                 </a>
 //             ) : (
-//                 '—'
+//                 '-'
 //             )
 //         },
 //     },
@@ -155,7 +155,7 @@
 //                 current.map((item) => (item.id === rowId ? updatedRow : item)),
 //             )
 
-//             // Если картинку заменили — удаляем старый файл[cite: 3]
+//             // Если картинку заменили - удаляем старый файл[cite: 3]
 //             if (
 //                 columnId === 'image' &&
 //                 oldValue &&
@@ -178,7 +178,7 @@
 //             const previousRow = servicesList.find((r) => r.id === rowId)
 //             const oldValue = previousRow ? previousRow[columnId] : null
 
-//             // Если загрузили новую картинку, но нажали отмену — удаляем загруженный файл[cite: 3]
+//             // Если загрузили новую картинку, но нажали отмену - удаляем загруженный файл[cite: 3]
 //             if (columnId === 'image' && value && value !== oldValue) {
 //                 await deleteStorageFile(value)
 //             }
@@ -844,7 +844,7 @@ const columns: ColumnDef<Services>[] = [
                     Смотреть
                 </a>
             ) : (
-                '—'
+                '-'
             )
         },
     },
@@ -951,7 +951,7 @@ export default function ServicesTable({
                 current.map((item) => (item.id === rowId ? updatedRow : item)),
             )
 
-            // Если картинку заменили — удаляем старый файл[cite: 3]
+            // Если картинку заменили - удаляем старый файл[cite: 3]
             if (
                 columnId === 'image' &&
                 oldValue &&
@@ -974,7 +974,7 @@ export default function ServicesTable({
             const previousRow = servicesList.find((r) => r.id === rowId)
             const oldValue = previousRow ? previousRow[columnId] : null
 
-            // Если загрузили новую картинку, но нажали отмену — удаляем загруженный файл[cite: 3]
+            // Если загрузили новую картинку, но нажали отмену - удаляем загруженный файл[cite: 3]
             if (columnId === 'image' && value && value !== oldValue) {
                 await deleteStorageFile(value)
             }

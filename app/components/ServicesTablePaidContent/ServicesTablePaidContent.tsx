@@ -86,7 +86,7 @@ const columns: ColumnDef<ServicesPaidContent>[] = [
                     Смотреть
                 </a>
             ) : (
-                '—'
+                '-'
             )
         },
     },
@@ -189,7 +189,7 @@ export default function ServicesTablePaidContent({
                 current.map((item) => (item.id === rowId ? updatedRow : item)),
             )
 
-            // Если картинку или файл заменили — удаляем старый файл[cite: 3]
+            // Если картинку или файл заменили - удаляем старый файл[cite: 3]
 
             if (
                 (columnId === 'image' || columnId === 'link') &&
@@ -213,7 +213,7 @@ export default function ServicesTablePaidContent({
     //         const previousRow = servicesList.find((r) => r.id === rowId)
     //         const oldValue = previousRow ? previousRow[columnId] : null
 
-    //         // Если загрузили новую картинку, но нажали отмену — удаляем загруженный файл[cite: 3]
+    //         // Если загрузили новую картинку, но нажали отмену - удаляем загруженный файл[cite: 3]
     //         if (columnId === 'image' && value && value !== oldValue) {
     //             await deleteStorageFile(value)
     //         }
@@ -227,7 +227,7 @@ export default function ServicesTablePaidContent({
             const previousRow = servicesList.find((r) => r.id === rowId)
             const oldValue = previousRow ? previousRow[columnId] : null
 
-            // Если загрузили новый файл, но нажали отмену — удаляем загруженный файл
+            // Если загрузили новый файл, но нажали отмену - удаляем загруженный файл
             if (
                 (columnId === 'image' || columnId === 'link') &&
                 value &&
@@ -422,7 +422,7 @@ export default function ServicesTablePaidContent({
         if (!confirm('Удалить этот материал?')) return
 
         try {
-            // ОПЦИОНАЛЬНОЕ УДАЛЕНИЕ: Если это методичка и есть файл — удаляем его с сервера
+            // ОПЦИОНАЛЬНОЕ УДАЛЕНИЕ: Если это методичка и есть файл - удаляем его с сервера
 
             // ОСНОВНОЕ УДАЛЕНИЕ: Удаляем саму запись из БД (и картинку imageUrl, если бэкенд это поддерживает)
             const res = await fetch('/api/admin/services', {

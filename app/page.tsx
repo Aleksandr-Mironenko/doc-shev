@@ -7,7 +7,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://doctor-shev.ru'
 
 // 1. Метатеги для Next.js App Router (показывают экспертность врача, но избегают запрещенных слов «лечение» и «диагностика»)
 export const metadata: Metadata = {
-    title: 'Екатерина Шитова — врач-терапевт | Онлайн-консультации',
+    title: 'Екатерина Шитова - врач-терапевт | Онлайн-консультации',
     description:
         'Информационно-консультационные услуги Екатерины Шитовой, врача-терапевта. Консультации по вопросам питания, обсуждение лабораторных анализов и индивидуального плана питания.',
     keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         description:
             'Информационные консультации по вопросам здоровья и разбор анализов от врача-терапевта Екатерины Шитовой.',
         url: BASE_URL,
-        siteName: 'Doctor Shev — Екатерина Шитова',
+        siteName: 'Doctor Shev - Екатерина Шитова',
         locale: 'ru_RU',
         type: 'website',
         images: [
@@ -95,7 +95,7 @@ export default function Home() {
                     __html: JSON.stringify({
                         '@context': 'https://schema.org',
                         '@type': 'WebSite',
-                        name: 'Doctor Shev — Врач-терапевт Екатерина Шитова',
+                        name: 'Doctor Shev - Врач-терапевт Екатерина Шитова',
                         url: BASE_URL,
                     }),
                 }}

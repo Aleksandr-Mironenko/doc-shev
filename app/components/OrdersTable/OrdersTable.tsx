@@ -56,7 +56,7 @@ const booleanLabel = (value: boolean | null): string => {
     if (value === true) return 'Да'
     if (value === false) return 'Нет'
 
-    return '—'
+    return '-'
 }
 
 
@@ -187,13 +187,13 @@ export default function AdminOrders({
             accessorKey: 'link',
             header: 'Ссылка',
             cell: (info) =>
-                info.getValue<string | null>() ?? '—',
+                info.getValue<string | null>() ?? '-',
         },
         {
             accessorKey: 'comment',
             header: 'Комментарий',
             cell: (info) =>
-                info.getValue<string | null>() ?? '—',
+                info.getValue<string | null>() ?? '-',
         },
     ]
 

@@ -483,7 +483,7 @@ function ListTableSection({
                             items.map((item) => (
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
-                                    <td>{item.title ?? '—'}</td>
+                                    <td>{item.title ?? '-'}</td>
                                     <td>
                                         {item.image ? (
                                             <a
@@ -503,7 +503,7 @@ function ListTableSection({
                                                 />
                                             </a>
                                         ) : (
-                                            '—'
+                                            '-'
                                         )}
                                     </td>
                                     {hasDescriptions && (
@@ -515,7 +515,7 @@ function ListTableSection({
                                                     item.description_3,
                                                 ]
                                                     .filter(Boolean)
-                                                    .join(' | ') || '—'}
+                                                    .join(' | ') || '-'}
                                             </small>
                                         </td>
                                     )}
@@ -759,7 +759,7 @@ function ServicesTableSection({
                                                 marginBottom: '8px',
                                             }}
                                         >
-                                            {item.title ?? '—'}
+                                            {item.title ?? '-'}
                                         </strong>
                                         {item.image ? (
                                             <a
@@ -779,7 +779,7 @@ function ServicesTableSection({
                                                 />
                                             </a>
                                         ) : (
-                                            '—'
+                                            '-'
                                         )}
                                     </td>
                                     <td>
@@ -796,7 +796,7 @@ function ServicesTableSection({
                                                 item.description_3,
                                             ]
                                                 .filter(Boolean)
-                                                .join(' | ') || '—'}
+                                                .join(' | ') || '-'}
                                         </small>
                                         <small
                                             style={{
@@ -805,11 +805,11 @@ function ServicesTableSection({
                                             }}
                                         >
                                             <strong>Ссылка: </strong>
-                                            {item.link ?? '—'}
+                                            {item.link ?? '-'}
                                         </small>
                                         <small style={{ display: 'block' }}>
                                             <strong>Цена: </strong>
-                                            {item.price ?? '—'}
+                                            {item.price ?? '-'}
                                         </small>
                                     </td>
                                     <td>

@@ -370,7 +370,7 @@ export default function Appointment({
                         const now = dayjs()
 
                         const filteredTimes = times.filter((time: string) => {
-                            // Будущие даты — все времена доступны
+                            // Будущие даты - все времена доступны
                             if (!selectedDate.isSame(now, 'day')) {
                                 return true
                             }
