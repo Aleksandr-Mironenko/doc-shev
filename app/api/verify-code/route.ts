@@ -16,7 +16,7 @@ export async function POST(request: Request) {
         const forwardedFor = request.headers.get('x-forwarded-for')
         const clientIp = forwardedFor
             ? forwardedFor.split(',')[0].trim()
-            : request.headers.get('x-real-ip') //|| '127.0.0.1';// с фига ли именно этот ip
+            : request.headers.get('x-real-ip') || '127.0.0.1' // с фига ли именно этот ip
 
         // Далее сохраняем clientIp вместе с заказом и датами согласий в PostgreSQL
         // console.log('IP клиента:', clientIp)

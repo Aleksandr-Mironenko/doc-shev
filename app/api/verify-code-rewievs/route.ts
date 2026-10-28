@@ -26,12 +26,19 @@ export async function POST(request: Request) {
             )
         }
 
+        //узнаем ip
+        const forwardedFor = request.headers.get('x-forwarded-for')
+        const clientIp = forwardedFor
+            ? forwardedFor.split(',')[0].trim()
+            : request.headers.get('x-real-ip') || '127.0.0.1' // защита локальной разработки
+
         const tasks: Promise<unknown>[] = [
             sendEmail(
                 'doc.shev@mail.ru',
-                'Новый отзыв от клиента',
+                `Новый отзыв от клиента`,
                 `<p>Email клиента: <b>${email}</b></p>
-                 <p>Текст отзыва: <b>${text}</b></p>`,
+                 <p>Ip клиента: <b>${clientIp}</b></p>
+                 <p>Текст отзыва (был написан пользователем на сайте doctor-shev.ru): <b>${text}</b></p>`,
                 'Новый отзыв от клиента',
             ),
         ]

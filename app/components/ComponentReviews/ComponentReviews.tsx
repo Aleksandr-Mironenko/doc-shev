@@ -40,6 +40,9 @@ export default function ComponentReviews({
         false | string
     >(false)
 
+
+
+    
     useEffect(() => {
         setReviewsDataState(reviewsData)
     }, [reviewsData])

@@ -165,7 +165,7 @@ export default async function MakeAnAppointment({ params }: PageProps) {
 
 // Пример:
 
-// https://bor-food.ru/sitemap.xml
+// https://doctor-shev.ru/sitemap.xml
 // 🔹 3. Проверить robots.txt
 
 // Убедись, что нет:

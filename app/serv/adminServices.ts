@@ -918,27 +918,71 @@ export async function dbGetOneService(service: string) {
     }
 }
 
-export async function dbGetOneContent(service: string) {
+// export async function dbGetOneContent(service: string) {
+//     try {
+//         const result = await sql`
+//             SELECT
+//                 id, title,
+//                 description_1, description_1_name,
+//                 description_2, description_2_name,
+//                 description_3, description_3_name,
+//                 description_4, description_4_name,
+//                 description_5, description_5_name,
+//                 link, is_check, is_active, created_at, price, image, entity
+//             FROM services
+//             WHERE title = ${service}
+//             LIMIT 1
+//         `
+
+//         const item = result.length > 0 ? (result[0] as ServiceItem) : null
+
+//         return { success: true, data: item }
+//     } catch (error) {
+//         console.error('Ошибка при получении услуги:', error)
+//         return { success: false, data: null }
+//     }
+// }
+export async function dbGetOneContent(slug: string) {
     try {
         const result = await sql`
             SELECT 
-                id, title, 
-                description_1, description_1_name, 
-                description_2, description_2_name, 
-                description_3, description_3_name, 
-                description_4, description_4_name, 
-                description_5, description_5_name, 
-                link, is_check, is_active, created_at, price, image, entity 
+                id, title, link, entity, is_active, price, image, 
+                description_1, description_2, description_3, description_4, description_5,
+                description_1_name, description_2_name, description_3_name, description_4_name, description_5_name,
+                created_at 
             FROM services
-            WHERE title = ${service}
-            LIMIT 1
+            WHERE is_active = true
         `
 
-        const item = result.length > 0 ? (result[0] as ServiceItem) : null
+        const items = Array.from(result) as ServiceItem[]
 
-        return { success: true, data: item }
+        // ГЛАВНОЕ ИСПРАВЛЕНИЕ:
+        // Сначала превращаем входящий параметр в слаг (если он пришел русскими буквами),
+        // а затем очищаем от дефисов, чтобы получить чистую латиницу для сравнения.
+        const normalizedInputSlug = createSlug(slug)
+        const cleanTargetSlug = normalizedInputSlug
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, '')
+
+        const foundItem = items.find((item) => {
+            const itemSlug = createSlug(item.title)
+
+            const cleanItemSlug = itemSlug
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '')
+            const cleanLink = item.link
+                ? item.link.toLowerCase().replace(/[^a-z0-9]/g, '')
+                : ''
+
+            return (
+                cleanItemSlug === cleanTargetSlug ||
+                cleanLink === cleanTargetSlug
+            )
+        })
+
+        return { success: true, data: foundItem || null }
     } catch (error) {
-        console.error('Ошибка при получении услуги:', error)
+        console.error('Ошибка при получении услуги по слагу:', error)
         return { success: false, data: null }
     }
 }

@@ -2,6 +2,8 @@ import React from 'react'
 import Image from 'next/image'
 import styles from './ServiceCard.module.scss'
 import i from '@/public/i.svg'
+import Link from 'next/link'
+import { createSlug } from '@/app/serv/lib/dinamicTranslate/dinamicTranslate'
 // Типизация, основанная на ваших данных
 
 export interface Services {
@@ -94,15 +96,15 @@ export default function ServiceCard({
                 >
                     Выбрать
                 </button>
-
-                <button
+                <Link
                     className={styles.btnDetails}
                     onClick={() => console.log('Подробнее о:', service.id)}
+                    href={`/services/${service.link}`}
                 >
                     Подробнее
                     {/* Иконка Info (i) */}
                     <Image src={i} width={10} height={10} alt={service.title} />
-                </button>
+                </Link>
             </div>
         </div>
     )

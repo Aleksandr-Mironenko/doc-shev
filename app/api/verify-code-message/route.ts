@@ -24,11 +24,21 @@ export async function POST(request: Request) {
                 { status: 400 },
             )
         }
+
+        //узнаем ip
+        const forwardedFor = request.headers.get('x-forwarded-for')
+        const clientIp = forwardedFor
+            ? forwardedFor.split(',')[0].trim()
+            : request.headers.get('x-real-ip') || '127.0.0.1' // защита локальной разработки
+
         const tasks: Promise<unknown>[] = [
             sendEmail(
                 'doc.shev@mail.ru',
                 'Сообщение от клиента',
-                `<p>ФИО клиента: <b>${fio}</b></p>
+
+                `)<p>(был написан пользователем на сайте doctor-shev.ru)</p>
+                 <p>Ip клиента: <b>${clientIp}</b></p>
+                <p>ФИО клиента: <b>${fio}</b></p>
                 <p>Телефон клиента: <b>${phone}</b></p>
                 <p>Email клиента: <b>${email}</b></p>
                 <p>Сообщение от клиента: <b>${message}</b></p>`,
