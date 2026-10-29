@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 16px;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .title {
@@ -122,6 +123,10 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin: 20px auto 10px;
+}
+.title {
+    margin: auto;
 }
 
 .addButton {
@@ -215,4 +220,41 @@
 }
 .section {
     background-color: white;
+}
+.section1 {
+    padding: 20px;
+}
+
+.formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 4px;
+
+    button {
+        background: none;
+        border: none;
+        color: #3182ce;
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.editingRow {
+    background-color: #ebf8ff !important;
+}
+.addFormstyle {
+    padding: 7px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background-color: #b96d6d;
 }

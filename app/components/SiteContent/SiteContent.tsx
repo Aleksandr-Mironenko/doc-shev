@@ -90,7 +90,41 @@ export default function SiteContentManager({
             setError('Ошибка соединения с сервером')
         }
     }
+    const handleSaveListItem = async (
+        entityName: string,
+        id: number | undefined,
+        fields: Partial<SiteContentItem>,
+    ) => {
+        setIsLoading(true)
+        setError(null)
 
+        const payload = {
+            id: id, // если id есть — это обновление, если нет — создание нового
+            entity_name: entityName,
+            is_active: true,
+            ...fields,
+        }
+
+        try {
+            const res = await fetch('/api/admin/site-content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            })
+
+            if (!res.ok) {
+                setError('Ошибка при сохранении элемента')
+                return
+            }
+
+            window.location.reload()
+        } catch (err) {
+            console.error('Ошибка сохранения:', err)
+            setError('Ошибка соединения с сервером')
+        } finally {
+            setIsLoading(false)
+        }
+    }
     return (
         <section className={styles.wrapper}>
             <div className={styles.header}>
@@ -99,7 +133,7 @@ export default function SiteContentManager({
 
             {error && <div className={styles.error}>{error}</div>}
 
-            <div className={styles.section}>
+            <div className={`${styles.section} ${styles.section1}`}>
                 <h3 className={styles.subtitle}>Основная информация</h3>
 
                 <SingleTextForm
@@ -146,8 +180,18 @@ export default function SiteContentManager({
                 />
             </div>
 
-            <div className={styles.section}>
-                <h3 className={styles.subtitle}>Списочные блоки</h3>
+            <div
+                className={styles.section}
+                style={{ marginTop: '20px', borderRadius: '15px 15px 0 0' }}
+            >
+                <h3
+                    style={{
+                        textAlign: 'center',
+                    }}
+                    className={styles.subtitle}
+                >
+                    Списочные блоки
+                </h3>
 
                 <ListTableSection
                     title="Детали (details)"
@@ -155,6 +199,7 @@ export default function SiteContentManager({
                     items={content.filter((i) => i.entity_name === 'details')}
                     onDelete={handleDelete}
                     setError={setError}
+                    onSave={handleSaveListItem}
                 />
                 <ListTableSection
                     title="Обо мне (aboutMe)"
@@ -162,6 +207,7 @@ export default function SiteContentManager({
                     items={content.filter((i) => i.entity_name === 'aboutMe')}
                     onDelete={handleDelete}
                     setError={setError}
+                    onSave={handleSaveListItem}
                 />
                 <ListTableSection
                     title="Принципы (principies)"
@@ -171,6 +217,7 @@ export default function SiteContentManager({
                     )}
                     onDelete={handleDelete}
                     setError={setError}
+                    onSave={handleSaveListItem}
                 />
                 <ListTableSection
                     title="Образование (education)"
@@ -178,6 +225,7 @@ export default function SiteContentManager({
                     items={content.filter((i) => i.entity_name === 'education')}
                     onDelete={handleDelete}
                     setError={setError}
+                    onSave={handleSaveListItem}
                 />
                 <ListTableSection
                     title="С чем помогу (ihelp)"
@@ -186,6 +234,7 @@ export default function SiteContentManager({
                     items={content.filter((i) => i.entity_name === 'ihelp')}
                     onDelete={handleDelete}
                     setError={setError}
+                    onSave={handleSaveListItem}
                 />
                 {/* НОВЫЙ БЛОК УСЛУГ
                 <ServicesTableSection
@@ -321,6 +370,7 @@ function ListTableSection({
     items,
     hasDescriptions = false,
     onDelete,
+    onSave,
     setError,
 }: {
     title: string
@@ -328,9 +378,15 @@ function ListTableSection({
     items: SiteContentItem[]
     hasDescriptions?: boolean
     onDelete: (id: number) => void
+    onSave: (
+        entityName: string,
+        id: number | undefined,
+        fields: Partial<SiteContentItem>,
+    ) => void
     setError: (msg: string | null) => void
 }) {
     const [isAdding, setIsAdding] = useState(false)
+    const [editingId, setEditingId] = useState<number | null>(null) // ID редактируемого элемента
     const [titleVal, setTitleVal] = useState('')
     const [imageFile, setImageFile] = useState<File | null>(null)
     const [d1, setD1] = useState('')
@@ -338,7 +394,29 @@ function ListTableSection({
     const [d3, setD3] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    const handleAdd = async () => {
+    // Открыть форму для создания нового
+    const handleOpenAdd = () => {
+        setEditingId(null)
+        setTitleVal('')
+        setImageFile(null)
+        setD1('')
+        setD2('')
+        setD3('')
+        setIsAdding(true)
+    }
+
+    // Открыть форму для редактирования существующего
+    const handleOpenEdit = (item: SiteContentItem) => {
+        setEditingId(item.id)
+        setTitleVal(item.title || '')
+        setImageFile(null) // картинку можно заменить при желании
+        setD1(item.description_1 || '')
+        setD2(item.description_2 || '')
+        setD3(item.description_3 || '')
+        setIsAdding(true)
+    }
+
+    const handleSaveSubmit = async () => {
         if (!titleVal) {
             setError('Введите заголовок')
             return
@@ -350,39 +428,28 @@ function ListTableSection({
         try {
             let imageUrl: string | null = null
 
-            // 1. Загружаем картинку в RelaxDev Storage, если она выбрана
             if (imageFile) {
                 imageUrl = await uploadToRelaxDevStorage(imageFile)
+            } else if (editingId) {
+                // Если файл не выбрали при редактировании, оставляем старую картинку
+                const existingItem = items.find((i) => i.id === editingId)
+                imageUrl = existingItem?.image || null
             }
 
-            // 2. Отправляем в БД уже готовую ссылку
-            const res = await fetch('/api/admin/site-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    entity_name: entityName,
-                    title: titleVal,
-                    image: imageUrl, // Передаётся ссылка из Storage
-                    description_1: d1 || null,
-                    description_2: d2 || null,
-                    description_3: d3 || null,
-                    is_active: true,
-                }),
+            await onSave(entityName, editingId || undefined, {
+                title: titleVal,
+                image: imageUrl,
+                description_1: d1 || null,
+                description_2: d2 || null,
+                description_3: d3 || null,
             })
-
-            if (res.ok) {
-                window.location.reload()
-            } else {
-                setError('Ошибка при сохранении элемента')
-            }
         } catch (err: unknown) {
-            console.error('Ошибка добавления:', err)
+            console.error('Ошибка сохранения:', err)
             setError(
                 err instanceof Error
                     ? err.message
                     : 'Ошибка соединения с сервером',
             )
-        } finally {
             setIsLoading(false)
         }
     }
@@ -392,69 +459,106 @@ function ListTableSection({
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '12px',
-                marginTop: '16px',
+
+                margin: '16px 0 ',
+                backgroundColor: 'rgb(194, 203, 219)',
             }}
         >
-            <div className={styles.header}>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 600 }}>{title}</h4>
+            <div
+                style={{
+                    alignSelf: 'flex-end',
+                    margin: '15px 5px 5px',
+                    backgroundColor: 'rgb(194, 203, 219)',
+                }}
+            >
                 <button
                     type="button"
                     className={styles.addButton}
-                    onClick={() => setIsAdding((prev) => !prev)}
+                    onClick={() =>
+                        isAdding ? setIsAdding(false) : handleOpenAdd()
+                    }
                 >
                     {isAdding ? 'Отмена' : 'Добавить элемент'}
                 </button>
             </div>
 
             {isAdding && (
-                <div className={styles.addForm}>
-                    <div
-                        className={styles.addForm__buttons}
-                        style={{ flexWrap: 'wrap' }}
-                    >
-                        <input
-                            placeholder="Заголовок"
-                            value={titleVal}
-                            onChange={(e) => setTitleVal(e.target.value)}
-                        />
-
-                        {/* Выбор файла вместо текстовой ссылки */}
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) =>
-                                setImageFile(e.target.files?.[0] || null)
-                            }
-                        />
-
-                        {hasDescriptions && (
-                            <>
-                                <input
-                                    placeholder="Описание 1"
-                                    value={d1}
-                                    onChange={(e) => setD1(e.target.value)}
-                                />
-                                <input
-                                    placeholder="Описание 2"
-                                    value={d2}
-                                    onChange={(e) => setD2(e.target.value)}
-                                />
-                                <input
-                                    placeholder="Описание 3"
-                                    value={d3}
-                                    onChange={(e) => setD3(e.target.value)}
-                                />
-                            </>
-                        )}
-                        <button
-                            type="button"
-                            className={styles.addForm__buttons_add}
-                            disabled={isLoading || !titleVal}
-                            onClick={handleAdd}
+                <div className={styles.addFormstyle}>
+                    <div>
+                        <div
+                            className={styles.addForm__buttons}
+                            style={{ flexWrap: 'wrap' }}
                         >
-                            {isLoading ? 'Загрузка...' : 'Добавить'}
-                        </button>
+                            <div className={styles.formHeader}>
+                                <span>
+                                    {editingId
+                                        ? `Редактирование элемента #${editingId}`
+                                        : 'Новый элемент'}
+                                </span>
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                }}
+                            >
+                                <input
+                                    placeholder="Заголовок"
+                                    value={titleVal}
+                                    onChange={(e) =>
+                                        setTitleVal(e.target.value)
+                                    }
+                                />
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) =>
+                                        setImageFile(
+                                            e.target.files?.[0] || null,
+                                        )
+                                    }
+                                />
+
+                                {hasDescriptions && (
+                                    <>
+                                        <input
+                                            placeholder="Описание 1"
+                                            value={d1}
+                                            onChange={(e) =>
+                                                setD1(e.target.value)
+                                            }
+                                        />
+                                        <input
+                                            placeholder="Описание 2"
+                                            value={d2}
+                                            onChange={(e) =>
+                                                setD2(e.target.value)
+                                            }
+                                        />
+                                        <input
+                                            placeholder="Описание 3"
+                                            value={d3}
+                                            onChange={(e) =>
+                                                setD3(e.target.value)
+                                            }
+                                        />
+                                    </>
+                                )}
+                            </div>
+                            <button
+                                type="button"
+                                className={styles.addButton}
+                                disabled={isLoading || !titleVal}
+                                onClick={handleSaveSubmit}
+                            >
+                                {isLoading
+                                    ? 'Сохранение...'
+                                    : editingId
+                                      ? 'Сохранить изменения'
+                                      : 'Добавить'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
@@ -482,10 +586,18 @@ function ListTableSection({
                             </tr>
                         ) : (
                             items.map((item) => (
-                                <tr key={item.id}>
+                                <tr
+                                    key={item.id}
+                                    className={
+                                        editingId === item.id
+                                            ? styles.editingRow
+                                            : undefined
+                                    }
+                                >
                                     <td>{item.id}</td>
                                     <td>{item.title ?? '-'}</td>
                                     <td>
+                                        {/* отображение картинки (без изменений) */}
                                         {item.image ? (
                                             <a
                                                 href={item.image}
@@ -524,9 +636,25 @@ function ListTableSection({
                                         </td>
                                     )}
                                     <td>
-                                        <div className={styles.editor}>
+                                        <div
+                                            className={styles.editor}
+                                            style={{
+                                                display: 'flex',
+                                                gap: '6px',
+                                            }}
+                                        >
                                             <button
                                                 type="button"
+                                                title="Редактировать"
+                                                onClick={() =>
+                                                    handleOpenEdit(item)
+                                                }
+                                            >
+                                                ✏️
+                                            </button>
+                                            <button
+                                                type="button"
+                                                title="Удалить"
                                                 onClick={() =>
                                                     onDelete(item.id)
                                                 }
