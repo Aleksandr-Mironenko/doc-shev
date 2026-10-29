@@ -4,7 +4,7 @@ import './styles/Home.scss'
 import Wrapper from '@/app/components/wrapper/wrapper'
 import type { Metadata } from 'next'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://doctor-shev.ru'
-
+export const dynamic = 'force-dynamic'
 // 1. Метатеги для Next.js App Router (показывают экспертность врача, но избегают запрещенных слов «лечение» и «диагностика»)
 export const metadata: Metadata = {
     title: 'Екатерина Шитова - врач-терапевт | Онлайн-консультации',
