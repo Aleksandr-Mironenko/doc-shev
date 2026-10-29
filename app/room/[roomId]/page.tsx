@@ -9,7 +9,7 @@ import { cookies } from 'next/headers'
 interface PageProps {
     params: Promise<{ roomId: string }>
 }
-
+export const dynamic = 'force-dynamic'
 export default async function RoomPage({ params }: PageProps) {
     const { roomId } = await params
 
