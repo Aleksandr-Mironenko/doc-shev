@@ -187,12 +187,12 @@ export default function SiteContentManager({
                     onDelete={handleDelete}
                     setError={setError}
                 />
-                {/* НОВЫЙ БЛОК УСЛУГ */}
+                {/* НОВЫЙ БЛОК УСЛУГ
                 <ServicesTableSection
                     items={content.filter((i) => i.entity_name === 'services')}
                     onDelete={handleDelete}
                     setError={setError}
-                />
+                /> */}
             </div>
         </section>
     )
