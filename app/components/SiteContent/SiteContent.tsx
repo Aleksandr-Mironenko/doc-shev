@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import styles from './SiteContentManager.module.scss'
 
 export interface SiteContentItem {
@@ -491,9 +492,12 @@ function ListTableSection({
                                                 target="_blank"
                                                 rel="noreferrer"
                                             >
-                                                <img
+                                                <Image
                                                     src={item.image}
                                                     alt={item.title || ''}
+                                                    width={40}
+                                                    height={40}
+                                                    unoptimized
                                                     style={{
                                                         width: '40px',
                                                         height: '40px',
@@ -540,306 +544,308 @@ function ListTableSection({
         </div>
     )
 }
-// --- НОВЫЙ БЛОК ДЛЯ УСЛУГ (SERVICES) ---
-function ServicesTableSection({
-    items,
-    onDelete,
-    setError,
-}: {
-    items: SiteContentItem[]
-    onDelete: (id: number) => void
-    setError: (msg: string | null) => void
-}) {
-    const [isAdding, setIsAdding] = useState(false)
-    const [titleVal, setTitleVal] = useState('')
-    const [imageFile, setImageFile] = useState<File | null>(null)
-    const [d1, setD1] = useState('')
-    const [d2, setD2] = useState('')
-    const [d3, setD3] = useState('')
-    const [linkVal, setLinkVal] = useState('')
-    const [priceVal, setPriceVal] = useState('')
-    const [isActive, setIsActive] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
+// // --- НОВЫЙ БЛОК ДЛЯ УСЛУГ (SERVICES) ---
+// function ServicesTableSection({
+//     items,
+//     onDelete,
+//     setError,
+// }: {
+//     items: SiteContentItem[]
+//     onDelete: (id: number) => void
+//     setError: (msg: string | null) => void
+// }) {
+//     const [isAdding, setIsAdding] = useState(false)
+//     const [titleVal, setTitleVal] = useState('')
+//     const [imageFile, setImageFile] = useState<File | null>(null)
+//     const [d1, setD1] = useState('')
+//     const [d2, setD2] = useState('')
+//     const [d3, setD3] = useState('')
+//     const [linkVal, setLinkVal] = useState('')
+//     const [priceVal, setPriceVal] = useState('')
+//     const [isActive, setIsActive] = useState(true)
+//     const [isLoading, setIsLoading] = useState(false)
 
-    const handleAdd = async () => {
-        if (!titleVal) {
-            setError('Введите название услуги')
-            return
-        }
+//     const handleAdd = async () => {
+//         if (!titleVal) {
+//             setError('Введите название услуги')
+//             return
+//         }
 
-        setIsLoading(true)
-        setError(null)
+//         setIsLoading(true)
+//         setError(null)
 
-        try {
-            let imageUrl: string | null = null
+//         try {
+//             let imageUrl: string | null = null
 
-            if (imageFile) {
-                imageUrl = await uploadToRelaxDevStorage(imageFile)
-            }
+//             if (imageFile) {
+//                 imageUrl = await uploadToRelaxDevStorage(imageFile)
+//             }
 
-            const res = await fetch('/api/admin/site-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    entity_name: 'services',
-                    title: titleVal,
-                    image: imageUrl,
-                    description_1: d1 || null,
-                    description_2: d2 || null,
-                    description_3: d3 || null,
-                    link: linkVal || null,
-                    price: priceVal ? Number(priceVal) : null,
-                    is_active: isActive,
-                }),
-            })
+//             const res = await fetch('/api/admin/site-content', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     entity_name: 'services',
+//                     title: titleVal,
+//                     image: imageUrl,
+//                     description_1: d1 || null,
+//                     description_2: d2 || null,
+//                     description_3: d3 || null,
+//                     link: linkVal || null,
+//                     price: priceVal ? Number(priceVal) : null,
+//                     is_active: isActive,
+//                 }),
+//             })
 
-            if (res.ok) {
-                window.location.reload()
-            } else {
-                setError('Ошибка при сохранении услуги')
-            }
-        } catch (err: unknown) {
-            console.error('Ошибка добавления услуги:', err)
+//             if (res.ok) {
+//                 window.location.reload()
+//             } else {
+//                 setError('Ошибка при сохранении услуги')
+//             }
+//         } catch (err: unknown) {
+//             console.error('Ошибка добавления услуги:', err)
 
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : 'Ошибка соединения с сервером',
-            )
-        } finally {
-            setIsLoading(false)
-        }
-    }
+//             setError(
+//                 err instanceof Error
+//                     ? err.message
+//                     : 'Ошибка соединения с сервером',
+//             )
+//         } finally {
+//             setIsLoading(false)
+//         }
+//     }
 
-    // Обработчик для изменения статуса is_active на лету
-    const handleToggleActive = async (item: SiteContentItem) => {
-        try {
-            const res = await fetch('/api/admin/site-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...item,
-                    is_active: !item.is_active,
-                }),
-            })
-            if (res.ok) {
-                window.location.reload()
-            } else {
-                setError('Ошибка при обновлении статуса')
-            }
-        } catch (err) {
-            console.error('Ошибка при обновлении статуса:', err)
-            setError('Ошибка соединения с сервером')
-        }
-    }
+//     // Обработчик для изменения статуса is_active на лету
+//     const handleToggleActive = async (item: SiteContentItem) => {
+//         try {
+//             const res = await fetch('/api/admin/site-content', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     ...item,
+//                     is_active: !item.is_active,
+//                 }),
+//             })
+//             if (res.ok) {
+//                 window.location.reload()
+//             } else {
+//                 setError('Ошибка при обновлении статуса')
+//             }
+//         } catch (err) {
+//             console.error('Ошибка при обновлении статуса:', err)
+//             setError('Ошибка соединения с сервером')
+//         }
+//     }
 
-    return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-                marginTop: '16px',
-            }}
-        >
-            <div className={styles.header}>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 600 }}>
-                    Услуги (services)
-                </h4>
-                <button
-                    type="button"
-                    className={styles.addButton}
-                    onClick={() => setIsAdding((prev) => !prev)}
-                >
-                    {isAdding ? 'Отмена' : 'Добавить услугу'}
-                </button>
-            </div>
+//     return (
+//         <div
+//             style={{
+//                 display: 'flex',
+//                 flexDirection: 'column',
+//                 gap: '12px',
+//                 marginTop: '16px',
+//             }}
+//         >
+//             <div className={styles.header}>
+//                 <h4 style={{ fontSize: '1.1rem', fontWeight: 600 }}>
+//                     Услуги (services)
+//                 </h4>
+//                 <button
+//                     type="button"
+//                     className={styles.addButton}
+//                     onClick={() => setIsAdding((prev) => !prev)}
+//                 >
+//                     {isAdding ? 'Отмена' : 'Добавить услугу'}
+//                 </button>
+//             </div>
 
-            {isAdding && (
-                <div className={styles.addForm}>
-                    <div
-                        className={styles.addForm__buttons}
-                        style={{ flexWrap: 'wrap' }}
-                    >
-                        <input
-                            placeholder="Название услуги (title)"
-                            value={titleVal}
-                            onChange={(e) => setTitleVal(e.target.value)}
-                        />
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) =>
-                                setImageFile(e.target.files?.[0] || null)
-                            }
-                        />
-                        <textarea
-                            rows={3}
-                            placeholder="Описание 1"
-                            value={d1}
-                            onChange={(e) => setD1(e.target.value)}
-                        />
-                        <textarea
-                            rows={3}
-                            placeholder="Описание 2"
-                            value={d2}
-                            onChange={(e) => setD2(e.target.value)}
-                        />
-                        <textarea
-                            rows={3}
-                            placeholder="Описание 3"
-                            value={d3}
-                            onChange={(e) => setD3(e.target.value)}
-                        />
-                        <input
-                            placeholder="Ссылка (link)"
-                            value={linkVal}
-                            onChange={(e) => setLinkVal(e.target.value)}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Цена (price)"
-                            value={priceVal}
-                            onChange={(e) => setPriceVal(e.target.value)}
-                        />
-                        <label
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                fontSize: '0.9rem',
-                            }}
-                        >
-                            <input
-                                type="checkbox"
-                                checked={isActive}
-                                onChange={(e) => setIsActive(e.target.checked)}
-                            />
-                            Активно (is_active)
-                        </label>
+//             {isAdding && (
+//                 <div className={styles.addForm}>
+//                     <div
+//                         className={styles.addForm__buttons}
+//                         style={{ flexWrap: 'wrap' }}
+//                     >
+//                         <input
+//                             placeholder="Название услуги (title)"
+//                             value={titleVal}
+//                             onChange={(e) => setTitleVal(e.target.value)}
+//                         />
+//                         <input
+//                             type="file"
+//                             accept="image/*"
+//                             onChange={(e) =>
+//                                 setImageFile(e.target.files?.[0] || null)
+//                             }
+//                         />
+//                         <textarea
+//                             rows={3}
+//                             placeholder="Описание 1"
+//                             value={d1}
+//                             onChange={(e) => setD1(e.target.value)}
+//                         />
+//                         <textarea
+//                             rows={3}
+//                             placeholder="Описание 2"
+//                             value={d2}
+//                             onChange={(e) => setD2(e.target.value)}
+//                         />
+//                         <textarea
+//                             rows={3}
+//                             placeholder="Описание 3"
+//                             value={d3}
+//                             onChange={(e) => setD3(e.target.value)}
+//                         />
+//                         <input
+//                             placeholder="Ссылка (link)"
+//                             value={linkVal}
+//                             onChange={(e) => setLinkVal(e.target.value)}
+//                         />
+//                         <input
+//                             type="number"
+//                             placeholder="Цена (price)"
+//                             value={priceVal}
+//                             onChange={(e) => setPriceVal(e.target.value)}
+//                         />
+//                         <label
+//                             style={{
+//                                 display: 'flex',
+//                                 alignItems: 'center',
+//                                 gap: '6px',
+//                                 fontSize: '0.9rem',
+//                             }}
+//                         >
+//                             <input
+//                                 type="checkbox"
+//                                 checked={isActive}
+//                                 onChange={(e) => setIsActive(e.target.checked)}
+//                             />
+//                             Активно (is_active)
+//                         </label>
 
-                        <button
-                            type="button"
-                            className={styles.addForm__buttons_add}
-                            disabled={isLoading || !titleVal}
-                            onClick={handleAdd}
-                        >
-                            {isLoading ? 'Загрузка...' : 'Добавить'}
-                        </button>
-                    </div>
-                </div>
-            )}
+//                         <button
+//                             type="button"
+//                             className={styles.addForm__buttons_add}
+//                             disabled={isLoading || !titleVal}
+//                             onClick={handleAdd}
+//                         >
+//                             {isLoading ? 'Загрузка...' : 'Добавить'}
+//                         </button>
+//                     </div>
+//                 </div>
+//             )}
 
-            <div className={styles.tableWrapper}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Услуга / Изображение</th>
-                            <th>Детали (Описания, Ссылка, Цена)</th>
-                            <th>Активность</th>
-                            <th>Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.length === 0 ? (
-                            <tr>
-                                <td colSpan={5} style={{ textAlign: 'center' }}>
-                                    Нет данных
-                                </td>
-                            </tr>
-                        ) : (
-                            items.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>
-                                        <strong
-                                            style={{
-                                                display: 'block',
-                                                marginBottom: '8px',
-                                            }}
-                                        >
-                                            {item.title ?? '-'}
-                                        </strong>
-                                        {item.image ? (
-                                            <a
-                                                href={item.image}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                <img
-                                                    src={item.image}
-                                                    alt={item.title || ''}
-                                                    style={{
-                                                        width: '40px',
-                                                        height: '40px',
-                                                        objectFit: 'cover',
-                                                        borderRadius: '4px',
-                                                    }}
-                                                />
-                                            </a>
-                                        ) : (
-                                            '-'
-                                        )}
-                                    </td>
-                                    <td>
-                                        <small
-                                            style={{
-                                                display: 'block',
-                                                marginBottom: '4px',
-                                            }}
-                                        >
-                                            <strong>Описания: </strong>
-                                            {[
-                                                item.description_1,
-                                                item.description_2,
-                                                item.description_3,
-                                            ]
-                                                .filter(Boolean)
-                                                .join(' | ') || '-'}
-                                        </small>
-                                        <small
-                                            style={{
-                                                display: 'block',
-                                                marginBottom: '4px',
-                                            }}
-                                        >
-                                            <strong>Ссылка: </strong>
-                                            {item.link ?? '-'}
-                                        </small>
-                                        <small style={{ display: 'block' }}>
-                                            <strong>Цена: </strong>
-                                            {item.price ?? '-'}
-                                        </small>
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="checkbox"
-                                            checked={item.is_active}
-                                            onChange={() =>
-                                                handleToggleActive(item)
-                                            }
-                                            style={{ cursor: 'pointer' }}
-                                        />
-                                    </td>
-                                    <td>
-                                        <div className={styles.editor}>
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    onDelete(item.id)
-                                                }
-                                            >
-                                                ✕
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    )
-}
+//             <div className={styles.tableWrapper}>
+//                 <table className={styles.table}>
+//                     <thead>
+//                         <tr>
+//                             <th>ID</th>
+//                             <th>Услуга / Изображение</th>
+//                             <th>Детали (Описания, Ссылка, Цена)</th>
+//                             <th>Активность</th>
+//                             <th>Действия</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {items.length === 0 ? (
+//                             <tr>
+//                                 <td colSpan={5} style={{ textAlign: 'center' }}>
+//                                     Нет данных
+//                                 </td>
+//                             </tr>
+//                         ) : (
+//                             items.map((item) => (
+//                                 <tr key={item.id}>
+//                                     <td>{item.id}</td>
+//                                     <td>
+//                                         <strong
+//                                             style={{
+//                                                 display: 'block',
+//                                                 marginBottom: '8px',
+//                                             }}
+//                                         >
+//                                             {item.title ?? '-'}
+//                                         </strong>
+//                                         {item.image ? (
+//                                             <a
+//                                                 href={item.image}
+//                                                 target="_blank"
+//                                                 rel="noreferrer"
+//                                             >
+//                                                 <Image
+//                                                     src={item.image}
+//                                                     alt={item.title || ''}
+//                                                     width={40}
+//                                                     height={40}
+//                                                     style={{
+//                                                         width: '40px',
+//                                                         height: '40px',
+//                                                         objectFit: 'cover',
+//                                                         borderRadius: '4px',
+//                                                     }}
+//                                                 />
+//                                             </a>
+//                                         ) : (
+//                                             '-'
+//                                         )}
+//                                     </td>
+//                                     <td>
+//                                         <small
+//                                             style={{
+//                                                 display: 'block',
+//                                                 marginBottom: '4px',
+//                                             }}
+//                                         >
+//                                             <strong>Описания: </strong>
+//                                             {[
+//                                                 item.description_1,
+//                                                 item.description_2,
+//                                                 item.description_3,
+//                                             ]
+//                                                 .filter(Boolean)
+//                                                 .join(' | ') || '-'}
+//                                         </small>
+//                                         <small
+//                                             style={{
+//                                                 display: 'block',
+//                                                 marginBottom: '4px',
+//                                             }}
+//                                         >
+//                                             <strong>Ссылка: </strong>
+//                                             {item.link ?? '-'}
+//                                         </small>
+//                                         <small style={{ display: 'block' }}>
+//                                             <strong>Цена: </strong>
+//                                             {item.price ?? '-'}
+//                                         </small>
+//                                     </td>
+//                                     <td>
+//                                         <input
+//                                             type="checkbox"
+//                                             checked={item.is_active}
+//                                             onChange={() =>
+//                                                 handleToggleActive(item)
+//                                             }
+//                                             style={{ cursor: 'pointer' }}
+//                                         />
+//                                     </td>
+//                                     <td>
+//                                         <div className={styles.editor}>
+//                                             <button
+//                                                 type="button"
+//                                                 onClick={() =>
+//                                                     onDelete(item.id)
+//                                                 }
+//                                             >
+//                                                 ✕
+//                                             </button>
+//                                         </div>
+//                                     </td>
+//                                 </tr>
+//                             ))
+//                         )}
+//                     </tbody>
+//                 </table>
+//             </div>
+//         </div>
+//     )
+// }
