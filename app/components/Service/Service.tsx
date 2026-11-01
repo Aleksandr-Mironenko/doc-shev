@@ -135,14 +135,17 @@ export default function MaterialCard({ product }: ServiceCardProps) {
                 )}
 
                 {product.entity === 'service' ? (
-                    <>
+                    <div className={styles.actionBlock}>
+                        <div className={styles.actionButtonPrice}>
+                            <p>Стоимость: {Math.round(product.price)} ₽</p>
+                        </div>
                         <Link
                             href={`/timetable/${product.link}`}
                             className={styles.actionButton}
                         >
                             <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
                         </Link>
-                    </>
+                    </div>
                 ) : null}
 
                 {/* Подвал карточки с ценой и кнопкой */}

@@ -4,7 +4,8 @@ export default function InfoProducts() {
     return (
         <div className={styles.infoProducts__text_wrapper}>
             <div className={styles.infoProducts__text}>
-                Информационные продукты
+                {/* Информационные продукты */}
+                Платные материалы
             </div>
         </div>
     )

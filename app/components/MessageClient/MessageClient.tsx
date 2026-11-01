@@ -38,27 +38,34 @@ export default function MessageClient({
         message: string
     }) => {
         if (email && message) {
-            try {
-                const response = await fetch('/api/admin/send_message_client', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: email,
-                        message: message,
-                    }),
-                })
+            setTimeout(async () => {
+                try {
+                    const response = await fetch(
+                        '/api/admin/send_message_client',
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: email,
+                                message: message,
+                            }),
+                        },
+                    )
 
-                const result = await response.json()
+                    const result = await response.json()
 
-                if (result.success) {
-                    setMessageOK(true)
-                } else {
-                    alert(result.message || 'Ошибка при передаче сообщения.')
+                    if (result.success) {
+                        setMessageOK(true)
+                    } else {
+                        alert(
+                            result.message || 'Ошибка при передаче сообщения.',
+                        )
+                    }
+                } catch (error) {
+                    console.error('Ошибка при передаче сообщения', error)
+                    alert('Ошибка при передаче сообщения клиенту')
                 }
-            } catch (error) {
-                console.error('Ошибка при передаче сообщения', error)
-                alert('Ошибка при передаче сообщения клиенту')
-            }
+            }, 2000)
         } else {
             alert('Не передана электронная почта или сообщение')
         }

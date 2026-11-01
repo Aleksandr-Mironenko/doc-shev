@@ -193,15 +193,20 @@ export default function MaterialCard({
 
                 {product.entity === 'service' ? (
                     <>
-                        <Link
-                            href={`/timetable/${product.link}`}
-                            className={styles.actionButton}
-                        >
-                            <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
-                        </Link>
+                        <div className={styles.actionBlock}>
+                            <div className={styles.actionButtonPrice}>
+                                <p>Стоимость: {Math.round(product.price)} ₽</p>
+                            </div>
+                            <Link
+                                href={`/timetable/${product.link}`}
+                                className={styles.actionButton}
+                            >
+                                <p>ВЫБРАТЬ И ЗАПИСАТЬСЯ</p>
+                            </Link>
+                        </div>
                         <Link
                             href={`/services/${product.link}`}
-                            className={styles.actionButton}
+                            className={styles.actionButtonPodr}
                         >
                             <p>ПОДРОБНЕЕ</p>
                         </Link>

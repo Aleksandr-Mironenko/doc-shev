@@ -8,6 +8,7 @@ import Image from 'next/image'
 // import diplom from '@/public/ggg/diplom.svg'
 // import newspaper from '@/public/ggg/newspaper.svg'
 import ok from '@/public/ok.png'
+import Link from 'next/link'
 // import head2 from '@/public/ggg/head2.svg'
 export interface SiteContentItem {
     id: number
@@ -120,6 +121,14 @@ export default function Info({ content }: { content: SiteContentItem[] }) {
                             }}
                         >
                             {details1}
+                            <Link
+                                href="/"
+                                style={{ color: '#3d6cba' }}
+                                // className={`{styles.header__nav_link} ${styles.logo}`}
+                            >
+                                {' '}
+                                Подробнее...
+                            </Link>
                         </ul>
                     </div>
 
@@ -314,6 +323,7 @@ export default function Info({ content }: { content: SiteContentItem[] }) {
                     </div>
                 </div>
             </div>
+            <div></div>
         </div>
     )
 }

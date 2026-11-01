@@ -148,6 +148,42 @@
         background-color: #55b166;
     }
 }
+.actionButtonPodr {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background-color: rgb(174, 201, 179);
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    width: fit-content;
+    align-self: flex-end;
+
+    &:hover {
+        background-color: #55b166;
+    }
+}
+
+.actionButtonPrice {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background-color: #59b86a;
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    width: fit-content;
+    align-self: flex-end;
+}
+
 .actionButtonPosition {
     position: absolute;
     bottom: 5px;
@@ -168,5 +204,13 @@
 
     &:hover {
         background-color: #55b166;
+    }
+}
+.actionBlock {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 700px) {
+        flex-direction: column-reverse;
     }
 }
