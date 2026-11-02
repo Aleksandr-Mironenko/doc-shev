@@ -122,7 +122,7 @@ export default function Info({ content }: { content: SiteContentItem[] }) {
                         >
                             {details1}
                             <Link
-                                href="/"
+                                href="/about-me"
                                 style={{ color: '#3d6cba' }}
                                 // className={`{styles.header__nav_link} ${styles.logo}`}
                             >
