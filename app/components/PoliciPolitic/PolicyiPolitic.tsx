@@ -249,7 +249,7 @@ export default async function PolicyiPolitic() {
             <li style={{ marginLeft: '30px', fontSize: '20px' }}>
                 Отозвать свое согласие на обработку персональных данных путем
                 направления письменного заявления на электронную почту Оператора
-                doc-shev@mail.ru.
+                doc.shev@mail.ru.
             </li>
             <h2
                 style={{
