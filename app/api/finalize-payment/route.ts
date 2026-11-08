@@ -107,6 +107,7 @@ import {
     dbUpdatePaymentAndLink,
 } from '@/app/serv/servicesDB'
 import sendEmail from '@/app/serv/serviceSendEmail'
+import { sendBookingNotifications } from '@/app/serv/sendTG'
 
 export async function POST(request: Request) {
     try {
@@ -240,9 +241,25 @@ export async function POST(request: Request) {
             ? 'Материал во вложении'
             : 'Информация о предстоящей консультации'
 
+        const adminTextMaterial = `⚠️ <b>Админ — продан один из материалов\nЗайди посмотри doctor-shev.ru/admin`
+
+        const adminTextOrder = `⚠️ <b>Админ — запись на ${date} в  ${time} по МСК занята!\nЗапланируй время!</b>\n Зайди посмотри doctor-shev.ru/admin`
         // Отправка письма с передачей массива File[] в оригинальную функцию
         await sendEmail(email, subject, emailHtml, fromText, attachments)
-
+        try {
+            await sendBookingNotifications({
+                text: productCard ? adminTextMaterial : adminTextOrder,
+            })
+        } catch {
+            // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
+            await sendEmail(
+                'sanek.miron2@gmail.com',
+                'внимание! ошибка отправки в телегу админу',
+                'ошибка отправки в телегу админу ',
+                'Ошибка отправки в телегу админу',
+                attachments,
+            )
+        }
         return NextResponse.json({ success: true })
     } catch (error) {
         console.error('Критическая ошибка на этапе финализации оплаты:', error)

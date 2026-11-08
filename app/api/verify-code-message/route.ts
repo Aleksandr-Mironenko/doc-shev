@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { dbVerifyCode } from '@/app/serv/servicesDB'
 import sendEmail from '@/app/serv/serviceSendEmail'
+import { sendBookingNotifications } from '@/app/serv/sendTG'
 //4
 export async function POST(request: Request) {
     try {
@@ -45,7 +46,21 @@ export async function POST(request: Request) {
                 'Сообщение от клиента',
             ),
         ]
+        const adminText = `⚠️ <b>Админ — прислали сообщение через форму сайта\nЗайди посмотри doctor-shev.ru/admin\nТо что написал клиент ${message}`
 
+        try {
+            await sendBookingNotifications({
+                text: adminText,
+            })
+        } catch {
+            // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
+            await sendEmail(
+                'sanek.miron2@gmail.com',
+                'внимание! ошибка отправки в телегу админу',
+                'ошибка отправки в телегу админу про бесплатный материал',
+                'Ошибка отправки в телегу админу',
+            )
+        }
         const results = await Promise.allSettled(tasks)
         results.forEach((result, index) => {
             if (result.status === 'rejected') {
