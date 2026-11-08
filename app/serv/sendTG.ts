@@ -6,7 +6,7 @@ export async function sendBookingNotifications({
     text,
 }: SendNotificationParams) {
     const token = process.env.TELEGRAM_BOT_TOKEN
-    const adminChatId = process.env.TELEGRAM_ADMIN_CHAT_ID // Чат или ID администратора  TELEGRAM_ADMIN_ID
+    const adminChatId = process.env.TELEGRAM_ADMIN_ID // Чат или ID администратора  TELEGRAM_ADMIN_ID    TELEGRAM_ADMIN_CHAT_ID
 
     if (!token) {
         console.error('TELEGRAM_BOT_TOKEN is not set')
