@@ -116,11 +116,11 @@ export default function HeroCalend({
                                 Добрый день!
                             </p>
                             <p className={styles.heroSection__docprof}>
-                                выберите дату для нашей встечи
+                                выберите дату для нашей встречи
                             </p>
                         </div>
                         <p className={styles.heroSection__backstage}>
-                            Просто нажимите на любую доступную дату в календаре
+                            Просто нажмите на любую доступную дату в календаре
                         </p>
                     </div>
                 )}
