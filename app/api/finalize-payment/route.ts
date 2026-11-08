@@ -107,7 +107,7 @@ import {
     dbUpdatePaymentAndLink,
 } from '@/app/serv/servicesDB'
 import sendEmail from '@/app/serv/serviceSendEmail'
-import { sendBookingNotifications } from '@/app/serv/sendTG'
+// import { sendBookingNotifications } from '@/app/serv/sendTG'
 
 export async function POST(request: Request) {
     try {
@@ -241,25 +241,33 @@ export async function POST(request: Request) {
             ? 'Материал во вложении'
             : 'Информация о предстоящей консультации'
 
-        const adminTextMaterial = `⚠️ <b>Админ — продан один из материалов\nЗайди посмотри doctor-shev.ru/admin`
+        const adminTextMaterial = `<div><p>⚠️<b>Админ — продан один из материалов</p>\n<p>Зайди посмотри doctor-shev.ru/admin</p><div>`
 
-        const adminTextOrder = `⚠️ <b>Админ — запись на ${date} в  ${time} по МСК занята!\nЗапланируй время!</b>\n Зайди посмотри doctor-shev.ru/admin`
-        // Отправка письма с передачей массива File[] в оригинальную функцию
+        const adminTextOrder = `<div><p>⚠️ <b>Админ — запись на ${date} в  ${time} по МСК занята!</p>\n<p>Запланируй время!</b></p>\n<p>Зайди посмотри doctor-shev.ru/admin</p><div>`
+        // // Отправка письма с передачей массива File[] в оригинальную функцию
         await sendEmail(email, subject, emailHtml, fromText, attachments)
-        try {
-            await sendBookingNotifications({
-                text: productCard ? adminTextMaterial : adminTextOrder,
-            })
-        } catch {
-            // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
-            await sendEmail(
-                'sanek.miron2@gmail.com',
-                'внимание! ошибка отправки в телегу админу',
-                'ошибка отправки в телегу админу ',
-                'Ошибка отправки в телегу админу',
-                attachments,
-            )
-        }
+
+        await sendEmail(
+            'doc.shev@mail.ru',
+            productCard ? 'Продан материал' : 'Запись на консультацию',
+            productCard ? adminTextMaterial : adminTextOrder,
+            productCard ? 'Продан материал' : 'Запись на консультацию',
+            attachments,
+        )
+        // try {
+        //     await sendBookingNotifications({
+        //         text: productCard ? adminTextMaterial : adminTextOrder,
+        //     })
+        // } catch {
+        //     // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
+        //     await sendEmail(
+        //         'sanek.miron2@gmail.com',
+        //         'внимание! ошибка отправки в телегу админу',
+        //         'ошибка отправки в телегу админу ',
+        //         'Ошибка отправки в телегу админу',
+        //         attachments,
+        //     )
+        // }
         return NextResponse.json({ success: true })
     } catch (error) {
         console.error('Критическая ошибка на этапе финализации оплаты:', error)

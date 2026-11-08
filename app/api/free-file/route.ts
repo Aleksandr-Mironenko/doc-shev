@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { dbDownloadFineMaterial } from '@/app/serv/servicesDB'
 import sendEmail from '@/app/serv/serviceSendEmail'
-import { sendBookingNotifications } from '@/app/serv/sendTG'
+// import { sendBookingNotifications } from '@/app/serv/sendTG'
 
 export async function POST(request: Request) {
     try {
@@ -25,21 +25,28 @@ export async function POST(request: Request) {
             )
         }
 
-        const adminTextMaterial = `⚠️ <b>Админ — скачан один из бесплатных материалов\nЗайди посмотри doctor-shev.ru/admin`
+        const adminTextMaterial = `<div><p>⚠️<b>Админ — скачан один из бесплатных материалов</p>\n<p>Зайди посмотри doctor-shev.ru/admin</p><div>`
 
-        try {
-            await sendBookingNotifications({
-                text: adminTextMaterial,
-            })
-        } catch {
-            // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
-            await sendEmail(
-                'sanek.miron2@gmail.com',
-                'внимание! ошибка отправки в телегу админу',
-                'ошибка отправки в телегу админу про бесплатный материал',
-                'Ошибка отправки в телегу админу',
-            )
-        }
+        await sendEmail(
+            'doc.shev@mail.ru',
+            'скачан бесплатный материал',
+            adminTextMaterial,
+            'скачан бесплатный материал',
+        )
+
+        // try {
+        //     await sendBookingNotifications({
+        //         text: adminTextMaterial,
+        //     })
+        // } catch {
+        //     // Логируем ошибку отправки сообщений, но клиенту отвечаем, что запись прошла успешно это только сообщеие админу
+        //     await sendEmail(
+        //         'sanek.miron2@gmail.com',
+        //         'внимание! ошибка отправки в телегу админу',
+        //         'ошибка отправки в телегу админу про бесплатный материал',
+        //         'Ошибка отправки в телегу админу',
+        //     )
+        // }
         // Возвращаем сам файл (буфер) с заголовками для скачивания
         return new NextResponse(downloadedFile.buffer, {
             status: 200,
