@@ -71,7 +71,12 @@ export async function sendBookingNotifications({
         const data = await response.json()
 
         if (!response.ok) {
-            console.error('Telegram API error:', data)
+            console.error(
+                '❌ Ошибка от Telegram API:',
+                JSON.stringify(data, null, 2),
+            )
+        } else {
+            console.log('✅ Уведомление успешно отправлено!')
         }
     } catch (error) {
         console.error(
